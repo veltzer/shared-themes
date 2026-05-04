@@ -1,0 +1,16 @@
+name: lint
+on: [push, pull_request]
+
+jobs:
+  stylelint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - run: npm install -g stylelint@17
+      - name: Lint own CSS files
+        run: stylelint base.css typography.css components.css
+      - name: Lint allowlist fixture (catches drift between themes.css and stylelint config)
+        run: stylelint test_stylelint_allowlist.css
