@@ -8,16 +8,22 @@
       "/^(color|background|background-color|fill|stroke|outline-color|caret-color|column-rule-color|text-decoration-color)$/": [
         "/var\\(--(bg|bg-surface|bg-elevated|bg-hover|surface|code-bg|border|border-subtle|text-primary|text-secondary|text-muted|accent|accent-dim|success|success-dim|warning|warning-dim|danger|danger-dim|gradient-start|gradient-end|info|info-dim)\\)/",
         "/^(transparent|currentColor|inherit|initial|unset|none)$/",
-        "/^(linear|radial|conic)-gradient/",
+        "/^(linear|radial|conic)-gradient\\([^#]*var\\(--[a-z-]+\\)/",
         "/^url\\(/"
       ],
       "/^(border|border-color|border-top-color|border-right-color|border-bottom-color|border-left-color|outline)$/": [
         "/var\\(--(border|border-subtle|accent|accent-dim|success|warning|danger|info|text-muted)\\)/",
         "/^(transparent|currentColor|inherit|initial|unset|none)$/",
         "/^[0-9]/"
+      ],
+      "/^(box-shadow|text-shadow)$/": [
+        "/var\\(--shadow\\)/",
+        "/^[0-9]/",
+        "/^(none|inherit|initial|unset)$/"
       ]
     },
     "color-no-hex": [true, { "message": "Raw hex colors are forbidden. Use var(--<role>) from shared-themes." }],
-    "color-named": ["never", { "message": "Named colors are forbidden. Use var(--<role>) from shared-themes." }]
+    "color-named": ["never", { "message": "Named colors are forbidden. Use var(--<role>) from shared-themes." }],
+    "function-disallowed-list": [["rgb", "rgba", "hsl", "hsla", "hwb"], { "message": "Raw color functions are forbidden. Use var(--<role>) from shared-themes." }]
   }
 }
