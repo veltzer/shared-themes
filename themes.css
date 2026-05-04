@@ -1,16 +1,40 @@
 /*
  * shared-themes/themes.css
  *
- * Five named themes, exposed as CSS custom properties scoped to
+ * Six named themes, exposed as CSS custom properties scoped to
  * `[data-theme="<name>"]`. Consumers pick a default by setting the
  * attribute on <html>, or by adding their own `:root` rule that points
  * at one of the themes.
  *
- * Themes: paper, midnight, nord, solarized, rosepine.
+ * Themes: azure, paper, midnight, nord, solarized, rosepine.
  */
 
-/* ─── Paper (warm light) — default when no data-theme attribute is set ─── */
-:root, [data-theme="paper"] {
+/* ─── Azure (cool light, blue accent) — default when no data-theme attribute is set ─── */
+:root, [data-theme="azure"] {
+  --bg: #f8fafc;
+  --bg-surface: #eef2f7;
+  --bg-elevated: #e2e8f0;
+  --bg-hover: #cbd5e1;
+  --border: #cbd5e1;
+  --border-subtle: #e2e8f0;
+  --text-primary: #0f172a;
+  --text-secondary: #475569;
+  --text-muted: #94a3b8;
+  --accent: #2563eb;
+  --accent-dim: rgba(37, 99, 235, 0.12);
+  --success: #059669;
+  --success-dim: rgba(5, 150, 105, 0.12);
+  --warning: #d97706;
+  --warning-dim: rgba(217, 119, 6, 0.12);
+  --danger: #dc2626;
+  --danger-dim: rgba(220, 38, 38, 0.12);
+  --gradient-start: #0f172a;
+  --gradient-end: #2563eb;
+  --shadow: 0 1px 3px rgba(0,0,0,0.06), 0 4px 12px rgba(0,0,0,0.04);
+}
+
+/* ─── Paper (warm light) ─── */
+[data-theme="paper"] {
   --bg: #faf8f5;
   --bg-surface: #f0ede8;
   --bg-elevated: #e8e4de;

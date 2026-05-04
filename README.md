@@ -5,10 +5,11 @@ CSS variables and a theme switcher shared across the teaching-* repos
 
 ## Files
 
-- `themes.css` — five named themes (`paper`, `midnight`, `nord`,
-  `solarized`, `rosepine`) exposed as CSS custom properties. **Paper is
+- `themes.css` — six named themes (`azure`, `paper`, `midnight`, `nord`,
+  `solarized`, `rosepine`) exposed as CSS custom properties. **Azure is
   the canonical default**, applied to `:root` so it shows even when no
-  `data-theme` attribute is set.
+  `data-theme` attribute is set. Azure matches the blue palette used on
+  veltzer.github.io (the MkDocs Material blog).
 - `theme-switcher.js` — vanilla-JS helper that wires a
   `<select id="theme-select">` to the `data-theme` attribute on `<html>`
   and persists the choice in `localStorage`.
@@ -27,7 +28,7 @@ Import the themes in your CSS:
 @import url('../shared/shared-themes/themes.css');
 ```
 
-That's it for styling — paper applies by default. Users can flip themes
+That's it for styling — azure applies by default. Users can flip themes
 via the switcher.
 
 In your HTML, include the switcher and call it after the DOM is ready:
@@ -39,11 +40,11 @@ In your HTML, include the switcher and call it after the DOM is ready:
 </script>
 ```
 
-The `<select id="theme-select">` should list `<option value="paper">`
+The `<select id="theme-select">` should list `<option value="azure">`
 etc. for each theme you want to expose. The chosen theme is persisted
 under a single shared `localStorage` key (`veltzer-site-theme`) so
 sibling sites on the same origin share preferences. The default is
-paper; override per-app with `initThemeSwitcher({ defaultTheme: "midnight" })`.
+azure; override per-app with `initThemeSwitcher({ defaultTheme: "midnight" })`.
 
 ## Adding a new theme
 

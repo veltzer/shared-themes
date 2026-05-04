@@ -7,7 +7,7 @@
  * theme: pick a theme on one, navigate to another, and the choice
  * follows you.
  *
- * The default theme is "paper" (set in themes.css). Override at runtime
+ * The default theme is "azure" (set in themes.css). Override at runtime
  * with defaultTheme if a specific app wants a different starting theme:
  *   initThemeSwitcher({ defaultTheme: "midnight" });
  */
@@ -15,7 +15,7 @@ const THEME_STORAGE_KEY = "veltzer-site-theme";
 
 function initThemeSwitcher(options) {
     options = options || {};
-    const defaultTheme = options.defaultTheme || "paper";
+    const defaultTheme = options.defaultTheme || "azure";
     const sel = document.getElementById("theme-select");
     if (!sel) return;
     const saved = localStorage.getItem(THEME_STORAGE_KEY) || defaultTheme;
