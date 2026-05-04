@@ -5,35 +5,16 @@
   ],
   "rules": {
     "declaration-property-value-allowed-list": {
-      "/^color$/": [
-        "/^var\\(--(text-primary|text-secondary|text-muted|accent|accent-dim|success|success-dim|warning|warning-dim|danger|danger-dim|gradient-start|gradient-end)\\)/",
-        "/^(transparent|currentColor|inherit|initial|unset)$/"
-      ],
-      "/^background(-color)?$/": [
-        "/^var\\(--(bg|bg-surface|bg-elevated|bg-hover|accent|accent-dim|success|success-dim|warning|warning-dim|danger|danger-dim|code-bg|surface)\\)/",
-        "/^(transparent|inherit|initial|unset|none)$/",
-        "/^linear-gradient/",
-        "/^radial-gradient/",
+      "/^(color|background|background-color|fill|stroke|outline-color|caret-color|column-rule-color|text-decoration-color)$/": [
+        "/var\\(--(bg|bg-surface|bg-elevated|bg-hover|surface|code-bg|border|border-subtle|text-primary|text-secondary|text-muted|accent|accent-dim|success|success-dim|warning|warning-dim|danger|danger-dim|gradient-start|gradient-end|info|info-dim)\\)/",
+        "/^(transparent|currentColor|inherit|initial|unset|none)$/",
+        "/^(linear|radial|conic)-gradient/",
         "/^url\\(/"
       ],
-      "/^border(-color|-top-color|-right-color|-bottom-color|-left-color)?$/": [
-        "/^var\\(--(border|border-subtle|accent|success|warning|danger)\\)/",
+      "/^(border|border-color|border-top-color|border-right-color|border-bottom-color|border-left-color|outline)$/": [
+        "/var\\(--(border|border-subtle|accent|accent-dim|success|warning|danger|info|text-muted)\\)/",
         "/^(transparent|currentColor|inherit|initial|unset|none)$/",
         "/^[0-9]/"
-      ],
-      "/^outline(-color)?$/": [
-        "/^var\\(--(border|accent|success|warning|danger)\\)/",
-        "/^(transparent|currentColor|inherit|initial|unset|none)$/",
-        "/^[0-9]/"
-      ],
-      "/^fill$/": [
-        "/^var\\(--/",
-        "/^(transparent|currentColor|inherit|initial|unset|none)$/",
-        "/^url\\(/"
-      ],
-      "/^stroke$/": [
-        "/^var\\(--/",
-        "/^(transparent|currentColor|inherit|initial|unset|none)$/"
       ]
     },
     "color-no-hex": [true, { "message": "Raw hex colors are forbidden. Use var(--<role>) from shared-themes." }],
