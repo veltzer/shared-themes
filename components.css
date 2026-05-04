@@ -1,0 +1,232 @@
+/*
+ * shared-themes/components.css
+ *
+ * Common UI components: header bar, filters, dropdowns, text inputs,
+ * toggle switch, breadcrumbs, badges (level/duration/chapters/slides),
+ * subfolder cards, autocomplete, dl-icon, and lists.
+ *
+ * If a site needs a unique component (e.g. a video player), keep it in
+ * the site's own CSS — don't pollute this file.
+ */
+
+/* ─── Header bar with theme select ─── */
+.header-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 16px;
+  margin-bottom: 4px;
+}
+
+#theme-select { flex-shrink: 0; }
+
+/* ─── Filters and inputs ─── */
+.filters {
+  background: var(--bg-surface);
+  border: 1px solid var(--border);
+  padding: 20px 24px;
+  border-radius: var(--radius);
+  margin-bottom: 28px;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 12px 20px;
+  transition: background 350ms ease, border-color 350ms ease;
+}
+
+.filter-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 0;
+}
+
+.filter-row-sort {
+  grid-column: 1 / -1;
+  flex-wrap: wrap;
+}
+
+.filter-row label {
+  font-weight: 500;
+  font-size: 0.82rem;
+  color: var(--text-secondary);
+  min-width: 80px;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+select, input[type="text"] {
+  font-family: var(--font-sans);
+  background: var(--bg-elevated);
+  color: var(--text-primary);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 7px 12px;
+  font-size: 0.88rem;
+  transition: border-color var(--transition), box-shadow var(--transition), background 350ms ease, color 350ms ease;
+  outline: none;
+}
+
+select:focus, input[type="text"]:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px var(--accent-dim);
+}
+
+input[type="text"] { width: 240px; }
+select { cursor: pointer; }
+
+/* ─── Toggle switch ─── */
+.toggle-switch { position: relative; display: inline-block; width: 36px; height: 20px; vertical-align: middle; }
+.toggle-switch input { opacity: 0; width: 0; height: 0; }
+.toggle-slider {
+  position: absolute; cursor: pointer; inset: 0;
+  background: var(--border); border-radius: 20px;
+  transition: background var(--transition);
+}
+.toggle-slider:before {
+  content: ""; position: absolute;
+  height: 14px; width: 14px; left: 3px; bottom: 3px;
+  background: var(--text-secondary); border-radius: 50%;
+  transition: transform var(--transition), background var(--transition);
+}
+.toggle-switch input:checked + .toggle-slider { background: var(--accent); }
+.toggle-switch input:checked + .toggle-slider:before { transform: translateX(16px); background: var(--bg); }
+
+/* ─── Breadcrumb ─── */
+#breadcrumb { margin-bottom: 12px; font-size: 0.88rem; }
+#breadcrumb a { color: var(--accent); text-decoration: none; }
+#breadcrumb a:hover { color: var(--text-primary); }
+.breadcrumb-sep { color: var(--text-muted); margin: 0 6px; }
+.breadcrumb-current { font-weight: 600; color: var(--text-primary); }
+
+/* ─── Subfolder cards ─── */
+#subfolders { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 24px; }
+#subfolders:empty { margin-bottom: 0; }
+
+.subfolder-card {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 18px;
+  background: var(--bg-surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  cursor: pointer;
+  font-size: 0.88rem;
+  font-weight: 500;
+  color: var(--text-primary);
+  text-decoration: none;
+  transition: background var(--transition), border-color var(--transition), transform var(--transition), box-shadow var(--transition);
+}
+.subfolder-card:hover {
+  background: var(--bg-hover);
+  border-color: var(--accent);
+  transform: translateY(-1px);
+  box-shadow: var(--shadow);
+  text-decoration: none;
+}
+.subfolder-count { color: var(--text-muted); font-weight: 400; font-size: 0.82rem; }
+
+/* ─── Item list ─── */
+ul { list-style: none; padding: 0; margin: 0; }
+li {
+  padding: 10px 16px;
+  margin: 0;
+  border-radius: var(--radius-sm);
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 6px;
+  transition: background var(--transition);
+}
+li:hover { background: var(--bg-elevated); }
+li.hidden { display: none; }
+li a {
+  color: var(--text-primary);
+  text-decoration: none;
+  font-weight: 500;
+  transition: color var(--transition);
+}
+li a:hover { color: var(--accent); }
+
+/* ─── Badges (level, duration, chapters, slides, type, tag) ─── */
+.level, .chapters-badge, .slides-badge, .duration, .tag, .type-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-size: 0.75rem;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+}
+
+.level-beginner { background: var(--accent-dim); color: var(--accent); opacity: 0.7; }
+.level-intermediate { background: var(--accent-dim); color: var(--accent); opacity: 0.85; }
+.level-advanced { background: var(--accent-dim); color: var(--accent); }
+
+.tag { background: var(--accent-dim); color: var(--accent); }
+
+.chapters-badge { background: var(--accent-dim); color: var(--accent); opacity: 0.7; }
+.slides-badge { background: var(--accent-dim); color: var(--accent); }
+
+.duration { background: var(--bg-elevated); color: var(--text-secondary); border: 1px solid var(--border-subtle); }
+
+.type-badge { background: var(--success-dim); color: var(--success); text-transform: capitalize; }
+.type-course { background: var(--success-dim); color: var(--success); }
+.type-lecture { background: var(--warning-dim); color: var(--warning); }
+
+/* ─── Course/lecture number prefix ─── */
+.course-number {
+  color: var(--text-muted);
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  font-weight: 400;
+  min-width: 2.5em;
+  display: inline-block;
+}
+
+/* ─── Stats inline values ─── */
+.stat-chapters { color: var(--text-secondary); font-weight: 600; }
+.stat-slides { color: var(--accent); font-weight: 600; }
+
+/* ─── PDF / download icon ─── */
+.dl-icon {
+  display: inline-flex;
+  align-items: center;
+  margin-left: 4px;
+  color: var(--text-muted);
+  transition: color var(--transition), transform var(--transition);
+}
+.dl-icon:hover { color: var(--accent); transform: scale(1.15); }
+.dl-icon svg { width: 18px; height: 18px; }
+
+/* ─── Autocomplete ─── */
+.autocomplete-wrap { position: relative; display: inline-block; }
+.autocomplete-list {
+  position: absolute; top: 100%; left: 0; right: 0;
+  background: var(--bg-elevated);
+  border: 1px solid var(--border);
+  border-top: none;
+  border-radius: 0 0 var(--radius-sm) var(--radius-sm);
+  max-height: 280px;
+  overflow-y: auto;
+  z-index: 100;
+  display: none;
+  box-shadow: var(--shadow);
+}
+.autocomplete-list.visible { display: block; }
+.autocomplete-item {
+  padding: 8px 12px;
+  cursor: pointer;
+  font-size: 0.88rem;
+  transition: background var(--transition);
+}
+.autocomplete-item:hover, .autocomplete-item.active { background: var(--bg-hover); }
+.autocomplete-item .ac-folder { color: var(--text-muted); font-size: 0.78rem; margin-left: 8px; }
+
+/* ─── Mobile ─── */
+@media (max-width: 700px) {
+  .header-bar { flex-direction: column; gap: 10px; }
+  .filters { grid-template-columns: 1fr; padding: 16px; }
+  input[type="text"] { width: 100%; }
+  li { padding: 8px 10px; }
+}

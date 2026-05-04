@@ -1,0 +1,73 @@
+/*
+ * shared-themes/typography.css
+ *
+ * Headings, common text utilities (.count, .no-results, .build-info,
+ * .subtitle). All sites use the same look for these.
+ */
+
+h1 {
+  font-weight: 700;
+  font-size: 2rem;
+  letter-spacing: -0.03em;
+  margin: 0;
+  padding: 0;
+  border: none;
+  background: linear-gradient(135deg, var(--gradient-start) 0%, var(--gradient-end) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+h2 {
+  color: var(--text-secondary);
+  font-size: 0.82rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin: 32px 0 12px 0;
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--border-subtle);
+}
+h2 a { color: var(--accent); text-decoration: none; }
+h2 a:hover { color: var(--text-primary); }
+h2 .count { color: var(--text-muted); text-transform: none; letter-spacing: normal; font-weight: 400; }
+
+#total-count {
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+  font-weight: 400;
+  margin: 0 0 28px 0;
+  letter-spacing: 0.02em;
+}
+
+.subtitle {
+  color: var(--text-secondary);
+  margin: 0 0 2rem 0;
+}
+
+.count {
+  color: var(--text-muted);
+  font-size: 0.9em;
+}
+
+.no-results {
+  color: var(--text-muted);
+  font-style: italic;
+  padding: 40px 0;
+  text-align: center;
+}
+
+.build-info {
+  font-size: 0.85em;
+  opacity: 0.7;
+  margin-top: 0.2em;
+}
+.build-info code {
+  background: transparent;
+  padding: 0;
+  font-size: 0.95em;
+}
+
+@media (max-width: 700px) {
+  h1 { font-size: 1.5rem; }
+}
