@@ -20,6 +20,22 @@
         "/var\\(--shadow\\)/",
         "/^[0-9]/",
         "/^(none|inherit|initial|unset)$/"
+      ],
+      "font-family": [
+        "/var\\(--font-(sans|mono)\\)/",
+        "/^(inherit|initial|unset)$/"
+      ],
+      "/^(border-radius|border-top-left-radius|border-top-right-radius|border-bottom-right-radius|border-bottom-left-radius)$/": [
+        "/var\\(--radius(-xs|-sm|-pill)?\\)/",
+        "/^(0|0px|50%|inherit|initial|unset)$/"
+      ],
+      "transition": [
+        "/var\\(--transition(-slow)?\\)/",
+        "/^(none|inherit|initial|unset|all)$/"
+      ],
+      "transition-duration": [
+        "/var\\(--transition(-slow)?\\)/",
+        "/^(inherit|initial|unset)$/"
       ]
     },
     "color-no-hex": [true, { "message": "Raw hex colors are forbidden. Use var(--<role>) from shared-themes." }],
