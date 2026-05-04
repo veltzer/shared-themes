@@ -1,0 +1,135 @@
+/*
+ * shared-themes/themes.css
+ *
+ * Five named themes, exposed as CSS custom properties scoped to
+ * `[data-theme="<name>"]`. Consumers pick a default by setting the
+ * attribute on <html>, or by adding their own `:root` rule that points
+ * at one of the themes.
+ *
+ * Themes: paper, midnight, nord, solarized, rosepine.
+ */
+
+/* ─── Paper (warm light) ─── */
+[data-theme="paper"] {
+  --bg: #faf8f5;
+  --bg-surface: #f0ede8;
+  --bg-elevated: #e8e4de;
+  --bg-hover: #ddd8d0;
+  --border: #cdc6bb;
+  --border-subtle: #e0dbd4;
+  --text-primary: #2c2824;
+  --text-secondary: #706860;
+  --text-muted: #a09888;
+  --accent: #9b6b3e;
+  --accent-dim: rgba(155, 107, 62, 0.12);
+  --green: #3a8a5c;
+  --green-dim: rgba(58, 138, 92, 0.12);
+  --amber: #b87d1a;
+  --amber-dim: rgba(184, 125, 26, 0.12);
+  --red: #c05040;
+  --red-dim: rgba(192, 80, 64, 0.12);
+  --gradient-start: #2c2824;
+  --gradient-end: #9b6b3e;
+  --shadow: 0 1px 3px rgba(0,0,0,0.08), 0 4px 12px rgba(0,0,0,0.06);
+}
+
+/* ─── Midnight (dark blue) ─── */
+[data-theme="midnight"] {
+  --bg: #0f1117;
+  --bg-surface: #161922;
+  --bg-elevated: #1e2130;
+  --bg-hover: #252940;
+  --border: #2a2e3f;
+  --border-subtle: #1e2130;
+  --text-primary: #e8eaf0;
+  --text-secondary: #8b90a0;
+  --text-muted: #5c6070;
+  --accent: #6c8cff;
+  --accent-dim: rgba(108, 140, 255, 0.12);
+  --green: #34d399;
+  --green-dim: rgba(52, 211, 153, 0.12);
+  --amber: #fbbf24;
+  --amber-dim: rgba(251, 191, 36, 0.12);
+  --red: #f87171;
+  --red-dim: rgba(248, 113, 113, 0.12);
+  --gradient-start: #e8eaf0;
+  --gradient-end: #6c8cff;
+}
+
+/* ─── Nord (cool muted) ─── */
+[data-theme="nord"] {
+  --bg: #2e3440;
+  --bg-surface: #3b4252;
+  --bg-elevated: #434c5e;
+  --bg-hover: #4c566a;
+  --border: #4c566a;
+  --border-subtle: #434c5e;
+  --text-primary: #eceff4;
+  --text-secondary: #d8dee9;
+  --text-muted: #7b88a1;
+  --accent: #88c0d0;
+  --accent-dim: rgba(136, 192, 208, 0.15);
+  --green: #a3be8c;
+  --green-dim: rgba(163, 190, 140, 0.15);
+  --amber: #ebcb8b;
+  --amber-dim: rgba(235, 203, 139, 0.15);
+  --red: #bf616a;
+  --red-dim: rgba(191, 97, 106, 0.15);
+  --gradient-start: #eceff4;
+  --gradient-end: #88c0d0;
+}
+
+/* ─── Solarized (light) ─── */
+[data-theme="solarized"] {
+  --bg: #fdf6e3;
+  --bg-surface: #eee8d5;
+  --bg-elevated: #e6dfcb;
+  --bg-hover: #ddd6c1;
+  --border: #d0c8b0;
+  --border-subtle: #e6dfcb;
+  --text-primary: #073642;
+  --text-secondary: #586e75;
+  --text-muted: #93a1a1;
+  --accent: #268bd2;
+  --accent-dim: rgba(38, 139, 210, 0.12);
+  --green: #859900;
+  --green-dim: rgba(133, 153, 0, 0.12);
+  --amber: #b58900;
+  --amber-dim: rgba(181, 137, 0, 0.12);
+  --red: #dc322f;
+  --red-dim: rgba(220, 50, 47, 0.12);
+  --gradient-start: #073642;
+  --gradient-end: #268bd2;
+  --shadow: 0 1px 3px rgba(0,0,0,0.06), 0 4px 12px rgba(0,0,0,0.04);
+}
+
+/* ─── Rosepine (muted purple dark) ─── */
+[data-theme="rosepine"] {
+  --bg: #191724;
+  --bg-surface: #1f1d2e;
+  --bg-elevated: #26233a;
+  --bg-hover: #312e47;
+  --border: #393552;
+  --border-subtle: #26233a;
+  --text-primary: #e0def4;
+  --text-secondary: #908caa;
+  --text-muted: #6e6a86;
+  --accent: #c4a7e7;
+  --accent-dim: rgba(196, 167, 231, 0.14);
+  --green: #9ccfd8;
+  --green-dim: rgba(156, 207, 216, 0.14);
+  --amber: #f6c177;
+  --amber-dim: rgba(246, 193, 119, 0.14);
+  --red: #eb6f92;
+  --red-dim: rgba(235, 111, 146, 0.14);
+  --gradient-start: #e0def4;
+  --gradient-end: #c4a7e7;
+}
+
+/*
+ * Default --shadow for dark themes that don't override it.
+ * Solarized and Paper set their own lighter shadows above.
+ */
+:root {
+  --shadow: 0 1px 3px rgba(0,0,0,0.4), 0 4px 12px rgba(0,0,0,0.25);
+}
