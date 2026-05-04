@@ -9,8 +9,8 @@
  * Themes: paper, midnight, nord, solarized, rosepine.
  */
 
-/* ─── Paper (warm light) ─── */
-[data-theme="paper"] {
+/* ─── Paper (warm light) — default when no data-theme attribute is set ─── */
+:root, [data-theme="paper"] {
   --bg: #faf8f5;
   --bg-surface: #f0ede8;
   --bg-elevated: #e8e4de;

@@ -6,14 +6,15 @@
  * is ready.
  *
  * Usage:
- *   initThemeSwitcher({ storageKey: "my-app-theme", defaultTheme: "paper" });
+ *   initThemeSwitcher({ storageKey: "my-app-theme" });
  *
- * Both options are required so each app keeps its own preference under
- * its own key.
+ * The default theme is "paper" (set in themes.css). Override per-app
+ * with defaultTheme if you really need a different starting theme:
+ *   initThemeSwitcher({ storageKey: "my-app-theme", defaultTheme: "midnight" });
  */
 function initThemeSwitcher(options) {
     const storageKey = options.storageKey;
-    const defaultTheme = options.defaultTheme;
+    const defaultTheme = options.defaultTheme || "paper";
     const sel = document.getElementById("theme-select");
     if (!sel) return;
     const saved = localStorage.getItem(storageKey) || defaultTheme;
