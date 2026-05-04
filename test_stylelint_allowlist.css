@@ -1,0 +1,66 @@
+/*
+ * Fixture: every role token that the stylelint config allows must be
+ * usable here without violating the rule. Conversely, if you remove a
+ * token from stylelintrc but leave it referenced here, stylelint fails.
+ *
+ * Run from shared-themes:
+ *   stylelint test_stylelint_allowlist.css
+ *
+ * Empty output = config and tokens are in sync.
+ */
+
+.test-color {
+  color: var(--text-primary);
+  color: var(--text-secondary);
+  color: var(--text-muted);
+  color: var(--accent);
+  color: var(--accent-dim);
+  color: var(--success);
+  color: var(--success-dim);
+  color: var(--warning);
+  color: var(--warning-dim);
+  color: var(--danger);
+  color: var(--danger-dim);
+  color: var(--gradient-start);
+  color: var(--gradient-end);
+}
+
+.test-bg {
+  background: var(--bg);
+  background: var(--bg-surface);
+  background: var(--bg-elevated);
+  background: var(--bg-hover);
+  background: var(--surface);
+  background: var(--code-bg);
+}
+
+.test-border {
+  border-color: var(--border);
+  border-color: var(--border-subtle);
+}
+
+.test-shadow {
+  box-shadow: var(--shadow);
+}
+
+.test-font {
+  font-family: var(--font-sans);
+  font-family: var(--font-mono);
+}
+
+.test-radius {
+  border-radius: var(--radius);
+  border-radius: var(--radius-xs);
+  border-radius: var(--radius-sm);
+  border-radius: var(--radius-pill);
+}
+
+.test-transition {
+  transition: var(--transition);
+  transition: var(--transition-slow);
+  transition-duration: var(--transition);
+}
+
+.test-gradient {
+  background: linear-gradient(135deg, var(--gradient-start) 0%, var(--gradient-end) 100%);
+}
