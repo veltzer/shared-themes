@@ -35,15 +35,15 @@ In your HTML, include the switcher and call it after the DOM is ready:
 ```html
 <script src="shared/shared-themes/theme-switcher.js"></script>
 <script>
-  initThemeSwitcher({ storageKey: "my-app-theme" });
+  initThemeSwitcher();
 </script>
 ```
 
 The `<select id="theme-select">` should list `<option value="paper">`
-etc. for each theme you want to expose. The `storageKey` is required so
-each app keeps its own preference. To override the canonical paper
-default, pass `defaultTheme: "midnight"` (or whichever) to
-`initThemeSwitcher`.
+etc. for each theme you want to expose. The chosen theme is persisted
+under a single shared `localStorage` key (`veltzer-site-theme`) so
+sibling sites on the same origin share preferences. The default is
+paper; override per-app with `initThemeSwitcher({ defaultTheme: "midnight" })`.
 
 ## Adding a new theme
 
