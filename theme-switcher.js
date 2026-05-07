@@ -19,10 +19,33 @@ function initThemeSwitcher(options) {
     const sel = document.getElementById("theme-select");
     if (!sel) return;
     const saved = localStorage.getItem(THEME_STORAGE_KEY) || defaultTheme;
+    const isMaterial = sel.tagName.toLowerCase() === "md-outlined-select"
+        || sel.tagName.toLowerCase() === "md-filled-select";
+
+    function setSelValue(name) {
+        if (isMaterial) {
+            // For <md-outlined-select> we have to flip the `selected`
+            // attribute on the matching <md-select-option> child, then
+            // poke the host so it reflects the new selection.
+            const opts = sel.querySelectorAll("md-select-option");
+            opts.forEach(function(o) {
+                if (o.value === name) {
+                    o.setAttribute("selected", "");
+                    o.selected = true;
+                } else {
+                    o.removeAttribute("selected");
+                    o.selected = false;
+                }
+            });
+            sel.value = name;
+        } else {
+            sel.value = name;
+        }
+    }
 
     function applyTheme(name) {
         document.documentElement.setAttribute("data-theme", name);
-        sel.value = name;
+        setSelValue(name);
         localStorage.setItem(THEME_STORAGE_KEY, name);
     }
 
