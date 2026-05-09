@@ -14,3 +14,18 @@ jobs:
         run: stylelint base.css typography.css components.css
       - name: Lint allowlist fixture (catches drift between themes.css and stylelint config)
         run: stylelint test_stylelint_allowlist.css
+
+  generated-in-sync:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: pip install pyyaml
+      - name: Regenerate themes.css and theme.py from themes.yaml
+        run: |
+          python3 scripts/yaml_to_css.py
+          python3 scripts/yaml_to_python.py
+      - name: Fail if generated files are out of sync with themes.yaml
+        run: git diff --exit-code -- themes.css theme.py

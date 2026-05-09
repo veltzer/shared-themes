@@ -5,14 +5,43 @@ CSS variables and a theme switcher shared across the teaching-* repos
 
 ## Files
 
-- `themes.css` — six named themes (`azure`, `paper`, `midnight`, `nord`,
-  `solarized`, `rosepine`) exposed as CSS custom properties. **Azure is
-  the canonical default**, applied to `:root` so it shows even when no
-  `data-theme` attribute is set. Azure matches the blue palette used on
-  veltzer.github.io (the MkDocs Material blog).
+- `themes.yaml` — **source of truth.** Base tokens (radius, font,
+  transition) and the six named themes (`azure`, `paper`, `midnight`,
+  `nord`, `solarized`, `rosepine`).
+- `themes.css` — *generated* from `themes.yaml`. Six theme blocks
+  exposed as CSS custom properties. **Azure is the canonical default**,
+  applied to `:root` so it shows even when no `data-theme` attribute is
+  set. Azure matches the blue palette used on veltzer.github.io (the
+  MkDocs Material blog).
+- `theme.py` — *generated* from `themes.yaml`. Same data as a Python
+  dict, for scripts that need the palette outside the browser.
+- `scripts/yaml_to_css.py`, `scripts/yaml_to_python.py` — generators.
+  Re-run after editing `themes.yaml`. CI fails if either output is out
+  of sync.
 - `theme-switcher.js` — vanilla-JS helper that wires a
   `<select id="theme-select">` to the `data-theme` attribute on `<html>`
   and persists the choice in `localStorage`.
+
+## Editing themes
+
+Edit `themes.yaml`, then regenerate:
+
+```bash
+python3 scripts/yaml_to_css.py
+python3 scripts/yaml_to_python.py
+```
+
+Commit `themes.yaml` together with the regenerated `themes.css` and
+`theme.py`. CI verifies they match.
+
+## Using from Python
+
+```python
+from theme import THEMES, BASE, DEFAULT_THEME, THEME_NAMES
+
+bg = THEMES["azure"]["bg"]      # "#ffffff"
+radius = BASE["radius"]          # "10px"
+```
 
 ## Use
 
@@ -48,7 +77,11 @@ azure; override per-app with `initThemeSwitcher({ defaultTheme: "midnight" })`.
 
 ## Adding a new theme
 
-Add a new `[data-theme="<name>"]` block to `themes.css`. Each block must
-define every variable already defined in the existing themes
-(`--bg`, `--accent`, `--green`, etc.) so consumers don't see undefined
-values when they switch.
+Add a new entry under `themes:` in `themes.yaml`, defining every
+variable already defined in the existing themes (`bg`, `accent`, etc.)
+so consumers don't see undefined values when they switch. Then run the
+two generators above and commit the regenerated outputs.
+
+If the new theme deserves a section banner in the generated `themes.css`
+(e.g. "Solarized (light)"), add it to the `BANNERS` dict at the top of
+`scripts/yaml_to_css.py`. Themes without an entry get a plain banner.

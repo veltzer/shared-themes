@@ -1,18 +1,31 @@
 /*
  * shared-themes/themes.css
  *
- * Six named themes, exposed as CSS custom properties scoped to
- * `[data-theme="<name>"]`. Consumers pick a default by setting the
- * attribute on <html>, or by adding their own `:root` rule that points
- * at one of the themes.
+ * GENERATED FROM themes.yaml — do not edit by hand.
+ * Run scripts/yaml_to_css.py after editing themes.yaml.
  *
- * Themes: azure, paper, midnight, nord, solarized, rosepine.
+ * Six named themes, exposed as CSS custom properties scoped to
+ * `[data-theme="<name>"]`. The default theme is also applied to `:root`
+ * so it shows even when no `data-theme` attribute is set.
  */
 
+
+/* ─── Base tokens (radius, font, transition, default shadow) ─── */
+
+:root {
+  --radius-xs: 4px;
+  --radius-sm: 6px;
+  --radius: 10px;
+  --radius-pill: 20px;
+  --transition: 180ms cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-slow: 350ms ease;
+  --font-sans: 'Outfit', system-ui, sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+  --shadow: 0 1px 3px rgba(0,0,0,0.4), 0 4px 12px rgba(0,0,0,0.25);
+}
+
 /* ─── Azure (indigo light) — default when no data-theme attribute is set ─── */
-/* Matches the MkDocs Material indigo palette used on veltzer.github.io:
- *   primary #4051b5, primary--dark #303fa1, accent #526cfe,
- *   bg #ffffff, fg rgba(0,0,0,0.87). */
+
 :root, [data-theme="azure"] {
   --bg: #ffffff;
   --bg-surface: #f5f5f7;
@@ -37,6 +50,7 @@
 }
 
 /* ─── Paper (warm light) ─── */
+
 [data-theme="paper"] {
   --bg: #faf8f5;
   --bg-surface: #f0ede8;
@@ -61,6 +75,7 @@
 }
 
 /* ─── Midnight (dark blue) ─── */
+
 [data-theme="midnight"] {
   --bg: #0f1117;
   --bg-surface: #161922;
@@ -84,6 +99,7 @@
 }
 
 /* ─── Nord (cool muted) ─── */
+
 [data-theme="nord"] {
   --bg: #2e3440;
   --bg-surface: #3b4252;
@@ -107,6 +123,7 @@
 }
 
 /* ─── Solarized (light) ─── */
+
 [data-theme="solarized"] {
   --bg: #fdf6e3;
   --bg-surface: #eee8d5;
@@ -131,6 +148,7 @@
 }
 
 /* ─── Rosepine (muted purple dark) ─── */
+
 [data-theme="rosepine"] {
   --bg: #191724;
   --bg-surface: #1f1d2e;
@@ -151,12 +169,4 @@
   --danger-dim: rgba(235, 111, 146, 0.14);
   --gradient-start: #e0def4;
   --gradient-end: #c4a7e7;
-}
-
-/*
- * Default --shadow for dark themes that don't override it.
- * Solarized and Paper set their own lighter shadows above.
- */
-:root {
-  --shadow: 0 1px 3px rgba(0,0,0,0.4), 0 4px 12px rgba(0,0,0,0.25);
 }

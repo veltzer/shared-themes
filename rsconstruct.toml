@@ -1,0 +1,26 @@
+# RSConstruct configuration for shared-themes.
+#
+# Builds the two generated artifacts (themes.css, theme.py) from the
+# single source of truth (themes.yaml).
+#
+#   rsconstruct build              # regenerate if themes.yaml changed
+#   rsconstruct status             # show what's stale
+#   rsconstruct clean              # remove generated outputs
+
+[build]
+# parallel = 0
+
+# ─── Generate themes.css from themes.yaml ───
+[processor.explicit.css]
+command = "scripts/yaml_to_css.py"
+inputs = ["themes.yaml", "scripts/yaml_to_css.py"]
+output_files = ["themes.css"]
+
+# ─── Generate theme.py from themes.yaml ───
+[processor.explicit.python]
+command = "scripts/yaml_to_python.py"
+inputs = ["themes.yaml", "scripts/yaml_to_python.py"]
+output_files = ["theme.py"]
+
+[processor.ruff]
+src_dirs = ["scripts"]

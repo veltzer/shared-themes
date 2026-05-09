@@ -1,23 +1,13 @@
 /*
  * shared-themes/base.css
  *
- * Base layer: font import, CSS reset, body styling, links, scrollbars,
- * common utility tokens. Loaded BEFORE themes.css so theme variables
- * win over any defaults defined here. Loaded by every consuming site.
+ * Base layer: font import, CSS reset, body styling, links, scrollbars.
+ * The :root design tokens (--radius-*, --font-*, --transition*) live in
+ * themes.css, which is generated from themes.yaml. Loaded by every
+ * consuming site.
  */
 
 @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600&family=Outfit:wght@300;400;500;600;700&display=swap');
-
-:root {
-  --radius-xs: 4px;
-  --radius-sm: 6px;
-  --radius: 10px;
-  --radius-pill: 20px;
-  --transition: 180ms cubic-bezier(0.4, 0, 0.2, 1);
-  --transition-slow: 350ms ease;
-  --font-sans: 'Outfit', system-ui, sans-serif;
-  --font-mono: 'JetBrains Mono', monospace;
-}
 
 *, *::before, *::after { box-sizing: border-box; }
 

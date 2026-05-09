@@ -1,0 +1,163 @@
+"""
+shared-themes/theme.py
+
+GENERATED FROM themes.yaml — do not edit by hand.
+Run scripts/yaml_to_python.py after editing themes.yaml.
+
+Exposes the same design tokens as themes.css, for Python consumers.
+
+    from theme import THEMES, BASE, DEFAULT_THEME
+    azure_bg = THEMES["azure"]["bg"]
+    radius   = BASE["radius"]
+"""
+
+from __future__ import annotations
+
+
+DEFAULT_THEME: str = 'azure'
+
+BASE: dict[str, str] = {
+    'radius-xs': '4px',
+    'radius-sm': '6px',
+    'radius': '10px',
+    'radius-pill': '20px',
+    'transition': '180ms cubic-bezier(0.4, 0, 0.2, 1)',
+    'transition-slow': '350ms ease',
+    'font-sans': "'Outfit', system-ui, sans-serif",
+    'font-mono': "'JetBrains Mono', monospace",
+    'shadow': '0 1px 3px rgba(0,0,0,0.4), 0 4px 12px rgba(0,0,0,0.25)',
+}
+
+THEMES: dict[str, dict[str, str]] = {
+    'azure': {
+        'bg': '#ffffff',
+        'bg-surface': '#f5f5f7',
+        'bg-elevated': '#eaeaef',
+        'bg-hover': '#dcdce5',
+        'border': '#d0d0db',
+        'border-subtle': '#ececf2',
+        'text-primary': 'rgba(0, 0, 0, 0.87)',
+        'text-secondary': 'rgba(0, 0, 0, 0.54)',
+        'text-muted': 'rgba(0, 0, 0, 0.32)',
+        'accent': '#4051b5',
+        'accent-dim': 'rgba(64, 81, 181, 0.12)',
+        'success': '#1c7d4d',
+        'success-dim': 'rgba(28, 125, 77, 0.12)',
+        'warning': '#b87d1a',
+        'warning-dim': 'rgba(184, 125, 26, 0.12)',
+        'danger': '#c72c34',
+        'danger-dim': 'rgba(199, 44, 52, 0.12)',
+        'gradient-start': '#303fa1',
+        'gradient-end': '#526cfe',
+        'shadow': '0 1px 3px rgba(0,0,0,0.08), 0 4px 12px rgba(0,0,0,0.06)',
+    },
+    'paper': {
+        'bg': '#faf8f5',
+        'bg-surface': '#f0ede8',
+        'bg-elevated': '#e8e4de',
+        'bg-hover': '#ddd8d0',
+        'border': '#cdc6bb',
+        'border-subtle': '#e0dbd4',
+        'text-primary': '#2c2824',
+        'text-secondary': '#706860',
+        'text-muted': '#a09888',
+        'accent': '#9b6b3e',
+        'accent-dim': 'rgba(155, 107, 62, 0.12)',
+        'success': '#3a8a5c',
+        'success-dim': 'rgba(58, 138, 92, 0.12)',
+        'warning': '#b87d1a',
+        'warning-dim': 'rgba(184, 125, 26, 0.12)',
+        'danger': '#c05040',
+        'danger-dim': 'rgba(192, 80, 64, 0.12)',
+        'gradient-start': '#2c2824',
+        'gradient-end': '#9b6b3e',
+        'shadow': '0 1px 3px rgba(0,0,0,0.08), 0 4px 12px rgba(0,0,0,0.06)',
+    },
+    'midnight': {
+        'bg': '#0f1117',
+        'bg-surface': '#161922',
+        'bg-elevated': '#1e2130',
+        'bg-hover': '#252940',
+        'border': '#2a2e3f',
+        'border-subtle': '#1e2130',
+        'text-primary': '#e8eaf0',
+        'text-secondary': '#8b90a0',
+        'text-muted': '#5c6070',
+        'accent': '#6c8cff',
+        'accent-dim': 'rgba(108, 140, 255, 0.12)',
+        'success': '#34d399',
+        'success-dim': 'rgba(52, 211, 153, 0.12)',
+        'warning': '#fbbf24',
+        'warning-dim': 'rgba(251, 191, 36, 0.12)',
+        'danger': '#f87171',
+        'danger-dim': 'rgba(248, 113, 113, 0.12)',
+        'gradient-start': '#e8eaf0',
+        'gradient-end': '#6c8cff',
+    },
+    'nord': {
+        'bg': '#2e3440',
+        'bg-surface': '#3b4252',
+        'bg-elevated': '#434c5e',
+        'bg-hover': '#4c566a',
+        'border': '#4c566a',
+        'border-subtle': '#434c5e',
+        'text-primary': '#eceff4',
+        'text-secondary': '#d8dee9',
+        'text-muted': '#7b88a1',
+        'accent': '#88c0d0',
+        'accent-dim': 'rgba(136, 192, 208, 0.15)',
+        'success': '#a3be8c',
+        'success-dim': 'rgba(163, 190, 140, 0.15)',
+        'warning': '#ebcb8b',
+        'warning-dim': 'rgba(235, 203, 139, 0.15)',
+        'danger': '#bf616a',
+        'danger-dim': 'rgba(191, 97, 106, 0.15)',
+        'gradient-start': '#eceff4',
+        'gradient-end': '#88c0d0',
+    },
+    'solarized': {
+        'bg': '#fdf6e3',
+        'bg-surface': '#eee8d5',
+        'bg-elevated': '#e6dfcb',
+        'bg-hover': '#ddd6c1',
+        'border': '#d0c8b0',
+        'border-subtle': '#e6dfcb',
+        'text-primary': '#073642',
+        'text-secondary': '#586e75',
+        'text-muted': '#93a1a1',
+        'accent': '#268bd2',
+        'accent-dim': 'rgba(38, 139, 210, 0.12)',
+        'success': '#859900',
+        'success-dim': 'rgba(133, 153, 0, 0.12)',
+        'warning': '#b58900',
+        'warning-dim': 'rgba(181, 137, 0, 0.12)',
+        'danger': '#dc322f',
+        'danger-dim': 'rgba(220, 50, 47, 0.12)',
+        'gradient-start': '#073642',
+        'gradient-end': '#268bd2',
+        'shadow': '0 1px 3px rgba(0,0,0,0.06), 0 4px 12px rgba(0,0,0,0.04)',
+    },
+    'rosepine': {
+        'bg': '#191724',
+        'bg-surface': '#1f1d2e',
+        'bg-elevated': '#26233a',
+        'bg-hover': '#312e47',
+        'border': '#393552',
+        'border-subtle': '#26233a',
+        'text-primary': '#e0def4',
+        'text-secondary': '#908caa',
+        'text-muted': '#6e6a86',
+        'accent': '#c4a7e7',
+        'accent-dim': 'rgba(196, 167, 231, 0.14)',
+        'success': '#9ccfd8',
+        'success-dim': 'rgba(156, 207, 216, 0.14)',
+        'warning': '#f6c177',
+        'warning-dim': 'rgba(246, 193, 119, 0.14)',
+        'danger': '#eb6f92',
+        'danger-dim': 'rgba(235, 111, 146, 0.14)',
+        'gradient-start': '#e0def4',
+        'gradient-end': '#c4a7e7',
+    },
+}
+
+THEME_NAMES: list[str] = list(THEMES)
