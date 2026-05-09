@@ -3,6 +3,9 @@
 CSS variables and a theme switcher shared across the teaching-* repos
 (teaching-slides, teaching-syllabi, teaching-animations).
 
+For a full breakdown of every file's role, see
+[`doc/files.md`](doc/files.md).
+
 ## Files
 
 - `themes.yaml` — **source of truth.** Base tokens (radius, font,
