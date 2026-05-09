@@ -22,5 +22,11 @@ command = "scripts/yaml_to_python.py"
 inputs = ["themes.yaml", "scripts/yaml_to_python.py"]
 output_files = ["theme.py"]
 
+# ─── Generate manim_themes.py from themes.yaml ───
+[processor.explicit.manim]
+command = "scripts/yaml_to_manim.py"
+inputs = ["themes.yaml", "scripts/yaml_to_manim.py"]
+output_files = ["manim_themes.py"]
+
 [processor.ruff]
 src_dirs = ["scripts"]
