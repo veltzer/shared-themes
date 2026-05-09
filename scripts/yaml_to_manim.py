@@ -1,11 +1,21 @@
 #!/usr/bin/env python
 """Generate manim_themes.py from themes.yaml.
 
-Color tokens are emitted as ManimColor instances so Manim scenes can use them
-directly (e.g. ``self.camera.background_color = THEMES["azure"]["bg"]``).
-Non-color base tokens (radius, font, transition) are passed through as the
-original strings — Manim won't consume them, but they're kept so the structure
-mirrors theme.py.
+The generated module is meant to be consumed directly by Manim scenes — no
+adapter layer. It exposes:
+
+  - THEMES, BASE, DEFAULT_THEME, THEME_NAMES — raw token data.
+  - ACTIVE_THEME — resolved from $ANIM_THEME, validated, falls back to default.
+  - T — attribute view onto THEMES[ACTIVE_THEME]. Role keys map to UPPER_SNAKE
+        identifiers (bg-surface -> T.BG_SURFACE, text-primary -> T.TEXT_PRIMARY).
+  - apply_defaults() — sets config.background_color and Text/MathTex/Tex
+        defaults so a scene picks up the active theme's bg + text + sans font.
+
+Names in the module are symbolic (roles, not implementations): tokens are
+identified by what they are *used for* (accent, text-primary, font-mono),
+never by what they happen to be (#4051b5, "JetBrains Mono"). Font role
+values are stripped of CSS quoting so the bare family name is usable as
+Manim's font= kwarg.
 """
 
 from __future__ import annotations
@@ -27,24 +37,74 @@ shared-themes/manim_themes.py
 GENERATED FROM themes.yaml — do not edit by hand.
 Run scripts/yaml_to_manim.py after editing themes.yaml.
 
-Exposes the same design tokens as themes.css, as ManimColor objects ready
-for use inside Manim animations.
+Exposes design tokens by role (what they're used for), not by implementation.
+Consumers import this module directly:
 
-    from manim_themes import THEMES, BASE, DEFAULT_THEME
-    azure_bg = THEMES["azure"]["bg"]          # ManimColor
-    self.camera.background_color = azure_bg
+    from manim_themes import T, BASE, apply_defaults
+
+    apply_defaults()                      # sets bg + Text defaults
+
+    Text("hello", color=T.ACCENT)
+    Text("code", color=T.TEXT_PRIMARY, font=BASE["font-mono"])
+
+The active theme is picked from $ANIM_THEME (validated), falling back to
+DEFAULT_THEME.
 """
 
 from __future__ import annotations
 
+import os
+
 from manim import ManimColor
 
+'''
+
+FOOTER = '''
+
+class _T:
+    """Attribute-style view onto the active palette.
+
+    Role keys from themes.yaml are exposed as UPPER_SNAKE identifiers:
+    bg-surface -> BG_SURFACE, text-primary -> TEXT_PRIMARY, accent-dim ->
+    ACCENT_DIM, etc. Values are ManimColor for color roles and plain strings
+    for non-color roles (e.g. shadow).
+    """
+
+    def __init__(self, palette: dict[str, object]) -> None:
+        for key, value in palette.items():
+            setattr(self, key.replace("-", "_").upper(), value)
+
+
+ACTIVE_THEME: str = os.environ.get("ANIM_THEME", DEFAULT_THEME)
+if ACTIVE_THEME not in THEMES:
+    raise SystemExit(
+        f"ANIM_THEME={ACTIVE_THEME!r} is not a known theme. "
+        f"Known: {sorted(THEMES)}"
+    )
+
+T = _T(THEMES[ACTIVE_THEME])
+
+
+def apply_defaults() -> None:
+    """Boot the current Manim scene to use the active theme.
+
+    Sets config.background_color to T.BG and Text/MathTex/Tex color defaults
+    to T.TEXT_PRIMARY. Text additionally gets the sans font role as its
+    default family.
+    """
+    from manim import MathTex, Tex, Text, config
+
+    config.background_color = T.BG
+    Text.set_default(color=T.TEXT_PRIMARY, font=BASE["font-sans"])
+    MathTex.set_default(color=T.TEXT_PRIMARY)
+    Tex.set_default(color=T.TEXT_PRIMARY)
 '''
 
 HEX_RE = re.compile(r"^#([0-9a-fA-F]{3}|[0-9a-fA-F]{6})$")
 RGBA_RE = re.compile(
     r"^rgba?\(\s*(\d+)\s*,\s*(\d+)\s*,\s*(\d+)\s*(?:,\s*([\d.]+)\s*)?\)$"
 )
+FONT_FAMILY_RE = re.compile(r"^\s*(['\"]?)([^'\",]+)\1")
 
 
 def color_expr(value: str) -> str | None:
@@ -61,18 +121,31 @@ def color_expr(value: str) -> str | None:
     return None
 
 
-def emit_value(value: str) -> str:
+def font_family(value: str) -> str:
+    """Extract the bare primary family from a CSS font-family string.
+
+    'JetBrains Mono', monospace  ->  JetBrains Mono
+    """
+    m = FONT_FAMILY_RE.match(value)
+    if not m:
+        raise ValueError(f"could not parse font family from {value!r}")
+    return m.group(2).strip()
+
+
+def emit_value(key: str, value: str) -> str:
     """Return a Python expression for a token value."""
     expr = color_expr(value)
     if expr is not None:
         return expr
+    if key.startswith("font-"):
+        return repr(font_family(value))
     return repr(value)
 
 
 def emit_dict(d: dict[str, str], indent: str) -> str:
     lines = ["{"]
     for k, v in d.items():
-        lines.append(f"{indent}    {k!r}: {emit_value(v)},")
+        lines.append(f"{indent}    {k!r}: {emit_value(k, v)},")
     lines.append(f"{indent}}}")
     return "\n".join(lines)
 
@@ -97,7 +170,9 @@ def main() -> int:
         out.append(f"    {name!r}: " + emit_dict(vars_, "    ") + ",")
     out.append("}\n")
 
-    out.append("THEME_NAMES: list[str] = list(THEMES)\n")
+    out.append("THEME_NAMES: list[str] = list(THEMES)")
+
+    out.append(FOOTER)
 
     PY_PATH.write_text("\n".join(out))
     print(f"wrote {PY_PATH.relative_to(ROOT)} ({len(themes)} themes, default={default})")

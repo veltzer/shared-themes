@@ -4,15 +4,23 @@ shared-themes/manim_themes.py
 GENERATED FROM themes.yaml — do not edit by hand.
 Run scripts/yaml_to_manim.py after editing themes.yaml.
 
-Exposes the same design tokens as themes.css, as ManimColor objects ready
-for use inside Manim animations.
+Exposes design tokens by role (what they're used for), not by implementation.
+Consumers import this module directly:
 
-    from manim_themes import THEMES, BASE, DEFAULT_THEME
-    azure_bg = THEMES["azure"]["bg"]          # ManimColor
-    self.camera.background_color = azure_bg
+    from manim_themes import T, BASE, apply_defaults
+
+    apply_defaults()                      # sets bg + Text defaults
+
+    Text("hello", color=T.ACCENT)
+    Text("code", color=T.TEXT_PRIMARY, font=BASE["font-mono"])
+
+The active theme is picked from $ANIM_THEME (validated), falling back to
+DEFAULT_THEME.
 """
 
 from __future__ import annotations
+
+import os
 
 from manim import ManimColor
 
@@ -26,8 +34,8 @@ BASE: dict[str, object] = {
     'radius-pill': '20px',
     'transition': '180ms cubic-bezier(0.4, 0, 0.2, 1)',
     'transition-slow': '350ms ease',
-    'font-sans': "'Outfit', system-ui, sans-serif",
-    'font-mono': "'JetBrains Mono', monospace",
+    'font-sans': 'Outfit',
+    'font-mono': 'JetBrains Mono',
     'shadow': '0 1px 3px rgba(0,0,0,0.4), 0 4px 12px rgba(0,0,0,0.25)',
 }
 
@@ -164,3 +172,42 @@ THEMES: dict[str, dict[str, object]] = {
 }
 
 THEME_NAMES: list[str] = list(THEMES)
+
+
+class _T:
+    """Attribute-style view onto the active palette.
+
+    Role keys from themes.yaml are exposed as UPPER_SNAKE identifiers:
+    bg-surface -> BG_SURFACE, text-primary -> TEXT_PRIMARY, accent-dim ->
+    ACCENT_DIM, etc. Values are ManimColor for color roles and plain strings
+    for non-color roles (e.g. shadow).
+    """
+
+    def __init__(self, palette: dict[str, object]) -> None:
+        for key, value in palette.items():
+            setattr(self, key.replace("-", "_").upper(), value)
+
+
+ACTIVE_THEME: str = os.environ.get("ANIM_THEME", DEFAULT_THEME)
+if ACTIVE_THEME not in THEMES:
+    raise SystemExit(
+        f"ANIM_THEME={ACTIVE_THEME!r} is not a known theme. "
+        f"Known: {sorted(THEMES)}"
+    )
+
+T = _T(THEMES[ACTIVE_THEME])
+
+
+def apply_defaults() -> None:
+    """Boot the current Manim scene to use the active theme.
+
+    Sets config.background_color to T.BG and Text/MathTex/Tex color defaults
+    to T.TEXT_PRIMARY. Text additionally gets the sans font role as its
+    default family.
+    """
+    from manim import MathTex, Tex, Text, config
+
+    config.background_color = T.BG
+    Text.set_default(color=T.TEXT_PRIMARY, font=BASE["font-sans"])
+    MathTex.set_default(color=T.TEXT_PRIMARY)
+    Tex.set_default(color=T.TEXT_PRIMARY)
