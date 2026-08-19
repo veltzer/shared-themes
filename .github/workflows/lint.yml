@@ -9,7 +9,17 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: '20'
-      - run: npm install -g stylelint@17
+      - name: install rsconstruct
+        run: |
+          gh release download --repo veltzer/rsconstruct --pattern 'rsconstruct-linux-x86_64' --output /usr/local/bin/rsconstruct
+          chmod +x /usr/local/bin/rsconstruct
+          rsconstruct version
+        env:
+          GH_TOKEN: ${{ github.token }}
+      # stylelint@17 / pyyaml come from rsconstruct.toml [dependencies];
+      # nothing is installed by hand.
+      - name: install
+        run: rsconstruct tools install-deps
       - name: Lint own CSS files
         run: stylelint base.css typography.css components.css
       - name: Lint allowlist fixture (catches drift between themes.css and stylelint config)
@@ -22,7 +32,17 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
-      - run: pip install pyyaml
+      - name: install rsconstruct
+        run: |
+          gh release download --repo veltzer/rsconstruct --pattern 'rsconstruct-linux-x86_64' --output /usr/local/bin/rsconstruct
+          chmod +x /usr/local/bin/rsconstruct
+          rsconstruct version
+        env:
+          GH_TOKEN: ${{ github.token }}
+      # stylelint@17 / pyyaml come from rsconstruct.toml [dependencies];
+      # nothing is installed by hand.
+      - name: install
+        run: rsconstruct tools install-deps
       - name: Regenerate themes.css and theme.py from themes.yaml
         run: |
           python3 scripts/yaml_to_css.py
