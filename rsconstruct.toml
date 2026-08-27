@@ -36,4 +36,3 @@ src_dirs = ["scripts"]
 # was written against; pyyaml is what scripts/yaml_to_*.py import.
 [dependencies]
 npm = ["stylelint@17"]
-pip = ["pyyaml"]
