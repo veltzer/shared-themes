@@ -5,7 +5,7 @@ jobs:
   stylelint:
     runs-on: ubuntu-26.04
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
       - name: install rsconstruct
         run: |
           gh release download --repo veltzer/rsconstruct --pattern 'rsconstruct-linux-x86_64' --output /usr/local/bin/rsconstruct
@@ -13,7 +13,7 @@ jobs:
           rsconstruct version
         env:
           GH_TOKEN: ${{ github.token }}
-      # stylelint@17 / pyyaml come from rsconstruct.toml [dependencies];
+      # stylelint / pyyaml come from rsconstruct.toml [dependencies];
       # nothing is installed by hand.
       - name: install
         run: rsconstruct tools install-deps
@@ -25,7 +25,7 @@ jobs:
   generated-in-sync:
     runs-on: ubuntu-26.04
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
       - name: install rsconstruct
         run: |
           gh release download --repo veltzer/rsconstruct --pattern 'rsconstruct-linux-x86_64' --output /usr/local/bin/rsconstruct
@@ -33,7 +33,7 @@ jobs:
           rsconstruct version
         env:
           GH_TOKEN: ${{ github.token }}
-      # stylelint@17 / pyyaml come from rsconstruct.toml [dependencies];
+      # stylelint / pyyaml come from rsconstruct.toml [dependencies];
       # nothing is installed by hand.
       - name: install
         run: rsconstruct tools install-deps

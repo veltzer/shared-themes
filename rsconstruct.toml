@@ -32,10 +32,9 @@ output_files = ["manim_themes.py"]
 src_dirs = ["scripts"]
 
 # What .github/workflows/lint.yml needs, so install-deps installs it and the
-# workflow hand-installs nothing. stylelint is pinned to the 17 line the lint
-# was written against; pyyaml is what scripts/yaml_to_*.py import.
+# workflow hand-installs nothing. pyyaml is what scripts/yaml_to_*.py import.
 [dependencies]
-npm = ["stylelint@17"]
+npm = ["stylelint"]
 
 # lint the GitHub Actions workflow files with actionlint
 [processor.actionlint]
