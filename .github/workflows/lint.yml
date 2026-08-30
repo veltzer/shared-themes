@@ -3,7 +3,7 @@ on: [push, pull_request]
 
 jobs:
   stylelint:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-26.04
     steps:
       - uses: actions/checkout@v4
       - name: install rsconstruct
@@ -23,7 +23,7 @@ jobs:
         run: stylelint test_stylelint_allowlist.css
 
   generated-in-sync:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-26.04
     steps:
       - uses: actions/checkout@v4
       - name: install rsconstruct
