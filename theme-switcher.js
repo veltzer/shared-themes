@@ -62,3 +62,8 @@ function initThemeSwitcher(options) {
 
     applyTheme(saved);
 }
+
+// Loaded via a classic <script src>, so consumers call this as a global
+// (see README). Publish it explicitly rather than relying on top-level
+// declarations leaking onto window.
+window.initThemeSwitcher = initThemeSwitcher;
