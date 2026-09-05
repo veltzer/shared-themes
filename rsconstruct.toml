@@ -59,3 +59,20 @@ npm = ["stylelint"]
 # lint the GitHub Actions workflow files with actionlint
 [processor.actionlint]
 src_dirs = [".github/workflows"]
+
+# ─── markdown ────────────────────────────────────────────────────────────────
+
+[processor.rumdl]
+src_dirs = ["doc"]
+src_files = ["README.md"]
+
+# ─── yaml ────────────────────────────────────────────────────────────────────
+
+[processor.yamllint]
+src_files = ["themes.yaml"]
+
+# ─── javascript ──────────────────────────────────────────────────────────────
+
+[processor.eslint]
+src_files = ["theme-switcher.js"]
+args = ["-c", ".eslint.config.js"]
