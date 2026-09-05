@@ -34,7 +34,10 @@ output_files = ["manim_themes.py"]
 [processor.explicit.generated_in_sync]
 command = "scripts/check_generated_in_sync.py"
 args = ["out/generated_in_sync.stamp", "themes.css", "theme.py", "manim_themes.py"]
-inputs = ["themes.css", "theme.py", "manim_themes.py", "scripts/check_generated_in_sync.py"]
+# .git/index is an input because the check compares the working tree with the
+# index: a change to what is committed must re-run it even when the generated
+# content is unchanged, otherwise a cached pass would hide the drift.
+inputs = ["themes.css", "theme.py", "manim_themes.py", "scripts/check_generated_in_sync.py", ".git/index"]
 output_files = ["out/generated_in_sync.stamp"]
 
 [processor.ruff]
