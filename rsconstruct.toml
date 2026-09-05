@@ -28,11 +28,28 @@ command = "scripts/yaml_to_manim.py"
 inputs = ["themes.yaml", "scripts/yaml_to_manim.py"]
 output_files = ["manim_themes.py"]
 
+# ─── Committed generated files must match themes.yaml ───
+# The generators above rewrite the three artifacts; if the committed copies
+# differ from what was just generated, the source and its outputs have drifted.
+[processor.explicit.generated_in_sync]
+command = "scripts/check_generated_in_sync.py"
+args = ["out/generated_in_sync.stamp", "themes.css", "theme.py", "manim_themes.py"]
+inputs = ["themes.css", "theme.py", "manim_themes.py", "scripts/check_generated_in_sync.py"]
+output_files = ["out/generated_in_sync.stamp"]
+
 [processor.ruff]
 src_dirs = ["scripts"]
 
-# What .github/workflows/lint.yml needs, so install-deps installs it and the
-# workflow hand-installs nothing. pyyaml is what scripts/yaml_to_*.py import.
+# Lint the hand-written stylesheets plus the allowlist fixture, which catches
+# drift between the generated themes.css and the stylelint config. themes.css
+# itself is generated and holds the raw hex values, so it is not linted.
+[processor.stylelint]
+src_dirs = ["."]
+src_exclude_dirs = ["node_modules", "out", "doc"]
+src_exclude_paths = ["themes.css"]
+
+# stylelint is what the stylelint processor runs; pyyaml is what
+# scripts/yaml_to_*.py import.
 [dependencies]
 npm = ["stylelint"]
 
