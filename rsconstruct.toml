@@ -70,6 +70,7 @@ src_files = ["README.md"]
 
 [processor.yamllint]
 src_files = ["themes.yaml"]
+src_dirs = [".github"]
 
 # ─── javascript ──────────────────────────────────────────────────────────────
 
