@@ -8,6 +8,8 @@
 #   rsconstruct clean              # remove generated outputs
 
 [build]
+# src_dirs entries name directories; "." (the whole tree) is a config error
+reject_dot_src_dirs = true
 # parallel = 0
 
 # ─── Generate themes.css from themes.yaml ───
@@ -47,8 +49,7 @@ src_dirs = ["scripts"]
 # drift between the generated themes.css and the stylelint config. themes.css
 # itself is generated and holds the raw hex values, so it is not linted.
 [processor.stylelint]
-src_dirs = ["."]
-src_exclude_dirs = ["node_modules", "out", "doc"]
+src_files = ["base.css", "components.css", "test_stylelint_allowlist.css", "typography.css"]
 src_exclude_paths = ["themes.css"]
 
 # stylelint is what the stylelint processor runs; pyyaml is what
