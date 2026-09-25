@@ -52,10 +52,9 @@ src_dirs = ["scripts"]
 src_files = ["base.css", "components.css", "test_stylelint_allowlist.css", "typography.css"]
 src_exclude_paths = ["themes.css"]
 
-# stylelint is what the stylelint processor runs; pyyaml is what
-# scripts/yaml_to_*.py import.
-[dependencies]
-npm = ["stylelint"]
+# No [dependencies] block: stylelint comes from package.json /
+# package-lock.json (installed by `tools install-deps` with `npm ci`), and
+# pyyaml, which scripts/yaml_to_*.py import, from pyproject.toml / uv.lock.
 
 # lint the GitHub Actions workflow files with actionlint
 [processor.actionlint]
