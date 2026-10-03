@@ -1,12 +1,13 @@
 /*
- * Fixture: every role token that the stylelint config allows must be
+ * Fixture: every role token that design-tokens.grit allows must be
  * usable here without violating the rule. Conversely, if you remove a
- * token from stylelintrc but leave it referenced here, stylelint fails.
+ * token from design-tokens.grit but leave it referenced here, the biome
+ * check fails.
  *
  * Run from shared-themes:
- *   stylelint test_stylelint_allowlist.css
+ *   biome lint --config-path biome-tokens.jsonc test_tokens_allowlist.css
  *
- * Empty output = config and tokens are in sync.
+ * Empty output = rules and tokens are in sync.
  */
 
 .test-color {

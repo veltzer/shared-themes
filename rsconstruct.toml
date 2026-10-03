@@ -46,15 +46,18 @@ output_files = ["out/generated_in_sync.stamp"]
 src_dirs = ["scripts"]
 
 # Lint the hand-written stylesheets plus the allowlist fixture, which catches
-# drift between the generated themes.css and the stylelint config. themes.css
+# drift between the generated themes.css and design-tokens.grit. themes.css
 # itself is generated and holds the raw hex values, so it is not linted.
-[processor.stylelint]
-src_files = ["base.css", "components.css", "test_stylelint_allowlist.css", "typography.css"]
+[processor.biome]
+src_files = ["base.css", "components.css", "test_tokens_allowlist.css", "typography.css"]
 src_exclude_paths = ["themes.css"]
+src_extensions = [".css"]
+args = ["--config-path", "biome-tokens.jsonc"]
+dep_inputs = ["biome-tokens.jsonc", "design-tokens.grit"]
 
-# No [dependencies] block: stylelint comes from package.json /
-# package-lock.json (installed by `tools install-deps` with `npm ci`), and
-# pyyaml, which scripts/yaml_to_*.py import, from pyproject.toml / uv.lock.
+# No [dependencies] block: biome is a standalone binary from the tool
+# registry, and pyyaml, which scripts/yaml_to_*.py import, comes from
+# pyproject.toml / uv.lock.
 
 # lint the GitHub Actions workflow files with actionlint
 [processor.actionlint]

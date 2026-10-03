@@ -1,0 +1,15 @@
+{
+	// Biome config for the design-token rules, replacing the former
+	// .stylelintrc.json. The rules live in the design-tokens.grit plugin; all
+	// built-in lint rules are off, as they were under stylelint, and so are
+	// biome's JavaScript and JSON linters (oxlint and ijsonlint cover those).
+	// Consumers pass this file with --config-path: shared-themes from its root,
+	// the teaching repos through their shared/shared-themes submodule.
+	"plugins": ["./design-tokens.grit"],
+	"javascript": { "linter": { "enabled": false } },
+	"json": { "linter": { "enabled": false } },
+	"linter": {
+		"enabled": true,
+		"rules": { "recommended": false }
+	}
+}

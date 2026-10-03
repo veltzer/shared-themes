@@ -99,19 +99,26 @@ rsconstruct status      # see what's stale
 rsconstruct clean       # remove outputs
 ```
 
-### `.github/workflows/lint.yml`
-Two jobs:
-- **stylelint** — lints `base.css`, `typography.css`, `components.css`,
-  and the allowlist fixture.
-- **generated-in-sync** — re-runs both generators and fails if
-  `themes.css` or `theme.py` differs from what's committed. This is the
-  drift guard for the YAML-as-source-of-truth setup.
+### `.github/workflows/build.yml`
+Runs `rsconstruct build`, which among other things lints `base.css`,
+`typography.css`, `components.css` and the allowlist fixture with biome
+and checks that the generated files match `themes.yaml` (the drift guard
+for the YAML-as-source-of-truth setup).
 
-### `test_stylelint_allowlist.css`
+### `design-tokens.grit` and `biome-tokens.jsonc`
+The design-token rules, as a biome GritQL plugin: colors, fonts, radii,
+shadows and transitions must come from `var(--<role>)` tokens, and raw
+hex colors, named colors and `rgb()`/`hsl()`-style functions are
+forbidden. `biome-tokens.jsonc` loads the plugin with every built-in rule
+off. The teaching repos lint their stylesheets with the same file through
+their `shared/shared-themes` submodule
+(`biome lint --config-path shared/shared-themes/biome-tokens.jsonc`).
+
+### `test_tokens_allowlist.css`
 Fixture, not a real stylesheet. References every role token allowed by
-the stylelint config. If a token is removed from `themes.yaml` but left
-in stylelint's allowlist (or vice versa), this file goes out of sync
-and stylelint fails. Empty stylelint output = config and tokens agree.
+`design-tokens.grit`. If a token is removed from `themes.yaml` but left
+in the plugin's allowlist (or vice versa), this file goes out of sync
+and the biome check fails. Empty biome output = rules and tokens agree.
 
 ## Top-level
 
