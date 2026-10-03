@@ -74,6 +74,6 @@ src_dirs = [".github"]
 
 # ─── javascript ──────────────────────────────────────────────────────────────
 
-[processor.eslint]
+[processor.oxlint]
 src_files = ["theme-switcher.js"]
-args = ["-c", ".eslint.config.js"]
+args = ["-c", ".oxlintrc.json"]
