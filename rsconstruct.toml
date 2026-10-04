@@ -13,19 +13,19 @@ reject_dot_src_dirs = true
 # parallel = 0
 
 # ─── Generate themes.css from themes.yaml ───
-[processor.explicit.css]
+[processor.explicit.generic.css]
 command = "scripts/yaml_to_css.py"
 inputs = ["themes.yaml", "scripts/yaml_to_css.py"]
 output_files = ["themes.css"]
 
 # ─── Generate theme.py from themes.yaml ───
-[processor.explicit.python]
+[processor.explicit.generic.python]
 command = "scripts/yaml_to_python.py"
 inputs = ["themes.yaml", "scripts/yaml_to_python.py"]
 output_files = ["theme.py"]
 
 # ─── Generate manim_themes.py from themes.yaml ───
-[processor.explicit.manim]
+[processor.explicit.generic.manim]
 command = "scripts/yaml_to_manim.py"
 inputs = ["themes.yaml", "scripts/yaml_to_manim.py"]
 output_files = ["manim_themes.py"]
@@ -33,7 +33,7 @@ output_files = ["manim_themes.py"]
 # ─── Committed generated files must match themes.yaml ───
 # The generators above rewrite the three artifacts; if the committed copies
 # differ from what was just generated, the source and its outputs have drifted.
-[processor.explicit.generated_in_sync]
+[processor.explicit.generic.generated_in_sync]
 command = "scripts/check_generated_in_sync.py"
 args = ["out/generated_in_sync.stamp", "themes.css", "theme.py", "manim_themes.py"]
 # .git/index is an input because the check compares the working tree with the
@@ -42,13 +42,13 @@ args = ["out/generated_in_sync.stamp", "themes.css", "theme.py", "manim_themes.p
 inputs = ["themes.css", "theme.py", "manim_themes.py", "scripts/check_generated_in_sync.py", ".git/index"]
 output_files = ["out/generated_in_sync.stamp"]
 
-[processor.ruff]
+[processor.checker.ruff]
 src_dirs = ["scripts"]
 
 # Lint the hand-written stylesheets plus the allowlist fixture, which catches
 # drift between the generated themes.css and design-tokens.grit. themes.css
 # itself is generated and holds the raw hex values, so it is not linted.
-[processor.biome]
+[processor.checker.biome]
 src_files = ["base.css", "components.css", "test_tokens_allowlist.css", "typography.css"]
 src_exclude_paths = ["themes.css"]
 src_extensions = [".css"]
@@ -60,23 +60,23 @@ dep_inputs = ["biome-tokens.jsonc", "design-tokens.grit"]
 # pyproject.toml / uv.lock.
 
 # lint the GitHub Actions workflow files with actionlint
-[processor.actionlint]
+[processor.checker.actionlint]
 src_dirs = [".github/workflows"]
 
 # ─── markdown ────────────────────────────────────────────────────────────────
 
-[processor.rumdl]
+[processor.checker.rumdl]
 src_dirs = ["doc"]
 src_files = ["README.md"]
 
 # ─── yaml ────────────────────────────────────────────────────────────────────
 
-[processor.yamllint]
+[processor.checker.yamllint]
 src_files = ["themes.yaml"]
 src_dirs = [".github"]
 
 # ─── javascript ──────────────────────────────────────────────────────────────
 
-[processor.oxlint]
+[processor.checker.oxlint]
 src_files = ["theme-switcher.js"]
 args = ["-c", ".oxlintrc.json"]
