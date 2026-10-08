@@ -71,7 +71,7 @@ src_files = ["README.md"]
 
 # ─── yaml ────────────────────────────────────────────────────────────────────
 
-[processor.checker.yamllint]
+[processor.checker.iyamllint]
 src_files = ["themes.yaml"]
 src_dirs = [".github"]
 
