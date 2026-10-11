@@ -1,11 +1,11 @@
 #!/usr/bin/env python3
 """Fail the build when a committed generated file differs from what the
-generators just produced from themes.yaml.
+generators just produced from themes.yaml and diagram-themes.yaml.
 
-The build regenerates themes.css, theme.py and manim_themes.py into the
-working tree. If the committed copies are stale, `git diff` reports them and
-this check fails, so drift between themes.yaml and its generated artifacts is
-caught in CI instead of silently shipping.
+The build regenerates themes.css, theme.py, manim_themes.py and
+diagram_theme.py into the working tree. If the committed copies are stale,
+`git diff` reports them and this check fails, so drift between a YAML source
+and its generated artifacts is caught in CI instead of silently shipping.
 
 Usage: check_generated_in_sync.py <stamp> <generated files...>
 """
@@ -22,7 +22,7 @@ def main() -> None:
         check=False,
     )
     if result.returncode != 0:
-        print("generated files are out of sync with themes.yaml; commit the regenerated files", file=sys.stderr)
+        print("generated files are out of sync with their YAML sources; commit the regenerated files", file=sys.stderr)
         sys.exit(result.returncode)
     os.makedirs(os.path.dirname(stamp), exist_ok=True)
     with open(stamp, "w", encoding="utf-8") as handle:

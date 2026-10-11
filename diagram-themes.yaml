@@ -1,0 +1,363 @@
+# shared-themes/diagram-themes.yaml
+#
+# Source of truth for how SVG diagrams look: named diagram themes, each a
+# complete palette (colours, gradients, drop shadow, typography, arrow
+# markers, shapes, lines). A repo picks a theme per kind of SVG and
+# installs it into its diagrams; whether boxes cast shadows, and how big,
+# is part of the theme.
+#
+# A theme may `extends: <other>` and override keys: mappings merge key by
+# key, anything else (lists, scalars, `shadow: none`) replaces.
+#
+# Generated artifact (do not edit by hand):
+#   - diagram_theme.py   (via scripts/diagram_themes_to_python.py)
+#
+# Roles per semantic family (primary, ok, warn, danger, info):
+#   {family}-fill    - the box background fill (used for solid + gradient base)
+#   {family}-border  - matching border / stroke
+#   {family}-text    - text drawn on top of the fill
+#   {family}-accent  - deeper shade for emphasis
+#
+# Neutrals: bg, surface, border, text, text-muted, text-faint, code-bg,
+# shadow, black.
+
+default: muted
+
+themes:
+
+  # ─── Muted (v2): less saturated, gradient-filled boxes, deep shadows ───
+  muted:
+    colors:
+      neutrals:
+        bg: "#ffffff"                 # slide/page background
+        surface: "#c4cdd6"            # neutral box fills, panel backgrounds
+        border: "#6b7280"             # dividers, default box strokes
+        text: "#212121"               # primary body text
+        text-muted: "#555555"         # secondary text, annotations
+        text-faint: "#888888"         # placeholder, minor labels
+        code-bg: "#1a1a2e"            # dark code-block background
+        shadow: "#00000044"           # feDropShadow flood-color (deeper)
+        black: "#000000"              # pure black (use sparingly)
+
+      primary:
+        primary-fill: "#5a7a9c"       # muted steel blue
+        primary-border: "#3d5a7d"     # darker steel
+        primary-text: "#ffffff"
+        primary-accent: "#243b59"     # navy
+
+      ok:
+        ok-fill: "#7a9a6a"            # sage green
+        ok-border: "#5a7a4d"          # forest sage
+        ok-text: "#ffffff"
+        ok-accent: "#385030"          # deep forest
+
+      warn:
+        warn-fill: "#c8924a"          # ochre / muted amber
+        warn-border: "#9c6e2e"        # bronze
+        warn-text: "#ffffff"
+        warn-accent: "#5a3f12"        # deep bronze
+
+      danger:
+        danger-fill: "#a86058"        # muted brick red
+        danger-border: "#7d3f38"      # rust
+        danger-text: "#ffffff"
+        danger-accent: "#4a1f1a"      # deep rust
+
+      info:
+        info-fill: "#7c6a8e"          # mauve / muted plum
+        info-border: "#574a68"        # plum
+        info-text: "#ffffff"
+        info-accent: "#2f253b"        # deep plum
+
+    # Gradients are now actively used (rects with family fills get gradient
+    # treatment via svg_fix.py --gradients).
+    gradients:
+      grad-primary:
+        direction: vertical
+        stops:
+          - color: "#7493b3"          # lighter steel
+            offset: "0%"
+          - color: "#3d5a7d"          # primary-border
+            offset: "100%"
+      grad-surface:
+        direction: vertical
+        stops:
+          - color: "#ffffff"          # bg
+            offset: "0%"
+          - color: "#c4cdd6"          # surface
+            offset: "100%"
+      grad-ok:
+        direction: vertical
+        stops:
+          - color: "#94b384"          # lighter sage
+            offset: "0%"
+          - color: "#5a7a4d"          # ok-border
+            offset: "100%"
+      grad-warn:
+        direction: vertical
+        stops:
+          - color: "#dba868"          # lighter ochre
+            offset: "0%"
+          - color: "#9c6e2e"          # warn-border
+            offset: "100%"
+      grad-danger:
+        direction: vertical
+        stops:
+          - color: "#bd7d75"          # lighter brick
+            offset: "0%"
+          - color: "#7d3f38"          # danger-border
+            offset: "100%"
+      grad-info:
+        direction: vertical
+        stops:
+          - color: "#9384a5"          # lighter mauve
+            offset: "0%"
+          - color: "#574a68"          # info-border
+            offset: "100%"
+
+    # The drop shadow under boxes: offset, blur and colour, and which boxes get
+    # it (family-only: rects filled with a family colour; all: every rect).
+    # `shadow: none` draws no shadows at all. Enforced by check_svg.py --shadows;
+    # svg_fix.py --shadows rewrites files to comply.
+    shadow:
+      dx: 0
+      dy: 4
+      blur: 8                         # feDropShadow stdDeviation
+      color: "#00000044"
+      apply-to: family-only
+
+    effects:
+      rect-fill:
+        style: gradient               # solid | gradient
+        # solid:    family-fill rects MUST use fill="var(--{family}-fill)"
+        # gradient: family-fill rects MUST use fill="url(#grad-{family})"
+        # Applies only to rects whose fill resolves to a family color.
+        # Neutral fills (--bg, --surface, none) are not affected.
+
+    # Canonical typography. Every <text>/<tspan> in every SVG must use one of
+    # these two font stacks (enforced by check_svg.py --typography; rewritten
+    # by svg_fix.py --fonts). To re-skin the deck typographically, change these
+    # values and re-run svg_fix.py --fonts.
+    typography:
+      sans: "Arial, sans-serif"
+      mono: "Courier New, monospace"
+
+    markers:
+      arrow:
+        fill: "#555555"               # text-muted
+        markerWidth: 10
+        markerHeight: 10
+      arrow-primary:
+        fill: "#3d5a7d"               # primary-border
+        markerWidth: 10
+        markerHeight: 10
+      arrow-ok:
+        fill: "#5a7a4d"               # ok-border
+        markerWidth: 10
+        markerHeight: 10
+      arrow-warn:
+        fill: "#9c6e2e"               # warn-border
+        markerWidth: 10
+        markerHeight: 10
+      arrow-danger:
+        fill: "#7d3f38"               # danger-border
+        markerWidth: 10
+        markerHeight: 10
+      arrow-info:
+        fill: "#574a68"               # info-border
+        markerWidth: 10
+        markerHeight: 10
+      arrow-white:
+        fill: "#ffffff"               # bg
+        markerWidth: 10
+        markerHeight: 10
+
+    # Shape primitives. Every <rect>/<circle>/<ellipse> in an SVG must match
+    # one of these. The normalize_svg_style.py script enforces them; the
+    # check_svg.py --shapes flag validates compliance.
+    shapes:
+      box:
+        rx: 6
+        stroke-width: 2
+        stroke-width-neutral: 1
+
+    # Line primitives. Every <line>/<path> used as a connector must match
+    # one of these.
+    lines:
+      connector:
+        stroke: "#555555"             # text-muted
+        stroke-width: 2
+        marker-end: "url(#arrow)"
+      emphasis:
+        stroke: "#212121"             # text
+        stroke-width: 3
+        marker-end: "url(#arrow)"
+
+  # ─── Flat: muted without drop shadows ───
+  # Boxes cast no shadow. Cheaper to render: a shadow is a blur, which a PDF
+  # can only hold as a bitmap.
+  flat:
+    extends: muted
+    shadow: none
+
+  # ─── Intro: course and lecture title artwork ───
+  # Same role names as the diagram themes, brighter colours, dark backdrop.
+  intro:
+    # Title artwork has no shadows.
+    shadow: none
+
+    colors:
+      neutrals:
+        bg: "#ffffff"                 # slide/page background
+        surface: "#f5f5f5"            # neutral box fills
+        border: "#e0e0e0"             # dividers, default box strokes
+        text: "#212121"               # primary body text
+        text-muted: "#555555"         # secondary text
+        text-faint: "#888888"         # placeholder labels
+        code-bg: "#1a1a2e"            # dark code-block / slide background
+        black: "#000000"              # pure black
+
+      primary:
+        primary-fill: "#2196f3"
+        primary-border: "#1565c0"
+        primary-text: "#ffffff"
+        primary-accent: "#0d47a1"
+
+      ok:
+        ok-fill: "#4caf50"
+        ok-border: "#2e7d32"
+        ok-text: "#ffffff"
+        ok-accent: "#1b5e20"
+
+      warn:
+        warn-fill: "#ff9800"
+        warn-border: "#e65100"
+        warn-text: "#ffffff"
+        warn-accent: "#bf360c"
+
+      danger:
+        danger-fill: "#e74c3c"
+        danger-border: "#c62828"
+        danger-text: "#ffffff"
+        danger-accent: "#b71c1c"
+
+      info:
+        info-fill: "#9c27b0"
+        info-border: "#6a1b9a"
+        info-text: "#ffffff"
+        info-accent: "#4a148c"
+
+    gradients:
+      grad-primary:
+        direction: vertical
+        stops:
+          - color: "#2196f3"
+            offset: "0%"
+          - color: "#1565c0"
+            offset: "100%"
+      grad-ok:
+        direction: vertical
+        stops:
+          - color: "#4caf50"
+            offset: "0%"
+          - color: "#2e7d32"
+            offset: "100%"
+      grad-warn:
+        direction: vertical
+        stops:
+          - color: "#ff9800"
+            offset: "0%"
+          - color: "#e65100"
+            offset: "100%"
+      grad-danger:
+        direction: vertical
+        stops:
+          - color: "#e74c3c"
+            offset: "0%"
+          - color: "#c62828"
+            offset: "100%"
+      grad-info:
+        direction: vertical
+        stops:
+          - color: "#9c27b0"
+            offset: "0%"
+          - color: "#6a1b9a"
+            offset: "100%"
+
+    markers:
+      arrow:
+        fill: "#555555"
+        markerWidth: 10
+        markerHeight: 10
+      arrow-primary:
+        fill: "#1565c0"
+        markerWidth: 10
+        markerHeight: 10
+      arrow-ok:
+        fill: "#2e7d32"
+        markerWidth: 10
+        markerHeight: 10
+      arrow-warn:
+        fill: "#e65100"
+        markerWidth: 10
+        markerHeight: 10
+      arrow-danger:
+        fill: "#c62828"
+        markerWidth: 10
+        markerHeight: 10
+      arrow-info:
+        fill: "#6a1b9a"
+        markerWidth: 10
+        markerHeight: 10
+      arrow-white:
+        fill: "#ffffff"
+        markerWidth: 10
+        markerHeight: 10
+
+    # Background rect for title slides. The first <rect> after </defs> must
+    # match these attributes exactly.
+    background-rect:
+      width: 1200
+      height: 580
+      x: 40
+      y: 40
+      fill: "var(--code-bg)"
+      rx: 6
+
+    # Title text style for title slides. Every title.svg must have exactly one
+    # <text> element matching these attributes (enforced by install_palette.py).
+    # x and y are per-slide and not enforced.
+    title-text:
+      font-family: "Arial, sans-serif"
+      font-size: 39
+      font-weight: bold
+      fill: "var(--surface)"
+      text-anchor: middle
+      x: 640
+      y: 120
+
+    # Subtitle text style for title slides. Every title.svg must have exactly
+    # one subtitle <text> element matching these attributes.
+    subtitle-text:
+      font-family: "Arial, sans-serif"
+      font-size: 21
+      fill: "var(--text-faint)"
+      text-anchor: middle
+      x: 640
+      y: 163
+
+    shapes:
+      box:
+        rx: 6
+        stroke-width: 2
+        stroke-width-neutral: 1
+
+    lines:
+      connector:
+        stroke: "#555555"
+        stroke-width: 2
+        marker-end: "url(#arrow)"
+      emphasis:
+        stroke: "#212121"
+        stroke-width: 3
+        marker-end: "url(#arrow)"

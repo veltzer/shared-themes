@@ -21,6 +21,19 @@ shared radius/font/transition tokens. After editing, run the generators
 (see below) and commit `themes.yaml` together with the regenerated
 outputs. CI fails if they're out of sync.
 
+### `diagram-themes.yaml`
+Hand-written. Single source of truth for how SVG diagrams look, separate
+from the page themes above. Each named diagram theme is a complete
+palette: `colors` (the semantic roles `{family}-fill`, `-border`, `-text`,
+`-accent` and the neutrals), `gradients`, `shadow`, `effects`
+(`rect-fill`: solid or gradient), `typography`, `markers`, `shapes`,
+`lines`. Whether boxes cast a drop shadow, and how big it is, is the
+theme's `shadow`: `{dx, dy, blur, color, apply-to}`, or `none`.
+
+A theme may `extends: <other>`: mappings merge key by key, anything else
+(lists, scalars, `shadow: none`) replaces. `default:` names the theme a
+consumer gets when it picks none.
+
 ## Generated outputs
 
 ### `themes.css` — *generated from `themes.yaml`*
@@ -45,6 +58,18 @@ DEFAULT_THEME           # "azure"
 For Python scripts that need the palette outside the browser
 (matplotlib, PIL, SVG generation, terminal output, …). Do not edit by
 hand.
+
+### `diagram_theme.py` — *generated from `diagram-themes.yaml`*
+The diagram themes with `extends` resolved:
+
+```python
+from diagram_theme import DIAGRAM_THEMES, DEFAULT_DIAGRAM_THEME
+
+DIAGRAM_THEMES["muted"]["shadow"]   # {"dx": 0, "dy": 4, "blur": 8, ...}
+DIAGRAM_THEMES["flat"]["shadow"]    # "none"
+```
+
+Do not edit by hand.
 
 ## Hand-written CSS layers
 
@@ -86,12 +111,18 @@ Reads `themes.yaml` and writes `theme.py`. Emits `THEMES`, `BASE`,
 `DEFAULT_THEME`, and `THEME_NAMES`. Run after editing `themes.yaml`,
 or via `rsconstruct build`.
 
+### `scripts/diagram_themes_to_python.py`
+Reads `diagram-themes.yaml`, resolves `extends`, checks that every theme
+has its required keys and a valid `shadow`, and writes `diagram_theme.py`
+(`DIAGRAM_THEMES`, `DEFAULT_DIAGRAM_THEME`, `DIAGRAM_THEME_NAMES`). Run
+after editing `diagram-themes.yaml`, or via `rsconstruct build`.
+
 ## Build and CI
 
 ### `rsconstruct.toml`
-RSConstruct build config. Two `explicit` processors, one per generator,
-each declaring `themes.yaml` and the script as inputs and the
-generated file as the output. Build commands:
+RSConstruct build config. One `explicit` processor per generator, each
+declaring its YAML source and the script as inputs and the generated file
+as the output, and a check that the committed generated files match. Build commands:
 
 ```bash
 rsconstruct build       # regenerate stale outputs

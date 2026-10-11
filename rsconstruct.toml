@@ -30,16 +30,22 @@ command = "scripts/yaml_to_manim.py"
 inputs = ["themes.yaml", "scripts/yaml_to_manim.py"]
 output_files = ["manim_themes.py"]
 
-# ─── Committed generated files must match themes.yaml ───
-# The generators above rewrite the three artifacts; if the committed copies
-# differ from what was just generated, the source and its outputs have drifted.
+# ─── Generate diagram_theme.py from diagram-themes.yaml ───
+[processor.explicit.generic.diagram_python]
+command = "scripts/diagram_themes_to_python.py"
+inputs = ["diagram-themes.yaml", "scripts/diagram_themes_to_python.py"]
+output_files = ["diagram_theme.py"]
+
+# ─── Committed generated files must match their YAML sources ───
+# The generators above rewrite the four artifacts; if the committed copies
+# differ from what was just generated, a source and its outputs have drifted.
 [processor.explicit.generic.generated_in_sync]
 command = "scripts/check_generated_in_sync.py"
-args = ["out/generated_in_sync.stamp", "themes.css", "theme.py", "manim_themes.py"]
+args = ["out/generated_in_sync.stamp", "themes.css", "theme.py", "manim_themes.py", "diagram_theme.py"]
 # .git/index is an input because the check compares the working tree with the
 # index: a change to what is committed must re-run it even when the generated
 # content is unchanged, otherwise a cached pass would hide the drift.
-inputs = ["themes.css", "theme.py", "manim_themes.py", "scripts/check_generated_in_sync.py", ".git/index"]
+inputs = ["themes.css", "theme.py", "manim_themes.py", "diagram_theme.py", "scripts/check_generated_in_sync.py", ".git/index"]
 output_files = ["out/generated_in_sync.stamp"]
 
 [processor.checker.ruff]
@@ -56,7 +62,7 @@ args = ["--config-path", "biome-tokens.jsonc"]
 dep_inputs = ["biome-tokens.jsonc", "design-tokens.grit"]
 
 # No [dependencies] block: biome is a standalone binary from the tool
-# registry, and pyyaml, which scripts/yaml_to_*.py import, comes from
+# registry, and pyyaml, which the generators in scripts/ import, comes from
 # pyproject.toml / uv.lock.
 
 # lint the GitHub Actions workflow files with actionlint
@@ -72,7 +78,7 @@ src_files = ["README.md"]
 # ─── yaml ────────────────────────────────────────────────────────────────────
 
 [processor.checker.iyamllint]
-src_files = ["themes.yaml"]
+src_files = ["themes.yaml", "diagram-themes.yaml"]
 src_dirs = [".github"]
 
 # ─── javascript ──────────────────────────────────────────────────────────────

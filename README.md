@@ -21,6 +21,15 @@ For a full breakdown of every file's role, see
 - `scripts/yaml_to_css.py`, `scripts/yaml_to_python.py` — generators.
   Re-run after editing `themes.yaml`. CI fails if either output is out
   of sync.
+- `diagram-themes.yaml` — **source of truth for diagrams.** Named
+  diagram themes, each a complete look for SVG diagrams: colours,
+  gradients, drop shadow (size and colour, or `none`), typography, arrow
+  markers, shapes, lines. `muted` (the default, with shadows), `flat`
+  (`muted` without shadows) and `intro` (title artwork). A theme may
+  `extends` another.
+- `diagram_theme.py` — *generated* from `diagram-themes.yaml` by
+  `scripts/diagram_themes_to_python.py`, with `extends` resolved and
+  every theme validated. CI fails if it is out of sync.
 - `theme-switcher.js` — vanilla-JS helper that wires a
   `<select id="theme-select">` to the `data-theme` attribute on `<html>`
   and persists the choice in `localStorage`.
