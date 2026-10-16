@@ -24,7 +24,7 @@
   --shadow: 0 1px 3px rgba(0,0,0,0.4), 0 4px 12px rgba(0,0,0,0.25);
 }
 
-/* ─── Azure (indigo light) — default when no data-theme attribute is set ─── */
+/* ─── Azure (cool light, indigo) — default when no data-theme attribute is set ─── */
 
 :root, [data-theme="azure"] {
   --bg: #ffffff;
@@ -110,7 +110,7 @@
   --gradient-end: #6c8cff;
 }
 
-/* ─── Nord (cool muted) ─── */
+/* ─── Nord (cool dark) ─── */
 
 [data-theme="nord"] {
   --bg: #2e3440;
@@ -138,7 +138,7 @@
   --gradient-end: #88c0d0;
 }
 
-/* ─── Solarized (light) ─── */
+/* ─── Solarized (light, muted) ─── */
 
 [data-theme="solarized"] {
   --bg: #fdf6e3;
@@ -167,7 +167,7 @@
   --shadow: 0 1px 3px rgba(0,0,0,0.06), 0 4px 12px rgba(0,0,0,0.04);
 }
 
-/* ─── Rosepine (muted purple dark) ─── */
+/* ─── Rosé Pine (purple dark) ─── */
 
 [data-theme="rosepine"] {
   --bg: #191724;

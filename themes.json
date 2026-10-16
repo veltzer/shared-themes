@@ -15,6 +15,7 @@
     {
       "code": "azure",
       "label": "Azure",
+      "description": "cool light, indigo",
       "tokens": {
         "bg": "#ffffff",
         "bg-surface": "#f5f5f7",
@@ -45,6 +46,7 @@
     {
       "code": "paper",
       "label": "Paper",
+      "description": "warm light",
       "tokens": {
         "bg": "#faf8f5",
         "bg-surface": "#f0ede8",
@@ -75,6 +77,7 @@
     {
       "code": "midnight",
       "label": "Midnight",
+      "description": "dark blue",
       "tokens": {
         "bg": "#0f1117",
         "bg-surface": "#161922",
@@ -104,6 +107,7 @@
     {
       "code": "nord",
       "label": "Nord",
+      "description": "cool dark",
       "tokens": {
         "bg": "#2e3440",
         "bg-surface": "#3b4252",
@@ -133,6 +137,7 @@
     {
       "code": "solarized",
       "label": "Solarized",
+      "description": "light, muted",
       "tokens": {
         "bg": "#fdf6e3",
         "bg-surface": "#eee8d5",
@@ -163,6 +168,7 @@
     {
       "code": "rosepine",
       "label": "Rosé Pine",
+      "description": "purple dark",
       "tokens": {
         "bg": "#191724",
         "bg-surface": "#1f1d2e",

@@ -4,7 +4,8 @@
 The generated module is meant to be consumed directly by Manim scenes — no
 adapter layer. It exposes:
 
-  - THEMES, BASE, DEFAULT_THEME, THEME_NAMES, THEME_LABELS — raw token data.
+  - THEMES, BASE, DEFAULT_THEME, THEME_NAMES, THEME_LABELS, THEME_DESCRIPTIONS —
+        raw token data.
   - ACTIVE_THEME — resolved from $ANIM_THEME, validated, falls back to default.
   - T — attribute view onto THEMES[ACTIVE_THEME]. Role keys map to UPPER_SNAKE
         identifiers (bg-surface -> T.BG_SURFACE, text-primary -> T.TEXT_PRIMARY).
@@ -169,6 +170,11 @@ def main() -> int:
     out.append("THEME_LABELS: dict[str, str] = {")
     for name, label in data.labels.items():
         out.append(f"    {name!r}: {label!r},")
+    out.append("}\n")
+
+    out.append("THEME_DESCRIPTIONS: dict[str, str] = {")
+    for name, description in data.descriptions.items():
+        out.append(f"    {name!r}: {description!r},")
     out.append("}")
 
     out.append(FOOTER)

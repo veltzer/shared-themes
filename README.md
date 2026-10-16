@@ -19,7 +19,8 @@ For a full breakdown of every file's role, see
 
 - `themes.yaml` — **source of truth.** Base tokens (radius, font,
   transition, default shadow) and the six themes, each with a `label`
-  (its display name) and its tokens.
+  (its display name), a `description` (a short hint such as "dark blue")
+  and its tokens.
 - `themes.css` — *generated.* The tokens as CSS custom properties, one
   block per theme scoped to `[data-theme="<code>"]`. **Azure is the
   canonical default**, applied to `:root` too, so it shows even when no
@@ -27,7 +28,7 @@ For a full breakdown of every file's role, see
   veltzer.github.io.
 - `themes.json` — *generated.* The same data for consumers without a
   YAML parser: rssite templates (`load_data`), Rust tools, Lua filters.
-  Themes are a list in file order, each `{code, label, tokens}`.
+  Themes are a list in file order, each `{code, label, description, tokens}`.
 - `theme.py`, `manim_themes.py` — *generated.* The palette as Python,
   for scripts that need it outside the browser, and as a Manim module.
 - `marp/<code>.css` — *generated.* One marp theme per palette, built on
@@ -90,7 +91,7 @@ Link the tokens and the switcher, and build the `<select>` from
 {% set palette = load_data(path="shared/shared-themes/themes.json") %}
 <select id="theme-select">
 {% for theme in palette.themes %}
-  <option value="{{ theme.code }}">{{ theme.label }}</option>
+  <option value="{{ theme.code }}">{{ theme.label }} ({{ theme.description }})</option>
 {% endfor %}
 </select>
 <script src="{{ get_url(path='shared-themes/theme-switcher.js') }}"></script>
@@ -167,8 +168,8 @@ build and fails if a committed generated file is stale or untracked.
 
 ## Adding a new theme
 
-Add an entry under `themes:` in `themes.yaml` with a `label` and every
-token the default theme defines (`bg`, `accent`, ...); the generators
+Add an entry under `themes:` in `themes.yaml` with a `label`, a
+`description` and every token the default theme defines (`bg`, `accent`, ...); the generators
 refuse a theme that is missing one, since consumers would see undefined
 values when they switch. Then:
 
@@ -177,6 +178,5 @@ values when they switch. Then:
 2. Run `rsconstruct build` and commit the new generated files with the
    source.
 
-If the theme deserves a descriptive section banner in `themes.css` (for
-example "Solarized (light)"), add it to `BANNERS` in
-`scripts/yaml_to_css.py`; otherwise its label is used.
+The banner over the theme's block in `themes.css` is its label and
+description; there is nothing else to name.

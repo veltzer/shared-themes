@@ -13,7 +13,9 @@ Contents:
 - `base:` — tokens shared across all themes (`radius-*`, `font-*`,
   `transition*`, default dark-theme `shadow`).
 - `themes:` — one entry per theme: a `label` (the display name a switcher
-  shows) and the tokens (`bg`, `accent`, `text-primary`, ...). Every
+  shows), a `description` (a short hint, "dark blue", that a switcher may
+  show after the label and that heads the theme's block in `themes.css`)
+  and the tokens (`bg`, `accent`, `text-primary`, ...). Every
   theme must define every token the default theme defines unless `base:`
   provides a fallback; the loader refuses to generate otherwise, because
   a missing key would show as an undefined value at theme-switch time.
@@ -44,8 +46,8 @@ hand; changes are overwritten on the next build.
 ### `themes.css` — *generated from `themes.yaml`*
 CSS custom properties for all themes. The default theme is emitted as a
 combined selector (`:root, [data-theme="azure"] { … }`) so it applies
-even when no `data-theme` attribute is set. Labels are not emitted; the
-CSS carries tokens only.
+even when no `data-theme` attribute is set. Each block is headed by the
+theme's label and description; otherwise the CSS carries tokens only.
 
 Consumers link this from their pages.
 
@@ -60,7 +62,8 @@ keeps the intended order:
   "default": "azure",
   "base": {"radius": "10px", "...": "..."},
   "themes": [
-    {"code": "azure", "label": "Azure", "tokens": {"bg": "#ffffff", "...": "..."}}
+    {"code": "azure", "label": "Azure", "description": "cool light, indigo",
+     "tokens": {"bg": "#ffffff", "...": "..."}}
   ]
 }
 ```
@@ -69,12 +72,13 @@ keeps the intended order:
 Same data as `themes.css`, exposed to Python:
 
 ```python
-from theme import THEMES, BASE, DEFAULT_THEME, THEME_NAMES, THEME_LABELS
+from theme import THEMES, BASE, DEFAULT_THEME, THEME_NAMES, THEME_LABELS, THEME_DESCRIPTIONS
 
 THEMES["azure"]["bg"]     # "#ffffff"
 BASE["radius"]            # "10px"
 DEFAULT_THEME             # "azure"
-THEME_LABELS["rosepine"]  # "Rosé Pine"
+THEME_LABELS["rosepine"]        # "Rosé Pine"
+THEME_DESCRIPTIONS["rosepine"]  # "purple dark"
 ```
 
 For Python scripts that need the palette outside the browser
@@ -85,7 +89,8 @@ The palette as a Manim module. Colors are `ManimColor` values and font
 roles are bare family names. `T` is an attribute view onto the active
 theme (`T.ACCENT`, `T.TEXT_PRIMARY`), picked from `$ANIM_THEME` with
 `DEFAULT_THEME` as the fallback, and `apply_defaults()` sets the scene's
-background and `Text` defaults. `THEME_LABELS` is there too.
+background and `Text` defaults. `THEME_LABELS` and `THEME_DESCRIPTIONS`
+are there too.
 
 ### `marp/<code>.css` — *generated from `themes.yaml`*
 One marp theme per palette, named by the theme code (`/* @theme azure */`).
@@ -160,22 +165,22 @@ root; `rsconstruct build` runs them in the right order.
 
 ### `scripts/themes_common.py`
 The loader every `themes.yaml` generator imports. Reads the YAML, splits
-each theme into its `label` and its tokens, and validates: the default
-theme exists, every theme has a label, every theme defines every token
-the default theme defines unless `base:` has a fallback. A generator
+each theme into its `label`, its `description` and its tokens, and
+validates: the default theme exists, every theme has a label and a
+description, every theme defines every token the default theme defines
+unless `base:` has a fallback. A generator
 never sees a broken palette.
 
 ### `scripts/yaml_to_css.py`
-Writes `themes.css`. Section banners for known themes are configured via
-the `BANNERS` dict at the top of the script; themes without an entry get
-their label as the banner.
+Writes `themes.css`. Each theme's block is headed by its label and
+description from `themes.yaml`; the default theme's banner says so.
 
 ### `scripts/yaml_to_json.py`
 Writes `themes.json`.
 
 ### `scripts/yaml_to_python.py`
 Writes `theme.py` (`THEMES`, `BASE`, `DEFAULT_THEME`, `THEME_NAMES`,
-`THEME_LABELS`).
+`THEME_LABELS`, `THEME_DESCRIPTIONS`).
 
 ### `scripts/yaml_to_manim.py`
 Writes `manim_themes.py`. Hex and `rgb()`/`rgba()` values become

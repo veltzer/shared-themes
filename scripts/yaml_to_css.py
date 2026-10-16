@@ -22,16 +22,6 @@ HEADER = """\
  */
 """
 
-# Pretty section banners for each theme. Free-form — extend as new themes
-# are added. Themes without an entry get their label as the banner.
-BANNERS: dict[str, str] = {
-    "azure": "Azure (indigo light) — default when no data-theme attribute is set",
-    "paper": "Paper (warm light)",
-    "midnight": "Midnight (dark blue)",
-    "nord": "Nord (cool muted)",
-    "solarized": "Solarized (light)",
-    "rosepine": "Rosepine (muted purple dark)",
-}
 
 
 def emit_block(selector: str, vars_: dict[str, str]) -> str:
@@ -54,7 +44,9 @@ def main() -> int:
     parts.append(emit_block(":root", base))
 
     for name, vars_ in themes.items():
-        banner = BANNERS.get(name, data.labels[name])
+        banner = f"{data.labels[name]} ({data.descriptions[name]})"
+        if name == default:
+            banner += " — default when no data-theme attribute is set"
         parts.append(f"/* ─── {banner} ─── */")
         if name == default:
             selector = f':root, [data-theme="{name}"]'

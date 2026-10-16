@@ -206,6 +206,15 @@ THEME_LABELS: dict[str, str] = {
     'rosepine': 'Rosé Pine',
 }
 
+THEME_DESCRIPTIONS: dict[str, str] = {
+    'azure': 'cool light, indigo',
+    'paper': 'warm light',
+    'midnight': 'dark blue',
+    'nord': 'cool dark',
+    'solarized': 'light, muted',
+    'rosepine': 'purple dark',
+}
+
 
 class _T:
     """Attribute-style view onto the active palette.

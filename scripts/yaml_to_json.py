@@ -9,7 +9,8 @@ Lua filters. Themes are a list so the switcher order is the file order:
       "default": "azure",
       "base": {"radius": "10px", ...},
       "themes": [
-        {"code": "azure", "label": "Azure", "tokens": {"bg": "#ffffff", ...}},
+        {"code": "azure", "label": "Azure", "description": "cool light, indigo",
+         "tokens": {"bg": "#ffffff", ...}},
         ...
       ]
     }
@@ -31,7 +32,12 @@ def main() -> int:
         "default": data.default,
         "base": data.base,
         "themes": [
-            {"code": code, "label": data.labels[code], "tokens": tokens}
+            {
+                "code": code,
+                "label": data.labels[code],
+                "description": data.descriptions[code],
+                "tokens": tokens,
+            }
             for code, tokens in data.themes.items()
         ],
     }

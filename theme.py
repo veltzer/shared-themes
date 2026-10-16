@@ -6,10 +6,11 @@ Run scripts/yaml_to_python.py after editing themes.yaml.
 
 Exposes the same design tokens as themes.css, for Python consumers.
 
-    from theme import THEMES, BASE, DEFAULT_THEME, THEME_LABELS
+    from theme import THEMES, BASE, DEFAULT_THEME, THEME_LABELS, THEME_DESCRIPTIONS
     azure_bg = THEMES["azure"]["bg"]
     radius   = BASE["radius"]
-    label    = THEME_LABELS["rosepine"]   # "Rosé Pine"
+    label    = THEME_LABELS["rosepine"]         # "Rosé Pine"
+    hint     = THEME_DESCRIPTIONS["rosepine"]   # "purple dark"
 """
 
 from __future__ import annotations
@@ -194,4 +195,13 @@ THEME_LABELS: dict[str, str] = {
     'nord': 'Nord',
     'solarized': 'Solarized',
     'rosepine': 'Rosé Pine',
+}
+
+THEME_DESCRIPTIONS: dict[str, str] = {
+    'azure': 'cool light, indigo',
+    'paper': 'warm light',
+    'midnight': 'dark blue',
+    'nord': 'cool dark',
+    'solarized': 'light, muted',
+    'rosepine': 'purple dark',
 }
