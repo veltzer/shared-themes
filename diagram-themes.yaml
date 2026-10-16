@@ -31,7 +31,8 @@
 #   {family}-accent  - deeper shade for emphasis
 #
 # Neutrals: bg, surface, border, text, text-muted, text-faint, code-bg,
-# shadow, black.
+# code-text, shadow, black. A palette variant replaces the first six; code-bg
+# and code-text stay, so a title's dark panel reads the same in every palette.
 
 default: muted
 
@@ -57,6 +58,7 @@ themes:
         text-muted: "#555555"         # secondary text, annotations
         text-faint: "#888888"         # placeholder, minor labels
         code-bg: "#1a1a2e"            # dark code-block background
+        code-text: "#f5f5f5"          # text on code-bg; stays light in every palette variant
         shadow: "#00000044"           # feDropShadow flood-color (deeper)
         black: "#000000"              # pure black (use sparingly)
 
@@ -236,6 +238,7 @@ themes:
         text-muted: "#555555"         # secondary text
         text-faint: "#888888"         # placeholder labels
         code-bg: "#1a1a2e"            # dark code-block / slide background
+        code-text: "#f5f5f5"          # text on code-bg; stays light in every palette variant
         black: "#000000"              # pure black
 
       primary:
@@ -352,7 +355,7 @@ themes:
       font-family: "Arial, sans-serif"
       font-size: 39
       font-weight: bold
-      fill: "var(--surface)"
+      fill: "var(--code-text)"
       text-anchor: middle
       x: 640
       y: 120

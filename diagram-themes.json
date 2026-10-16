@@ -19,6 +19,7 @@
           "text-muted": "#555555",
           "text-faint": "#888888",
           "code-bg": "#1a1a2e",
+          "code-text": "#f5f5f5",
           "shadow": "#00000044",
           "black": "#000000"
         },
@@ -216,6 +217,7 @@
           "text-muted": "#555555",
           "text-faint": "#888888",
           "code-bg": "#1a1a2e",
+          "code-text": "#f5f5f5",
           "shadow": "#00000044",
           "black": "#000000"
         },
@@ -408,6 +410,7 @@
           "text-muted": "#555555",
           "text-faint": "#888888",
           "code-bg": "#1a1a2e",
+          "code-text": "#f5f5f5",
           "black": "#000000"
         },
         "primary": {
@@ -557,7 +560,7 @@
         "font-family": "Arial, sans-serif",
         "font-size": 39,
         "font-weight": "bold",
-        "fill": "var(--surface)",
+        "fill": "var(--code-text)",
         "text-anchor": "middle",
         "x": 640,
         "y": 120
@@ -602,6 +605,7 @@
           "text-muted": "rgba(0, 0, 0, 0.54)",
           "text-faint": "rgba(0, 0, 0, 0.32)",
           "code-bg": "#1a1a2e",
+          "code-text": "#f5f5f5",
           "shadow": "#00000044",
           "black": "#000000"
         },
@@ -799,6 +803,7 @@
           "text-muted": "#706860",
           "text-faint": "#a09888",
           "code-bg": "#1a1a2e",
+          "code-text": "#f5f5f5",
           "shadow": "#00000044",
           "black": "#000000"
         },
@@ -996,6 +1001,7 @@
           "text-muted": "#8b90a0",
           "text-faint": "#5c6070",
           "code-bg": "#1a1a2e",
+          "code-text": "#f5f5f5",
           "shadow": "#00000044",
           "black": "#000000"
         },
@@ -1193,6 +1199,7 @@
           "text-muted": "#d8dee9",
           "text-faint": "#7b88a1",
           "code-bg": "#1a1a2e",
+          "code-text": "#f5f5f5",
           "shadow": "#00000044",
           "black": "#000000"
         },
@@ -1390,6 +1397,7 @@
           "text-muted": "#586e75",
           "text-faint": "#93a1a1",
           "code-bg": "#1a1a2e",
+          "code-text": "#f5f5f5",
           "shadow": "#00000044",
           "black": "#000000"
         },
@@ -1587,6 +1595,7 @@
           "text-muted": "#908caa",
           "text-faint": "#6e6a86",
           "code-bg": "#1a1a2e",
+          "code-text": "#f5f5f5",
           "shadow": "#00000044",
           "black": "#000000"
         },
@@ -1784,6 +1793,7 @@
           "text-muted": "rgba(0, 0, 0, 0.54)",
           "text-faint": "rgba(0, 0, 0, 0.32)",
           "code-bg": "#1a1a2e",
+          "code-text": "#f5f5f5",
           "shadow": "#00000044",
           "black": "#000000"
         },
@@ -1975,6 +1985,7 @@
           "text-muted": "#706860",
           "text-faint": "#a09888",
           "code-bg": "#1a1a2e",
+          "code-text": "#f5f5f5",
           "shadow": "#00000044",
           "black": "#000000"
         },
@@ -2166,6 +2177,7 @@
           "text-muted": "#8b90a0",
           "text-faint": "#5c6070",
           "code-bg": "#1a1a2e",
+          "code-text": "#f5f5f5",
           "shadow": "#00000044",
           "black": "#000000"
         },
@@ -2357,6 +2369,7 @@
           "text-muted": "#d8dee9",
           "text-faint": "#7b88a1",
           "code-bg": "#1a1a2e",
+          "code-text": "#f5f5f5",
           "shadow": "#00000044",
           "black": "#000000"
         },
@@ -2548,6 +2561,7 @@
           "text-muted": "#586e75",
           "text-faint": "#93a1a1",
           "code-bg": "#1a1a2e",
+          "code-text": "#f5f5f5",
           "shadow": "#00000044",
           "black": "#000000"
         },
@@ -2739,6 +2753,7 @@
           "text-muted": "#908caa",
           "text-faint": "#6e6a86",
           "code-bg": "#1a1a2e",
+          "code-text": "#f5f5f5",
           "shadow": "#00000044",
           "black": "#000000"
         },
@@ -2931,6 +2946,7 @@
           "text-muted": "rgba(0, 0, 0, 0.54)",
           "text-faint": "rgba(0, 0, 0, 0.32)",
           "code-bg": "#1a1a2e",
+          "code-text": "#f5f5f5",
           "black": "#000000"
         },
         "primary": {
@@ -3080,7 +3096,7 @@
         "font-family": "Arial, sans-serif",
         "font-size": 39,
         "font-weight": "bold",
-        "fill": "var(--surface)",
+        "fill": "var(--code-text)",
         "text-anchor": "middle",
         "x": 640,
         "y": 120
@@ -3124,6 +3140,7 @@
           "text-muted": "#706860",
           "text-faint": "#a09888",
           "code-bg": "#1a1a2e",
+          "code-text": "#f5f5f5",
           "black": "#000000"
         },
         "primary": {
@@ -3273,7 +3290,7 @@
         "font-family": "Arial, sans-serif",
         "font-size": 39,
         "font-weight": "bold",
-        "fill": "var(--surface)",
+        "fill": "var(--code-text)",
         "text-anchor": "middle",
         "x": 640,
         "y": 120
@@ -3317,6 +3334,7 @@
           "text-muted": "#8b90a0",
           "text-faint": "#5c6070",
           "code-bg": "#1a1a2e",
+          "code-text": "#f5f5f5",
           "black": "#000000"
         },
         "primary": {
@@ -3466,7 +3484,7 @@
         "font-family": "Arial, sans-serif",
         "font-size": 39,
         "font-weight": "bold",
-        "fill": "var(--surface)",
+        "fill": "var(--code-text)",
         "text-anchor": "middle",
         "x": 640,
         "y": 120
@@ -3510,6 +3528,7 @@
           "text-muted": "#d8dee9",
           "text-faint": "#7b88a1",
           "code-bg": "#1a1a2e",
+          "code-text": "#f5f5f5",
           "black": "#000000"
         },
         "primary": {
@@ -3659,7 +3678,7 @@
         "font-family": "Arial, sans-serif",
         "font-size": 39,
         "font-weight": "bold",
-        "fill": "var(--surface)",
+        "fill": "var(--code-text)",
         "text-anchor": "middle",
         "x": 640,
         "y": 120
@@ -3703,6 +3722,7 @@
           "text-muted": "#586e75",
           "text-faint": "#93a1a1",
           "code-bg": "#1a1a2e",
+          "code-text": "#f5f5f5",
           "black": "#000000"
         },
         "primary": {
@@ -3852,7 +3872,7 @@
         "font-family": "Arial, sans-serif",
         "font-size": 39,
         "font-weight": "bold",
-        "fill": "var(--surface)",
+        "fill": "var(--code-text)",
         "text-anchor": "middle",
         "x": 640,
         "y": 120
@@ -3896,6 +3916,7 @@
           "text-muted": "#908caa",
           "text-faint": "#6e6a86",
           "code-bg": "#1a1a2e",
+          "code-text": "#f5f5f5",
           "black": "#000000"
         },
         "primary": {
@@ -4045,7 +4066,7 @@
         "font-family": "Arial, sans-serif",
         "font-size": 39,
         "font-weight": "bold",
-        "fill": "var(--surface)",
+        "fill": "var(--code-text)",
         "text-anchor": "middle",
         "x": 640,
         "y": 120
