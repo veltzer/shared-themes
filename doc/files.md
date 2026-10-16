@@ -36,7 +36,11 @@ theme's `shadow`: `{dx, dy, blur, color, apply-to}`, or `none`.
 
 A theme may `extends: <other>`: mappings merge key by key, anything else
 (lists, scalars, `shadow: none`) replaces. `default:` names the theme a
-consumer gets when it picks none.
+consumer gets when it picks none. A colour may be a role reference,
+`var(--text-muted)`, so markers and gradient stops follow the role they
+are made of. `palette-neutrals` maps diagram neutral roles to page
+palette tokens; the generator derives a variant `<theme>-<palette>` for
+every theme and palette from it.
 
 ## Generated outputs
 
@@ -107,14 +111,20 @@ Adding a theme to `themes.yaml` means adding its file to the `marp`
 processor's `output_files` and to the sync check in `rsconstruct.toml`.
 
 ### `diagram_theme.py` — *generated from `diagram-themes.yaml`*
-The diagram themes with `extends` resolved:
+The diagram themes with `extends` resolved, and their palette variants:
 
 ```python
-from diagram_theme import DIAGRAM_THEMES, DEFAULT_DIAGRAM_THEME
+from diagram_theme import DIAGRAM_THEMES, DIAGRAM_THEME_VARIANTS, DEFAULT_DIAGRAM_THEME
 
 DIAGRAM_THEMES["muted"]["shadow"]   # {"dx": 0, "dy": 4, "blur": 8, ...}
 DIAGRAM_THEMES["flat"]["shadow"]    # "none"
+DIAGRAM_THEME_VARIANTS["flat-midnight"]["colors"]["neutrals"]["bg"]   # "#0f1117"
 ```
+
+### `diagram-themes.json` — *generated from `diagram-themes.yaml`*
+The same data as JSON: `default`, `palette-neutrals`, the resolved
+`themes` and the `variants`. rsslide reads it to swap a diagram's
+`palette-vars` style block for the variant matching the deck's palette.
 
 ## Fonts
 
@@ -218,8 +228,11 @@ diff.
 
 ### `scripts/diagram_themes_to_python.py`
 Reads `diagram-themes.yaml`, resolves `extends`, checks that every theme
-has its required keys and a valid `shadow`, and writes `diagram_theme.py`
-(`DIAGRAM_THEMES`, `DEFAULT_DIAGRAM_THEME`, `DIAGRAM_THEME_NAMES`).
+has its required keys and a valid `shadow` and that every `var(--role)`
+names a role the theme defines, derives the palette variants from
+`themes.yaml`, and writes `diagram_theme.py` (`DIAGRAM_THEMES`,
+`DEFAULT_DIAGRAM_THEME`, `DIAGRAM_THEME_NAMES`, `PALETTE_NEUTRALS`,
+`DIAGRAM_THEME_VARIANTS`) and `diagram-themes.json`.
 
 ### `scripts/check_generated_in_sync.py`
 The drift guard. Runs after every generator and fails the build when a

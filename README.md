@@ -52,9 +52,14 @@ For a full breakdown of every file's role, see
 - `theme-onload.js` — for a page with no switcher (a pandoc-rendered
   syllabus): applies the stored choice on load, so the theme follows the
   reader from the sites that have one.
-- `diagram-themes.yaml`, `diagram_theme.py` — source and generated
-  Python for how SVG diagrams look (colors, gradients, drop shadows,
-  typography, markers). Separate from the page themes above.
+- `diagram-themes.yaml`, `diagram_theme.py`, `diagram-themes.json` —
+  source and generated Python and JSON for how SVG diagrams look (colors,
+  gradients, drop shadows, typography, markers). Separate from the page
+  themes above, but tied to them: for every diagram theme and every page
+  palette the generator derives a variant `<theme>-<palette>` with the
+  diagram's neutrals taken from the palette (`palette-neutrals` says which
+  token feeds which role), so a renderer that knows the deck's palette
+  (rsslide) can make a diagram follow the slide.
 - `design-tokens.grit`, `biome-tokens.jsonc` — the biome rules that
   forbid raw colors, fonts, radii and shadows in a consumer's CSS.
 
