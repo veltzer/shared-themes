@@ -1,0 +1,98 @@
+/* @theme nord */
+/*
+ * shared-themes/marp/nord.css
+ *
+ * GENERATED FROM themes.yaml — do not edit by hand.
+ * Run scripts/yaml_to_marp.py after editing themes.yaml.
+ *
+ * Marp theme "nord" (Nord): marp's default theme restyled with the
+ * shared design tokens. Select it with `theme: nord` in a deck and
+ * load it with `--theme-set marp/nord.css` (or the marp/ directory).
+ */
+
+@import 'default';
+
+section {
+  --radius-xs: 4px;
+  --radius-sm: 6px;
+  --radius: 10px;
+  --radius-pill: 20px;
+  --transition: 180ms cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-slow: 350ms ease;
+  --font-sans: 'Outfit', system-ui, sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+  --shadow: 0 1px 3px rgba(0,0,0,0.4), 0 4px 12px rgba(0,0,0,0.25);
+  --bg: #2e3440;
+  --bg-surface: #3b4252;
+  --bg-elevated: #434c5e;
+  --bg-hover: #4c566a;
+  --border: #4c566a;
+  --border-subtle: #434c5e;
+  --text-primary: #eceff4;
+  --text-secondary: #d8dee9;
+  --text-muted: #7b88a1;
+  --accent: #88c0d0;
+  --accent-dim: rgba(136, 192, 208, 0.15);
+  --success: #a3be8c;
+  --success-dim: rgba(163, 190, 140, 0.15);
+  --warning: #ebcb8b;
+  --warning-dim: rgba(235, 203, 139, 0.15);
+  --danger: #bf616a;
+  --danger-dim: rgba(191, 97, 106, 0.15);
+  --entity-1: #81a1c1;
+  --entity-2: #b48ead;
+  --entity-3: #8fbcbb;
+  --entity-4: #d08770;
+  --gradient-start: #eceff4;
+  --gradient-end: #88c0d0;
+
+  --color-background: var(--bg);
+  --color-foreground: var(--text-primary);
+  --color-highlight: var(--accent);
+  --color-dimmed: var(--text-muted);
+  --color-background-code: var(--bg-surface);
+  --color-background-paginate: var(--accent-dim);
+  --color-background-stripe: var(--bg-elevated);
+}
+
+section {
+  font-family: var(--font-sans);
+}
+
+section a {
+  color: var(--accent);
+}
+
+section code,
+section pre {
+  font-family: var(--font-mono);
+}
+
+section pre {
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+}
+
+section blockquote {
+  border-left: 4px solid var(--accent);
+  color: var(--text-secondary);
+}
+
+section table th {
+  background: var(--bg-surface);
+}
+
+section table th,
+section table td {
+  border-color: var(--border);
+}
+
+section hr {
+  border-color: var(--border-subtle);
+}
+
+section header,
+section footer,
+section::after {
+  color: var(--text-muted);
+}

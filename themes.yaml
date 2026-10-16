@@ -1,9 +1,18 @@
 # shared-themes/themes.yaml
 #
 # Source of truth for the design tokens and the six named themes.
-# Generated artifacts (do not edit by hand):
-#   - themes.css   (via scripts/yaml_to_css.py)
-#   - theme.py     (via scripts/yaml_to_python.py)
+# Generated artifacts (do not edit by hand; `rsconstruct build` regenerates
+# them and CI fails when a committed copy is stale):
+#   - themes.css        (via scripts/yaml_to_css.py)
+#   - themes.json       (via scripts/yaml_to_json.py)
+#   - theme.py          (via scripts/yaml_to_python.py)
+#   - manim_themes.py   (via scripts/yaml_to_manim.py)
+#   - marp/<theme>.css  (via scripts/yaml_to_marp.py)
+#
+# Each theme has a `label` (the display name a theme switcher shows) and
+# then its tokens. Every theme must define every token the default theme
+# defines, except those `base:` already provides a fallback for; the
+# generators refuse to run otherwise.
 
 default: azure
 
@@ -28,6 +37,7 @@ themes:
   #   primary #4051b5, primary--dark #303fa1, accent #526cfe,
   #   bg #ffffff, fg rgba(0,0,0,0.87).
   azure:
+    label: Azure
     bg: "#ffffff"
     bg-surface: "#f5f5f7"
     bg-elevated: "#eaeaef"
@@ -55,6 +65,7 @@ themes:
 
   # ─── Paper (warm light) ───
   paper:
+    label: Paper
     bg: "#faf8f5"
     bg-surface: "#f0ede8"
     bg-elevated: "#e8e4de"
@@ -82,6 +93,7 @@ themes:
 
   # ─── Midnight (dark blue) ───
   midnight:
+    label: Midnight
     bg: "#0f1117"
     bg-surface: "#161922"
     bg-elevated: "#1e2130"
@@ -108,6 +120,7 @@ themes:
 
   # ─── Nord (cool muted) ───
   nord:
+    label: Nord
     bg: "#2e3440"
     bg-surface: "#3b4252"
     bg-elevated: "#434c5e"
@@ -134,6 +147,7 @@ themes:
 
   # ─── Solarized (light) ───
   solarized:
+    label: Solarized
     bg: "#fdf6e3"
     bg-surface: "#eee8d5"
     bg-elevated: "#e6dfcb"
@@ -161,6 +175,7 @@ themes:
 
   # ─── Rosepine (muted purple dark) ───
   rosepine:
+    label: Rosé Pine
     bg: "#191724"
     bg-surface: "#1f1d2e"
     bg-elevated: "#26233a"

@@ -197,6 +197,15 @@ THEMES: dict[str, dict[str, object]] = {
 
 THEME_NAMES: list[str] = list(THEMES)
 
+THEME_LABELS: dict[str, str] = {
+    'azure': 'Azure',
+    'paper': 'Paper',
+    'midnight': 'Midnight',
+    'nord': 'Nord',
+    'solarized': 'Solarized',
+    'rosepine': 'Rosé Pine',
+}
+
 
 class _T:
     """Attribute-style view onto the active palette.

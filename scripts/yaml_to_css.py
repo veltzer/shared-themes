@@ -4,12 +4,9 @@
 from __future__ import annotations
 
 import sys
-from pathlib import Path
 
-import yaml
+from themes_common import ROOT, load_themes
 
-ROOT = Path(__file__).resolve().parent.parent
-YAML_PATH = ROOT / "themes.yaml"
 CSS_PATH = ROOT / "themes.css"
 
 HEADER = """\
@@ -26,7 +23,7 @@ HEADER = """\
 """
 
 # Pretty section banners for each theme. Free-form — extend as new themes
-# are added. Themes without an entry get a plain "/* <name> */" banner.
+# are added. Themes without an entry get their label as the banner.
 BANNERS: dict[str, str] = {
     "azure": "Azure (indigo light) — default when no data-theme attribute is set",
     "paper": "Paper (warm light)",
@@ -46,13 +43,10 @@ def emit_block(selector: str, vars_: dict[str, str]) -> str:
 
 
 def main() -> int:
-    data = yaml.safe_load(YAML_PATH.read_text())
-    default = data["default"]
-    base = data["base"]
-    themes = data["themes"]
-
-    if default not in themes:
-        sys.exit(f"default theme {default!r} is not defined in themes")
+    data = load_themes()
+    default = data.default
+    base = data.base
+    themes = data.themes
 
     parts = [HEADER]
 
@@ -60,7 +54,7 @@ def main() -> int:
     parts.append(emit_block(":root", base))
 
     for name, vars_ in themes.items():
-        banner = BANNERS.get(name, name)
+        banner = BANNERS.get(name, data.labels[name])
         parts.append(f"/* ─── {banner} ─── */")
         if name == default:
             selector = f':root, [data-theme="{name}"]'

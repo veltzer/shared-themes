@@ -4,7 +4,7 @@
 The generated module is meant to be consumed directly by Manim scenes — no
 adapter layer. It exposes:
 
-  - THEMES, BASE, DEFAULT_THEME, THEME_NAMES — raw token data.
+  - THEMES, BASE, DEFAULT_THEME, THEME_NAMES, THEME_LABELS — raw token data.
   - ACTIVE_THEME — resolved from $ANIM_THEME, validated, falls back to default.
   - T — attribute view onto THEMES[ACTIVE_THEME]. Role keys map to UPPER_SNAKE
         identifiers (bg-surface -> T.BG_SURFACE, text-primary -> T.TEXT_PRIMARY).
@@ -22,12 +22,9 @@ from __future__ import annotations
 
 import re
 import sys
-from pathlib import Path
 
-import yaml
+from themes_common import ROOT, load_themes
 
-ROOT = Path(__file__).resolve().parent.parent
-YAML_PATH = ROOT / "themes.yaml"
 PY_PATH = ROOT / "manim_themes.py"
 
 HEADER = '''\
@@ -151,13 +148,10 @@ def emit_dict(d: dict[str, str], indent: str) -> str:
 
 
 def main() -> int:
-    data = yaml.safe_load(YAML_PATH.read_text())
-    default = data["default"]
-    base = data["base"]
-    themes = data["themes"]
-
-    if default not in themes:
-        sys.exit(f"default theme {default!r} is not defined in themes")
+    data = load_themes()
+    default = data.default
+    base = data.base
+    themes = data.themes
 
     out: list[str] = [HEADER]
 
@@ -170,7 +164,12 @@ def main() -> int:
         out.append(f"    {name!r}: " + emit_dict(vars_, "    ") + ",")
     out.append("}\n")
 
-    out.append("THEME_NAMES: list[str] = list(THEMES)")
+    out.append("THEME_NAMES: list[str] = list(THEMES)\n")
+
+    out.append("THEME_LABELS: dict[str, str] = {")
+    for name, label in data.labels.items():
+        out.append(f"    {name!r}: {label!r},")
+    out.append("}")
 
     out.append(FOOTER)
 

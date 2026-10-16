@@ -1,0 +1,98 @@
+/* @theme rosepine */
+/*
+ * shared-themes/marp/rosepine.css
+ *
+ * GENERATED FROM themes.yaml — do not edit by hand.
+ * Run scripts/yaml_to_marp.py after editing themes.yaml.
+ *
+ * Marp theme "rosepine" (Rosé Pine): marp's default theme restyled with the
+ * shared design tokens. Select it with `theme: rosepine` in a deck and
+ * load it with `--theme-set marp/rosepine.css` (or the marp/ directory).
+ */
+
+@import 'default';
+
+section {
+  --radius-xs: 4px;
+  --radius-sm: 6px;
+  --radius: 10px;
+  --radius-pill: 20px;
+  --transition: 180ms cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-slow: 350ms ease;
+  --font-sans: 'Outfit', system-ui, sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+  --shadow: 0 1px 3px rgba(0,0,0,0.4), 0 4px 12px rgba(0,0,0,0.25);
+  --bg: #191724;
+  --bg-surface: #1f1d2e;
+  --bg-elevated: #26233a;
+  --bg-hover: #312e47;
+  --border: #393552;
+  --border-subtle: #26233a;
+  --text-primary: #e0def4;
+  --text-secondary: #908caa;
+  --text-muted: #6e6a86;
+  --accent: #c4a7e7;
+  --accent-dim: rgba(196, 167, 231, 0.14);
+  --success: #9ccfd8;
+  --success-dim: rgba(156, 207, 216, 0.14);
+  --warning: #f6c177;
+  --warning-dim: rgba(246, 193, 119, 0.14);
+  --danger: #eb6f92;
+  --danger-dim: rgba(235, 111, 146, 0.14);
+  --entity-1: #9ccfd8;
+  --entity-2: #31748f;
+  --entity-3: #ebbcba;
+  --entity-4: #f6c177;
+  --gradient-start: #e0def4;
+  --gradient-end: #c4a7e7;
+
+  --color-background: var(--bg);
+  --color-foreground: var(--text-primary);
+  --color-highlight: var(--accent);
+  --color-dimmed: var(--text-muted);
+  --color-background-code: var(--bg-surface);
+  --color-background-paginate: var(--accent-dim);
+  --color-background-stripe: var(--bg-elevated);
+}
+
+section {
+  font-family: var(--font-sans);
+}
+
+section a {
+  color: var(--accent);
+}
+
+section code,
+section pre {
+  font-family: var(--font-mono);
+}
+
+section pre {
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+}
+
+section blockquote {
+  border-left: 4px solid var(--accent);
+  color: var(--text-secondary);
+}
+
+section table th {
+  background: var(--bg-surface);
+}
+
+section table th,
+section table td {
+  border-color: var(--border);
+}
+
+section hr {
+  border-color: var(--border-subtle);
+}
+
+section header,
+section footer,
+section::after {
+  color: var(--text-muted);
+}

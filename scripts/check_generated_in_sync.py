@@ -2,12 +2,17 @@
 """Fail the build when a committed generated file differs from what the
 generators just produced from themes.yaml and diagram-themes.yaml.
 
-The build regenerates themes.css, theme.py, manim_themes.py and
-diagram_theme.py into the working tree. If the committed copies are stale,
-`git diff` reports them and this check fails, so drift between a YAML source
+The build regenerates the artifacts (themes.css, themes.json, theme.py,
+manim_themes.py, marp/*.css, diagram_theme.py) into the working tree. If a
+committed copy is stale, `git diff` reports it and this check fails; if a
+generated file is not tracked at all (a new theme's marp file, say), `git
+ls-files` reports it and the check fails too. Drift between a YAML source
 and its generated artifacts is caught in CI instead of silently shipping.
 
 Usage: check_generated_in_sync.py <stamp> <generated files...>
+
+rsconstruct appends `--inputs ...` and `--output-files ...` after the
+configured args, so the file list ends at the first flag.
 """
 
 import os
@@ -16,7 +21,22 @@ import sys
 
 
 def main() -> None:
-    stamp, files = sys.argv[1], sys.argv[2:]
+    stamp, rest = sys.argv[1], sys.argv[2:]
+    files = []
+    for arg in rest:
+        if arg.startswith("--"):
+            break
+        files.append(arg)
+    tracked = subprocess.run(
+        ["git", "ls-files", "--error-unmatch", "--", *files],
+        check=False,
+        capture_output=True,
+        text=True,
+    )
+    if tracked.returncode != 0:
+        print(tracked.stderr, end="", file=sys.stderr)
+        print("generated files are not tracked by git; add them", file=sys.stderr)
+        sys.exit(tracked.returncode)
     result = subprocess.run(
         ["git", "diff", "--exit-code", "--stat", "--", *files],
         check=False,

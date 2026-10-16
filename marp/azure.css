@@ -1,0 +1,99 @@
+/* @theme azure */
+/*
+ * shared-themes/marp/azure.css
+ *
+ * GENERATED FROM themes.yaml — do not edit by hand.
+ * Run scripts/yaml_to_marp.py after editing themes.yaml.
+ *
+ * Marp theme "azure" (Azure): marp's default theme restyled with the
+ * shared design tokens. Select it with `theme: azure` in a deck and
+ * load it with `--theme-set marp/azure.css` (or the marp/ directory).
+ */
+
+@import 'default';
+
+section {
+  --radius-xs: 4px;
+  --radius-sm: 6px;
+  --radius: 10px;
+  --radius-pill: 20px;
+  --transition: 180ms cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-slow: 350ms ease;
+  --font-sans: 'Outfit', system-ui, sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+  --shadow: 0 1px 3px rgba(0,0,0,0.4), 0 4px 12px rgba(0,0,0,0.25);
+  --bg: #ffffff;
+  --bg-surface: #f5f5f7;
+  --bg-elevated: #eaeaef;
+  --bg-hover: #dcdce5;
+  --border: #d0d0db;
+  --border-subtle: #ececf2;
+  --text-primary: rgba(0, 0, 0, 0.87);
+  --text-secondary: rgba(0, 0, 0, 0.54);
+  --text-muted: rgba(0, 0, 0, 0.32);
+  --accent: #4051b5;
+  --accent-dim: rgba(64, 81, 181, 0.12);
+  --success: #1c7d4d;
+  --success-dim: rgba(28, 125, 77, 0.12);
+  --warning: #b87d1a;
+  --warning-dim: rgba(184, 125, 26, 0.12);
+  --danger: #c72c34;
+  --danger-dim: rgba(199, 44, 52, 0.12);
+  --entity-1: #1976d2;
+  --entity-2: #7b1fa2;
+  --entity-3: #00897b;
+  --entity-4: #c2185b;
+  --gradient-start: #303fa1;
+  --gradient-end: #526cfe;
+  --shadow: 0 1px 3px rgba(0,0,0,0.08), 0 4px 12px rgba(0,0,0,0.06);
+
+  --color-background: var(--bg);
+  --color-foreground: var(--text-primary);
+  --color-highlight: var(--accent);
+  --color-dimmed: var(--text-muted);
+  --color-background-code: var(--bg-surface);
+  --color-background-paginate: var(--accent-dim);
+  --color-background-stripe: var(--bg-elevated);
+}
+
+section {
+  font-family: var(--font-sans);
+}
+
+section a {
+  color: var(--accent);
+}
+
+section code,
+section pre {
+  font-family: var(--font-mono);
+}
+
+section pre {
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+}
+
+section blockquote {
+  border-left: 4px solid var(--accent);
+  color: var(--text-secondary);
+}
+
+section table th {
+  background: var(--bg-surface);
+}
+
+section table th,
+section table td {
+  border-color: var(--border);
+}
+
+section hr {
+  border-color: var(--border-subtle);
+}
+
+section header,
+section footer,
+section::after {
+  color: var(--text-muted);
+}

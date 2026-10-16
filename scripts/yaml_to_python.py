@@ -4,12 +4,9 @@
 from __future__ import annotations
 
 import sys
-from pathlib import Path
 
-import yaml
+from themes_common import ROOT, load_themes
 
-ROOT = Path(__file__).resolve().parent.parent
-YAML_PATH = ROOT / "themes.yaml"
 PY_PATH = ROOT / "theme.py"
 
 HEADER = '''\
@@ -21,9 +18,10 @@ Run scripts/yaml_to_python.py after editing themes.yaml.
 
 Exposes the same design tokens as themes.css, for Python consumers.
 
-    from theme import THEMES, BASE, DEFAULT_THEME
+    from theme import THEMES, BASE, DEFAULT_THEME, THEME_LABELS
     azure_bg = THEMES["azure"]["bg"]
     radius   = BASE["radius"]
+    label    = THEME_LABELS["rosepine"]   # "Rosé Pine"
 """
 
 from __future__ import annotations
@@ -41,13 +39,10 @@ def py_repr_dict(d: dict[str, str], indent: str) -> str:
 
 
 def main() -> int:
-    data = yaml.safe_load(YAML_PATH.read_text())
-    default = data["default"]
-    base = data["base"]
-    themes = data["themes"]
-
-    if default not in themes:
-        sys.exit(f"default theme {default!r} is not defined in themes")
+    data = load_themes()
+    default = data.default
+    base = data.base
+    themes = data.themes
 
     out: list[str] = [HEADER]
 
@@ -61,6 +56,8 @@ def main() -> int:
     out.append("}\n")
 
     out.append("THEME_NAMES: list[str] = list(THEMES)\n")
+
+    out.append("THEME_LABELS: dict[str, str] = " + py_repr_dict(data.labels, "") + "\n")
 
     PY_PATH.write_text("\n".join(out))
     print(f"wrote {PY_PATH.relative_to(ROOT)} ({len(themes)} themes, default={default})")
