@@ -41,6 +41,11 @@ For a full breakdown of every file's role, see
 - `base.css`, `typography.css`, `components.css` — hand-written CSS
   layers for the sites that want the same reset, headings and widgets.
   Every value in them is a `var(--<role>)` token.
+- `shared_themes.py` — the consumer helper for sites that inline the
+  shared layers into one page: the layers concatenated in order, the
+  switcher, the theme `<select>` entries from `themes.json`, and the copy
+  of `fonts/` beside the page. One implementation instead of one per
+  consumer.
 - `theme-switcher.js` — vanilla-JS helper that wires a
   `<select id="theme-select">` to the `data-theme` attribute on `<html>`
   and persists the choice in `localStorage`.
@@ -100,6 +105,19 @@ Link the tokens and the switcher, and build the `<select>` from
 
 Azure applies with no JS running. Override the starting theme per app
 with `initThemeSwitcher({ defaultTheme: "midnight" })`.
+
+### Self-contained pages
+
+A site that inlines the shared CSS into one HTML file, as the teaching
+index pages do, loads `shared_themes.py` from the submodule and lets it
+do the four things such a page needs:
+
+```python
+st.css()                          # fonts.css + themes.css + base + typography + components
+st.js()                           # theme-switcher.js
+st.theme_options(material_web=True)  # the <select> entries, labels and hints
+st.publish_fonts(site_dir)        # fonts/ beside the page
+```
 
 ### Marp decks
 

@@ -149,6 +149,17 @@ toggle switch, breadcrumbs, badges, subfolder cards, autocomplete,
 download icon, item lists. Site-specific components (e.g. a video
 player) belong in the consuming site's own CSS, not here.
 
+## Consumer helper
+
+### `shared_themes.py`
+For sites that inline the shared layers into one self-contained page:
+`css()` returns the layers concatenated in order (fonts first, since its
+font URLs are relative to the page), `js()` the switcher, `palette()` the
+parsed `themes.json`, `theme_options(material_web=...)` the `<select>`
+entries with labels and hints, and `publish_fonts(site_dir)` copies
+`fonts/` beside the page. Loaded through `importlib` from the submodule
+path; the teaching repos' index builders are its callers.
+
 ## JavaScript
 
 ### `theme-switcher.js`

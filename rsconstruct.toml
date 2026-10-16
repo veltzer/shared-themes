@@ -103,6 +103,7 @@ output_files = ["out/generated_in_sync.stamp"]
 
 [processor.checker.ruff]
 src_dirs = ["scripts"]
+src_files = ["shared_themes.py"]
 
 # Lint the hand-written stylesheets plus the allowlist fixture, which catches
 # drift between the generated themes.css and design-tokens.grit. themes.css
