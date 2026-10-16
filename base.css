@@ -1,13 +1,12 @@
 /*
  * shared-themes/base.css
  *
- * Base layer: font import, CSS reset, body styling, links, scrollbars.
+ * Base layer: CSS reset, body styling, links, scrollbars.
  * The :root design tokens (--radius-*, --font-*, --transition*) live in
- * themes.css, which is generated from themes.yaml. Loaded by every
- * consuming site.
+ * themes.css, which is generated from themes.yaml, and the fonts those
+ * tokens name are declared in fonts.css and shipped in fonts/ (nothing is
+ * fetched from Google at page view). Loaded by every consuming site.
  */
-
-@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600&family=Outfit:wght@300;400;500;600;700&display=swap');
 
 *, *::before, *::after { box-sizing: border-box; }
 

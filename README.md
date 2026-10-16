@@ -32,6 +32,11 @@ For a full breakdown of every file's role, see
   for scripts that need it outside the browser, and as a Manim module.
 - `marp/<code>.css` — *generated.* One marp theme per palette, built on
   marp's `default` theme. A deck selects one with `theme: <code>`.
+- `fonts/`, `fonts.css` — the fonts the tokens name (Outfit, JetBrains
+  Mono) as committed files, woff2 for the web and ttf for the PDF tools,
+  with their SIL OFL licences and a provenance table, and the generated
+  `@font-face` declarations. `scripts/fetch_fonts.py` fetches them from
+  the upstream releases; nothing is fetched at page view or at build.
 - `base.css`, `typography.css`, `components.css` — hand-written CSS
   layers for the sites that want the same reset, headings and widgets.
   Every value in them is a `var(--<role>)` token.
@@ -60,9 +65,11 @@ site follows the reader to the next.
 4. The list of themes, their order and their display names come from
    `themes.yaml` (or its generated twins), never from a hand-typed copy.
 
-What a consumer copies into its published output: `themes.css` and
-`theme-switcher.js`, plus whichever of `base.css`, `typography.css` and
-`components.css` it uses.
+What a consumer copies into its published output: `themes.css`,
+`theme-switcher.js`, `fonts.css` and the `fonts/` directory beside it
+(the URLs in `fonts.css` are relative to it), plus whichever of
+`base.css`, `typography.css` and `components.css` it uses. A tool that
+renders PDF points at the `.ttf` files in `fonts/`.
 
 ## Use
 
@@ -78,6 +85,7 @@ Link the tokens and the switcher, and build the `<select>` from
 `themes.json` so the list is never retyped. In an rssite template:
 
 ```html
+<link rel="stylesheet" href="{{ get_url(path='shared-themes/fonts.css') }}">
 <link rel="stylesheet" href="{{ get_url(path='shared-themes/themes.css') }}">
 {% set palette = load_data(path="shared/shared-themes/themes.json") %}
 <select id="theme-select">
@@ -133,6 +141,17 @@ bg = THEMES["azure"]["bg"]       # "#ffffff"
 radius = BASE["radius"]          # "10px"
 THEME_LABELS["rosepine"]         # "Rosé Pine"
 ```
+
+## Updating the fonts
+
+Bump the version constants in `scripts/fetch_fonts.py`, run it, and commit
+the diff under `fonts/` together with `fonts.css` and `fonts/SOURCES.md`:
+
+```bash
+scripts/fetch_fonts.py
+```
+
+It is a one-time tool, not part of the build.
 
 ## Editing themes
 
