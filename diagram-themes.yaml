@@ -9,8 +9,20 @@
 # A theme may `extends: <other>` and override keys: mappings merge key by
 # key, anything else (lists, scalars, `shadow: none`) replaces.
 #
-# Generated artifact (do not edit by hand):
-#   - diagram_theme.py   (via scripts/diagram_themes_to_python.py)
+# A colour anywhere below may be a role reference, `var(--text-muted)`,
+# instead of a value: the generator checks the role exists in that theme and
+# the SVG defs carry the reference, so whatever changes the role (a palette
+# variant, below) changes the marker or gradient with it.
+#
+# Palette variants: for every theme and every page palette in themes.yaml a
+# variant `<theme>-<palette>` is generated, with the neutrals listed under
+# `palette-neutrals` taken from the palette's tokens and everything else as
+# in the theme. A renderer that knows the deck's palette (rsslide) swaps a
+# diagram's style block for the variant's, and the diagram follows the slide.
+#
+# Generated artifacts (do not edit by hand):
+#   - diagram_theme.py     (via scripts/diagram_themes_to_python.py)
+#   - diagram-themes.json  (same script; the themes and variants, resolved)
 #
 # Roles per semantic family (primary, ok, warn, danger, info):
 #   {family}-fill    - the box background fill (used for solid + gradient base)
@@ -22,6 +34,15 @@
 # shadow, black.
 
 default: muted
+
+# diagram neutral role -> page palette token (themes.yaml) in a palette variant
+palette-neutrals:
+  bg: bg
+  surface: bg-surface
+  border: border
+  text: text-primary
+  text-muted: text-secondary
+  text-faint: text-muted
 
 themes:
 
@@ -77,42 +98,42 @@ themes:
         stops:
           - color: "#7493b3"          # lighter steel
             offset: "0%"
-          - color: "#3d5a7d"          # primary-border
+          - color: var(--primary-border)
             offset: "100%"
       grad-surface:
         direction: vertical
         stops:
-          - color: "#ffffff"          # bg
+          - color: var(--bg)
             offset: "0%"
-          - color: "#c4cdd6"          # surface
+          - color: var(--surface)
             offset: "100%"
       grad-ok:
         direction: vertical
         stops:
           - color: "#94b384"          # lighter sage
             offset: "0%"
-          - color: "#5a7a4d"          # ok-border
+          - color: var(--ok-border)
             offset: "100%"
       grad-warn:
         direction: vertical
         stops:
           - color: "#dba868"          # lighter ochre
             offset: "0%"
-          - color: "#9c6e2e"          # warn-border
+          - color: var(--warn-border)
             offset: "100%"
       grad-danger:
         direction: vertical
         stops:
           - color: "#bd7d75"          # lighter brick
             offset: "0%"
-          - color: "#7d3f38"          # danger-border
+          - color: var(--danger-border)
             offset: "100%"
       grad-info:
         direction: vertical
         stops:
           - color: "#9384a5"          # lighter mauve
             offset: "0%"
-          - color: "#574a68"          # info-border
+          - color: var(--info-border)
             offset: "100%"
 
     # The drop shadow under boxes: offset, blur and colour, and which boxes get
@@ -144,31 +165,31 @@ themes:
 
     markers:
       arrow:
-        fill: "#555555"               # text-muted
+        fill: var(--text-muted)
         markerWidth: 10
         markerHeight: 10
       arrow-primary:
-        fill: "#3d5a7d"               # primary-border
+        fill: var(--primary-border)
         markerWidth: 10
         markerHeight: 10
       arrow-ok:
-        fill: "#5a7a4d"               # ok-border
+        fill: var(--ok-border)
         markerWidth: 10
         markerHeight: 10
       arrow-warn:
-        fill: "#9c6e2e"               # warn-border
+        fill: var(--warn-border)
         markerWidth: 10
         markerHeight: 10
       arrow-danger:
-        fill: "#7d3f38"               # danger-border
+        fill: var(--danger-border)
         markerWidth: 10
         markerHeight: 10
       arrow-info:
-        fill: "#574a68"               # info-border
+        fill: var(--info-border)
         markerWidth: 10
         markerHeight: 10
       arrow-white:
-        fill: "#ffffff"               # bg
+        fill: var(--bg)
         markerWidth: 10
         markerHeight: 10
 
@@ -286,31 +307,31 @@ themes:
 
     markers:
       arrow:
-        fill: "#555555"
+        fill: var(--text-muted)
         markerWidth: 10
         markerHeight: 10
       arrow-primary:
-        fill: "#1565c0"
+        fill: var(--primary-border)
         markerWidth: 10
         markerHeight: 10
       arrow-ok:
-        fill: "#2e7d32"
+        fill: var(--ok-border)
         markerWidth: 10
         markerHeight: 10
       arrow-warn:
-        fill: "#e65100"
+        fill: var(--warn-border)
         markerWidth: 10
         markerHeight: 10
       arrow-danger:
-        fill: "#c62828"
+        fill: var(--danger-border)
         markerWidth: 10
         markerHeight: 10
       arrow-info:
-        fill: "#6a1b9a"
+        fill: var(--info-border)
         markerWidth: 10
         markerHeight: 10
       arrow-white:
-        fill: "#ffffff"
+        fill: var(--bg)
         markerWidth: 10
         markerHeight: 10
 

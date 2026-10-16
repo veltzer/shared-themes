@@ -2,7 +2,7 @@
 #
 # Builds the generated artifacts (themes.css, themes.json, theme.py,
 # manim_themes.py, marp/*.css) from the single source of truth (themes.yaml),
-# and diagram_theme.py from diagram-themes.yaml.
+# and diagram_theme.py plus diagram-themes.json from diagram-themes.yaml.
 #
 #   rsconstruct build              # regenerate if themes.yaml changed
 #   rsconstruct status             # show what's stale
@@ -55,11 +55,17 @@ output_files = [
     "marp/rosepine.css",
 ]
 
-# ─── Generate diagram_theme.py from diagram-themes.yaml ───
+# ─── Generate diagram_theme.py and diagram-themes.json from diagram-themes.yaml ───
+# The palette variants are derived from themes.yaml, so that is an input too.
 [processor.explicit.generic.diagram_python]
 command = "scripts/diagram_themes_to_python.py"
-inputs = ["diagram-themes.yaml", "scripts/diagram_themes_to_python.py"]
-output_files = ["diagram_theme.py"]
+inputs = [
+    "diagram-themes.yaml",
+    "themes.yaml",
+    "scripts/diagram_themes_to_python.py",
+    "scripts/themes_common.py",
+]
+output_files = ["diagram_theme.py", "diagram-themes.json"]
 
 # ─── Committed generated files must match their YAML sources ───
 # The generators above rewrite the artifacts; if a committed copy differs
@@ -80,6 +86,7 @@ args = [
     "marp/solarized.css",
     "marp/rosepine.css",
     "diagram_theme.py",
+    "diagram-themes.json",
 ]
 # .git/index is an input because the check compares the working tree with the
 # index: a change to what is committed must re-run it even when the generated
@@ -96,6 +103,7 @@ inputs = [
     "marp/solarized.css",
     "marp/rosepine.css",
     "diagram_theme.py",
+    "diagram-themes.json",
     "scripts/check_generated_in_sync.py",
     ".git/index",
 ]
