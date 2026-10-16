@@ -149,6 +149,12 @@ toggle switch, breadcrumbs, badges, subfolder cards, autocomplete,
 download icon, item lists. Site-specific components (e.g. a video
 player) belong in the consuming site's own CSS, not here.
 
+### `theme-onload.js`
+Vanilla JS for a page without a switcher. Reads the switcher's
+`localStorage` key and sets `data-theme` on `<html>`; meant to be inlined
+at the start of the body so the theme applies before paint. The teaching
+syllabi's pandoc filter injects it into every HTML syllabus.
+
 ## Consumer helper
 
 ### `shared_themes.py`

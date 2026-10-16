@@ -139,5 +139,5 @@ src_dirs = [".github"]
 # ─── javascript ──────────────────────────────────────────────────────────────
 
 [processor.checker.oxlint]
-src_files = ["theme-switcher.js"]
+src_files = ["theme-switcher.js", "theme-onload.js"]
 args = ["-c", ".oxlintrc.json"]

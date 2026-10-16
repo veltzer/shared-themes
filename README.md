@@ -49,6 +49,9 @@ For a full breakdown of every file's role, see
 - `theme-switcher.js` — vanilla-JS helper that wires a
   `<select id="theme-select">` to the `data-theme` attribute on `<html>`
   and persists the choice in `localStorage`.
+- `theme-onload.js` — for a page with no switcher (a pandoc-rendered
+  syllabus): applies the stored choice on load, so the theme follows the
+  reader from the sites that have one.
 - `diagram-themes.yaml`, `diagram_theme.py` — source and generated
   Python for how SVG diagrams look (colors, gradients, drop shadows,
   typography, markers). Separate from the page themes above.
@@ -148,8 +151,11 @@ rspandoc --standalone --embed-resources \
     --css=shared/shared-themes/themes.css --css=print/syllabus.css doc.md
 ```
 
-A standalone document has no switcher, so it renders in the default
-theme unless its own stylesheet sets `data-theme` or overrides tokens.
+A standalone document has no switcher. To make the reader's choice from
+the sites follow them into the document, put `theme-onload.js` inline at
+the start of the body; a Lua filter can do that with a raw HTML block (the
+teaching syllabi do), which works in pandoc and rspandoc alike. Without
+it the document renders in the default theme.
 
 ### Python
 
