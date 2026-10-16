@@ -9,17 +9,19 @@ it's hand-written or generated, and how the pieces fit together.
 Hand-written. Single source of truth for the design tokens.
 
 Contents:
-- `default:` — name of the theme that also applies to `:root`.
+- `default:` — code of the theme that also applies to `:root`.
 - `base:` — tokens shared across all themes (`radius-*`, `font-*`,
   `transition*`, default dark-theme `shadow`).
-- `themes:` — per-theme palettes (`bg`, `accent`, `text-primary`, …).
-  Each theme must define every variable; missing keys produce
-  inconsistent CSS at theme-switch time.
+- `themes:` — one entry per theme: a `label` (the display name a switcher
+  shows) and the tokens (`bg`, `accent`, `text-primary`, ...). Every
+  theme must define every token the default theme defines unless `base:`
+  provides a fallback; the loader refuses to generate otherwise, because
+  a missing key would show as an undefined value at theme-switch time.
 
 Edit this file when changing colors, adding a theme, or tweaking the
-shared radius/font/transition tokens. After editing, run the generators
-(see below) and commit `themes.yaml` together with the regenerated
-outputs. CI fails if they're out of sync.
+shared radius/font/transition tokens. After editing, run
+`rsconstruct build` and commit `themes.yaml` together with the
+regenerated outputs. CI fails if they're out of sync.
 
 ### `diagram-themes.yaml`
 Hand-written. Single source of truth for how SVG diagrams look, separate
@@ -36,28 +38,68 @@ consumer gets when it picks none.
 
 ## Generated outputs
 
+All of these are rewritten by `rsconstruct build`. Do not edit them by
+hand; changes are overwritten on the next build.
+
 ### `themes.css` — *generated from `themes.yaml`*
 CSS custom properties for all themes. The default theme is emitted as a
 combined selector (`:root, [data-theme="azure"] { … }`) so it applies
-even when no `data-theme` attribute is set.
+even when no `data-theme` attribute is set. Labels are not emitted; the
+CSS carries tokens only.
 
-Consumers `@import` this from their own CSS. Do not edit by hand —
-changes will be overwritten on the next build.
+Consumers link this from their pages.
+
+### `themes.json` — *generated from `themes.yaml`*
+The same data as JSON, for consumers that read a palette without a YAML
+parser: rssite templates through `load_data`, Rust tools such as rsslide,
+Lua filters. Themes are a list in file order so a switcher built from it
+keeps the intended order:
+
+```json
+{
+  "default": "azure",
+  "base": {"radius": "10px", "...": "..."},
+  "themes": [
+    {"code": "azure", "label": "Azure", "tokens": {"bg": "#ffffff", "...": "..."}}
+  ]
+}
+```
 
 ### `theme.py` — *generated from `themes.yaml`*
 Same data as `themes.css`, exposed to Python:
 
 ```python
-from theme import THEMES, BASE, DEFAULT_THEME, THEME_NAMES
+from theme import THEMES, BASE, DEFAULT_THEME, THEME_NAMES, THEME_LABELS
 
-THEMES["azure"]["bg"]   # "#ffffff"
-BASE["radius"]          # "10px"
-DEFAULT_THEME           # "azure"
+THEMES["azure"]["bg"]     # "#ffffff"
+BASE["radius"]            # "10px"
+DEFAULT_THEME             # "azure"
+THEME_LABELS["rosepine"]  # "Rosé Pine"
 ```
 
 For Python scripts that need the palette outside the browser
-(matplotlib, PIL, SVG generation, terminal output, …). Do not edit by
-hand.
+(matplotlib, PIL, SVG generation, terminal output, …).
+
+### `manim_themes.py` — *generated from `themes.yaml`*
+The palette as a Manim module. Colors are `ManimColor` values and font
+roles are bare family names. `T` is an attribute view onto the active
+theme (`T.ACCENT`, `T.TEXT_PRIMARY`), picked from `$ANIM_THEME` with
+`DEFAULT_THEME` as the fallback, and `apply_defaults()` sets the scene's
+background and `Text` defaults. `THEME_LABELS` is there too.
+
+### `marp/<code>.css` — *generated from `themes.yaml`*
+One marp theme per palette, named by the theme code (`/* @theme azure */`).
+Each imports marp's built-in `default` theme, declares every token on
+`section` (marp scopes a theme to the slide element), maps marp's own
+`--color-background`, `--color-foreground`, `--color-highlight` and
+friends onto the tokens, and adds the few rules the default theme does
+not route through a variable (links, code font, block quotes, tables,
+header and footer). A deck selects one with `theme: <code>` in its front
+matter and marp-cli loads the directory with `--theme-set marp`. rsslide
+does not apply themes yet; see the README.
+
+Adding a theme to `themes.yaml` means adding its file to the `marp`
+processor's `output_files` and to the sync check in `rsconstruct.toml`.
 
 ### `diagram_theme.py` — *generated from `diagram-themes.yaml`*
 The diagram themes with `extends` resolved:
@@ -68,8 +110,6 @@ from diagram_theme import DIAGRAM_THEMES, DEFAULT_DIAGRAM_THEME
 DIAGRAM_THEMES["muted"]["shadow"]   # {"dx": 0, "dy": 4, "blur": 8, ...}
 DIAGRAM_THEMES["flat"]["shadow"]    # "none"
 ```
-
-Do not edit by hand.
 
 ## Hand-written CSS layers
 
@@ -100,32 +140,62 @@ ready; pass `{ defaultTheme: "midnight" }` to override per app.
 
 ## Generators
 
+All generators live in `scripts/` and run as plain scripts from the repo
+root; `rsconstruct build` runs them in the right order.
+
+### `scripts/themes_common.py`
+The loader every `themes.yaml` generator imports. Reads the YAML, splits
+each theme into its `label` and its tokens, and validates: the default
+theme exists, every theme has a label, every theme defines every token
+the default theme defines unless `base:` has a fallback. A generator
+never sees a broken palette.
+
 ### `scripts/yaml_to_css.py`
-Reads `themes.yaml` and writes `themes.css`. Section banners for known
-themes are configured via the `BANNERS` dict at the top of the script;
-themes without an entry get a plain banner. Run after editing
-`themes.yaml`, or via `rsconstruct build`.
+Writes `themes.css`. Section banners for known themes are configured via
+the `BANNERS` dict at the top of the script; themes without an entry get
+their label as the banner.
+
+### `scripts/yaml_to_json.py`
+Writes `themes.json`.
 
 ### `scripts/yaml_to_python.py`
-Reads `themes.yaml` and writes `theme.py`. Emits `THEMES`, `BASE`,
-`DEFAULT_THEME`, and `THEME_NAMES`. Run after editing `themes.yaml`,
-or via `rsconstruct build`.
+Writes `theme.py` (`THEMES`, `BASE`, `DEFAULT_THEME`, `THEME_NAMES`,
+`THEME_LABELS`).
+
+### `scripts/yaml_to_manim.py`
+Writes `manim_themes.py`. Hex and `rgb()`/`rgba()` values become
+`ManimColor` expressions; font roles are reduced to the bare family name.
+
+### `scripts/yaml_to_marp.py`
+Writes `marp/<code>.css` for every theme, replacing the directory's
+previous contents. The marp variable mapping and the extra rules are the
+`MARP_VARS` and `RULES` constants at the top of the script.
 
 ### `scripts/diagram_themes_to_python.py`
 Reads `diagram-themes.yaml`, resolves `extends`, checks that every theme
 has its required keys and a valid `shadow`, and writes `diagram_theme.py`
-(`DIAGRAM_THEMES`, `DEFAULT_DIAGRAM_THEME`, `DIAGRAM_THEME_NAMES`). Run
-after editing `diagram-themes.yaml`, or via `rsconstruct build`.
+(`DIAGRAM_THEMES`, `DEFAULT_DIAGRAM_THEME`, `DIAGRAM_THEME_NAMES`).
+
+### `scripts/check_generated_in_sync.py`
+The drift guard. Runs after every generator and fails the build when a
+generated file is untracked (`git ls-files`) or differs from the index
+(`git diff`), so a stale or forgotten output never ships. rsconstruct
+appends `--inputs` and `--output-files` to its command line, so the file
+list it checks ends at the first flag.
 
 ## Build and CI
 
 ### `rsconstruct.toml`
 RSConstruct build config. One `explicit` processor per generator, each
-declaring its YAML source and the script as inputs and the generated file
-as the output, and a check that the committed generated files match. Build commands:
+declaring its YAML source, the script and (for the `themes.yaml`
+generators) `scripts/themes_common.py` as inputs and the generated files
+as outputs; the `generated_in_sync` processor runs the drift guard over
+all of them. Checkers: ruff on `scripts/`, biome on the hand-written
+stylesheets, oxlint on the switcher, yamllint, actionlint, rumdl. Build
+commands:
 
 ```bash
-rsconstruct build       # regenerate stale outputs
+rsconstruct build       # regenerate stale outputs and run the checks
 rsconstruct status      # see what's stale
 rsconstruct clean       # remove outputs
 ```
@@ -133,17 +203,19 @@ rsconstruct clean       # remove outputs
 ### `.github/workflows/build.yml`
 Runs `rsconstruct build`, which among other things lints `base.css`,
 `typography.css`, `components.css` and the allowlist fixture with biome
-and checks that the generated files match `themes.yaml` (the drift guard
-for the YAML-as-source-of-truth setup).
+and checks that the generated files match their YAML sources (the drift
+guard for the YAML-as-source-of-truth setup).
 
 ### `design-tokens.grit` and `biome-tokens.jsonc`
 The design-token rules, as a biome GritQL plugin: colors, fonts, radii,
 shadows and transitions must come from `var(--<role>)` tokens, and raw
 hex colors, named colors and `rgb()`/`hsl()`-style functions are
 forbidden. `biome-tokens.jsonc` loads the plugin with every built-in rule
-off. The teaching repos lint their stylesheets with the same file through
+off. The consuming repos lint their stylesheets with the same file through
 their `shared/shared-themes` submodule
 (`biome lint --config-path shared/shared-themes/biome-tokens.jsonc`).
+`themes.css` and `marp/*.css` hold the raw values by design and are not
+linted with it.
 
 ### `test_tokens_allowlist.css`
 Fixture, not a real stylesheet. References every role token allowed by
@@ -154,8 +226,9 @@ and the biome check fails. Empty biome output = rules and tokens agree.
 ## Top-level
 
 ### `README.md`
-User-facing intro: how to add the repo as a submodule, import the
-files, wire up the switcher. For internal file roles, see this doc.
+User-facing intro: the consumer contract, how to add the repo as a
+submodule, and how each kind of consumer (site, marp deck, document,
+Python) picks up the themes. For internal file roles, see this doc.
 
 ### `.gitignore`
 Excludes `__pycache__/`, `*.pyc`, `*.pyo`, and `/.rsconstruct/` (the

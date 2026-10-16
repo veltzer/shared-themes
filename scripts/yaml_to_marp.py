@@ -6,7 +6,7 @@ shared tokens: the tokens are declared on `section` (marp scopes a theme to
 the slide element), marp's own `--color-*` variables are mapped onto them,
 and a few explicit rules cover what the default theme does not route
 through a variable. A deck selects one with `theme: <code>` in its front
-matter, and marp-cli or rsslide loads the file with `--theme-set`.
+matter, and marp-cli loads the directory with `--theme-set marp`.
 """
 
 from __future__ import annotations
@@ -85,7 +85,7 @@ def emit_theme(code: str, label: str, base: dict[str, str], tokens: dict[str, st
         " *",
         f" * Marp theme \"{code}\" ({label}): marp's default theme restyled with the",
         " * shared design tokens. Select it with `theme: " + code + "` in a deck and",
-        " * load it with `--theme-set marp/" + code + ".css` (or the marp/ directory).",
+        " * load it with `marp --theme-set <path to this marp/ directory>`.",
         " */",
         "",
         "@import 'default';",

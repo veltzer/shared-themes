@@ -7,7 +7,7 @@
  *
  * Marp theme "solarized" (Solarized): marp's default theme restyled with the
  * shared design tokens. Select it with `theme: solarized` in a deck and
- * load it with `--theme-set marp/solarized.css` (or the marp/ directory).
+ * load it with `marp --theme-set <path to this marp/ directory>`.
  */
 
 @import 'default';

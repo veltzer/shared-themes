@@ -3,7 +3,7 @@
  *
  * Wires up a <select id="theme-select"> to the data-theme attribute on
  * <html>, persisting the choice in localStorage under a single shared
- * key. All sibling sites on the same origin (veltzer.org/*) share the
+ * key. All sibling sites on the same origin (veltzer.github.io/*) share the
  * theme: pick a theme on one, navigate to another, and the choice
  * follows you.
  *

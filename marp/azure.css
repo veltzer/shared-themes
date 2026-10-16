@@ -7,7 +7,7 @@
  *
  * Marp theme "azure" (Azure): marp's default theme restyled with the
  * shared design tokens. Select it with `theme: azure` in a deck and
- * load it with `--theme-set marp/azure.css` (or the marp/ directory).
+ * load it with `marp --theme-set <path to this marp/ directory>`.
  */
 
 @import 'default';
