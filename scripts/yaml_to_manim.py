@@ -21,10 +21,9 @@ Manim's font= kwarg.
 
 from __future__ import annotations
 
-import re
 import sys
 
-from themes_common import ROOT, load_themes
+from themes_common import HEX_RE, RGBA_RE, ROOT, font_family, load_themes
 
 PY_PATH = ROOT / "manim_themes.py"
 
@@ -98,13 +97,6 @@ def apply_defaults() -> None:
     Tex.set_default(color=T.TEXT_PRIMARY)
 '''
 
-HEX_RE = re.compile(r"^#([0-9a-fA-F]{3}|[0-9a-fA-F]{6})$")
-RGBA_RE = re.compile(
-    r"^rgba?\(\s*(\d+)\s*,\s*(\d+)\s*,\s*(\d+)\s*(?:,\s*([\d.]+)\s*)?\)$"
-)
-FONT_FAMILY_RE = re.compile(r"^\s*(['\"]?)([^'\",]+)\1")
-
-
 def color_expr(value: str) -> str | None:
     """Return a Python expression constructing a ManimColor, or None if not a color."""
     s = value.strip()
@@ -117,17 +109,6 @@ def color_expr(value: str) -> str | None:
             return f"ManimColor(({r}, {g}, {b}))"
         return f"ManimColor(({r}, {g}, {b}, int(round({a} * 255))))"
     return None
-
-
-def font_family(value: str) -> str:
-    """Extract the bare primary family from a CSS font-family string.
-
-    'JetBrains Mono', monospace  ->  JetBrains Mono
-    """
-    m = FONT_FAMILY_RE.match(value)
-    if not m:
-        raise ValueError(f"could not parse font family from {value!r}")
-    return m.group(2).strip()
 
 
 def emit_value(key: str, value: str) -> str:

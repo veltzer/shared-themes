@@ -8,6 +8,8 @@
 #   - theme.py          (via scripts/yaml_to_python.py)
 #   - manim_themes.py   (via scripts/yaml_to_manim.py)
 #   - marp/<theme>.css  (via scripts/yaml_to_marp.py)
+#   - latex/<theme>.tex (via scripts/yaml_to_latex.py)
+#   - docx/<theme>.docx (via scripts/yaml_to_docx.py, light themes only)
 #
 # Each theme has a `label` (the display name a theme switcher shows), a
 # `description` (a short hint a switcher may show after the label, and the

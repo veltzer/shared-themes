@@ -3,7 +3,8 @@
 Design tokens and a theme switcher shared by every site and document the
 fleet publishes: veltzer.github.io (built with rssite), the teaching-*
 repos (teaching-slides, teaching-syllabi, teaching-animations), the
-syllabi rspandoc renders, and the marp decks rsslide renders.
+syllabi rspandoc renders (HTML, PDF and Word), and the marp decks rsslide
+renders.
 
 It is a token library, not a layout. Six named palettes
 (`azure`, `paper`, `midnight`, `nord`, `solarized`, `rosepine`) are
@@ -33,6 +34,13 @@ For a full breakdown of every file's role, see
   for scripts that need it outside the browser, and as a Manim module.
 - `marp/<code>.css` — *generated.* One marp theme per palette, built on
   marp's `default` theme. A deck selects one with `theme: <code>`.
+- `latex/<code>.tex` — *generated.* One LaTeX preamble theme per palette
+  for xelatex/lualatex: the tokens as xcolor colors (`theme-<role>`), the
+  page and text colors, the fonts from `fonts/`, and links, headings and
+  table rules recolored.
+- `docx/<code>.docx` — *generated.* One Word reference document per light
+  palette (dark ones would need a page background, which pandoc drops),
+  for pandoc's `--reference-doc`.
 - `fonts/`, `fonts.css` — the fonts the tokens name (Outfit, JetBrains
   Mono) as committed files, woff2 for the web and ttf for the PDF tools,
   with their SIL OFL licences and a provenance table, and the generated
@@ -162,6 +170,30 @@ the start of the body; a Lua filter can do that with a raw HTML block (the
 teaching syllabi do), which works in pandoc and rspandoc alike. Without
 it the document renders in the default theme.
 
+A PDF goes through LaTeX, which never sees the CSS. Render it with xelatex
+(or lualatex) and put `latex/<code>.tex` in the preamble:
+
+```bash
+pandoc --pdf-engine=xelatex \
+    --include-in-header=shared/shared-themes/latex/azure.tex doc.md -o doc.pdf
+```
+
+When one pandoc command line serves several formats, `--include-in-header`
+would also paste the LaTeX into the HTML head; a Lua filter can add the file
+to `header-includes` as a raw `latex` block instead, which every other
+writer drops (the teaching syllabi do this). Run from the directory that
+holds `shared/`, or define `\sharedthemesfontdir` first: the fonts load
+from `shared/shared-themes/fonts/` relative to it.
+
+A Word document takes its styles from a reference document:
+
+```bash
+pandoc --reference-doc=shared/shared-themes/docx/azure.docx doc.md -o doc.docx
+```
+
+Only the light palettes have one. Print has no switcher, so a document
+picks its palette when it is built; the syllabi use the default, azure.
+
 ### Python
 
 ```python
@@ -204,7 +236,11 @@ values when they switch. Then:
 
 1. Add its `marp/<code>.css` to the `marp` processor's `output_files` and
    to the `generated_in_sync` list in `rsconstruct.toml`.
-2. Run `rsconstruct build` and commit the new generated files with the
+2. Do the same with its `latex/<code>.tex` (the `latex` processor) and,
+   if its background is light, its `docx/<code>.docx` (the `docx`
+   processor). The docx generator decides light from the background's
+   luminance, so a mismatch with the list fails the build.
+3. Run `rsconstruct build` and commit the new generated files with the
    source.
 
 The banner over the theme's block in `themes.css` is its label and

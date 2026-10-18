@@ -3,7 +3,8 @@
 generators just produced from themes.yaml and diagram-themes.yaml.
 
 The build regenerates the artifacts (themes.css, themes.json, theme.py,
-manim_themes.py, marp/*.css, diagram_theme.py) into the working tree. If a
+manim_themes.py, marp/*.css, latex/*.tex, docx/*.docx, diagram_theme.py)
+into the working tree. If a
 committed copy is stale, `git diff` reports it and this check fails; if a
 generated file is not tracked at all (a new theme's marp file, say), `git
 ls-files` reports it and the check fails too. Drift between a YAML source

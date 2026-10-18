@@ -1,0 +1,67 @@
+% shared-themes/latex/rosepine.tex
+%
+% GENERATED FROM themes.yaml — do not edit by hand.
+% Run scripts/yaml_to_latex.py after editing themes.yaml.
+%
+% LaTeX theme "rosepine" (Rosé Pine): the shared design tokens for the preamble
+% of a xelatex or lualatex document, e.g. pandoc's header-includes.
+
+\usepackage{xcolor}
+\definecolor{theme-bg}{HTML}{191724}
+\definecolor{theme-bg-surface}{HTML}{1F1D2E}
+\definecolor{theme-bg-elevated}{HTML}{26233A}
+\definecolor{theme-bg-hover}{HTML}{312E47}
+\definecolor{theme-border}{HTML}{393552}
+\definecolor{theme-border-subtle}{HTML}{26233A}
+\definecolor{theme-text-primary}{HTML}{E0DEF4}
+\definecolor{theme-text-secondary}{HTML}{908CAA}
+\definecolor{theme-text-muted}{HTML}{6E6A86}
+\definecolor{theme-accent}{HTML}{C4A7E7}
+\definecolor{theme-accent-dim}{HTML}{312B3F}
+\definecolor{theme-success}{HTML}{9CCFD8}
+\definecolor{theme-success-dim}{HTML}{2B313D}
+\definecolor{theme-warning}{HTML}{F6C177}
+\definecolor{theme-warning-dim}{HTML}{382F30}
+\definecolor{theme-danger}{HTML}{EB6F92}
+\definecolor{theme-danger-dim}{HTML}{362333}
+\definecolor{theme-entity-1}{HTML}{9CCFD8}
+\definecolor{theme-entity-2}{HTML}{31748F}
+\definecolor{theme-entity-3}{HTML}{EBBCBA}
+\definecolor{theme-entity-4}{HTML}{F6C177}
+\definecolor{theme-gradient-start}{HTML}{E0DEF4}
+\definecolor{theme-gradient-end}{HTML}{C4A7E7}
+
+% Fonts, by file: fontspec needs xelatex or lualatex.
+\usepackage{iftex}
+\RequireTUTeX
+\providecommand{\sharedthemesfontdir}{shared/shared-themes/fonts/}
+\usepackage{fontspec}
+\setmainfont{Outfit}[Path=\sharedthemesfontdir, Extension=.ttf, UprightFont=*-Regular, BoldFont=*-Bold, ItalicFont=*-Regular, ItalicFeatures={FakeSlant=0.2}, BoldItalicFont=*-Bold, BoldItalicFeatures={FakeSlant=0.2}]
+\setsansfont{Outfit}[Path=\sharedthemesfontdir, Extension=.ttf, UprightFont=*-Regular, BoldFont=*-Bold, ItalicFont=*-Regular, ItalicFeatures={FakeSlant=0.2}, BoldItalicFont=*-Bold, BoldItalicFeatures={FakeSlant=0.2}]
+\setmonofont{JetBrainsMono}[Path=\sharedthemesfontdir, Extension=.ttf, Scale=MatchLowercase, UprightFont=*-Regular, BoldFont=*-SemiBold, ItalicFont=*-Regular, ItalicFeatures={FakeSlant=0.2}, BoldItalicFont=*-SemiBold, BoldItalicFeatures={FakeSlant=0.2}]
+
+% Set in the preamble, the text color becomes LaTeX's default color, which
+% the page headers and footers return to as well.
+\pagecolor{theme-bg}
+\color{theme-text-primary}
+
+% Links: pandoc's template sets hidelinks unless colorlinks is given, and
+% applies its \hypersetup after the header-includes, so this runs later.
+\AtBeginDocument{\hypersetup{
+  colorlinks=true,
+  linkcolor=theme-accent,
+  urlcolor=theme-accent,
+  citecolor=theme-accent,
+  filecolor=theme-accent,
+}}
+
+% Headings in the accent, as on the sites; the title stays text-primary.
+% titlesec's starred form keeps the class's spacing and changes only the font.
+\usepackage{titlesec}
+\titleformat*{\section}{\normalfont\Large\bfseries\color{theme-accent}}
+\titleformat*{\subsection}{\normalfont\large\bfseries\color{theme-accent}}
+\titleformat*{\subsubsection}{\normalfont\normalsize\bfseries\color{theme-accent}}
+
+% Table rules (booktabs, which pandoc's tables use, honors colortbl).
+\usepackage{colortbl}
+\arrayrulecolor{theme-border}

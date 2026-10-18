@@ -1,0 +1,67 @@
+% shared-themes/latex/solarized.tex
+%
+% GENERATED FROM themes.yaml — do not edit by hand.
+% Run scripts/yaml_to_latex.py after editing themes.yaml.
+%
+% LaTeX theme "solarized" (Solarized): the shared design tokens for the preamble
+% of a xelatex or lualatex document, e.g. pandoc's header-includes.
+
+\usepackage{xcolor}
+\definecolor{theme-bg}{HTML}{FDF6E3}
+\definecolor{theme-bg-surface}{HTML}{EEE8D5}
+\definecolor{theme-bg-elevated}{HTML}{E6DFCB}
+\definecolor{theme-bg-hover}{HTML}{DDD6C1}
+\definecolor{theme-border}{HTML}{D0C8B0}
+\definecolor{theme-border-subtle}{HTML}{E6DFCB}
+\definecolor{theme-text-primary}{HTML}{073642}
+\definecolor{theme-text-secondary}{HTML}{586E75}
+\definecolor{theme-text-muted}{HTML}{93A1A1}
+\definecolor{theme-accent}{HTML}{268BD2}
+\definecolor{theme-accent-dim}{HTML}{E3E9E1}
+\definecolor{theme-success}{HTML}{859900}
+\definecolor{theme-success-dim}{HTML}{EFEBC8}
+\definecolor{theme-warning}{HTML}{B58900}
+\definecolor{theme-warning-dim}{HTML}{F4E9C8}
+\definecolor{theme-danger}{HTML}{DC322F}
+\definecolor{theme-danger-dim}{HTML}{F9DECD}
+\definecolor{theme-entity-1}{HTML}{2AA198}
+\definecolor{theme-entity-2}{HTML}{6C71C4}
+\definecolor{theme-entity-3}{HTML}{CB4B16}
+\definecolor{theme-entity-4}{HTML}{D33682}
+\definecolor{theme-gradient-start}{HTML}{073642}
+\definecolor{theme-gradient-end}{HTML}{268BD2}
+
+% Fonts, by file: fontspec needs xelatex or lualatex.
+\usepackage{iftex}
+\RequireTUTeX
+\providecommand{\sharedthemesfontdir}{shared/shared-themes/fonts/}
+\usepackage{fontspec}
+\setmainfont{Outfit}[Path=\sharedthemesfontdir, Extension=.ttf, UprightFont=*-Regular, BoldFont=*-Bold, ItalicFont=*-Regular, ItalicFeatures={FakeSlant=0.2}, BoldItalicFont=*-Bold, BoldItalicFeatures={FakeSlant=0.2}]
+\setsansfont{Outfit}[Path=\sharedthemesfontdir, Extension=.ttf, UprightFont=*-Regular, BoldFont=*-Bold, ItalicFont=*-Regular, ItalicFeatures={FakeSlant=0.2}, BoldItalicFont=*-Bold, BoldItalicFeatures={FakeSlant=0.2}]
+\setmonofont{JetBrainsMono}[Path=\sharedthemesfontdir, Extension=.ttf, Scale=MatchLowercase, UprightFont=*-Regular, BoldFont=*-SemiBold, ItalicFont=*-Regular, ItalicFeatures={FakeSlant=0.2}, BoldItalicFont=*-SemiBold, BoldItalicFeatures={FakeSlant=0.2}]
+
+% Set in the preamble, the text color becomes LaTeX's default color, which
+% the page headers and footers return to as well.
+\pagecolor{theme-bg}
+\color{theme-text-primary}
+
+% Links: pandoc's template sets hidelinks unless colorlinks is given, and
+% applies its \hypersetup after the header-includes, so this runs later.
+\AtBeginDocument{\hypersetup{
+  colorlinks=true,
+  linkcolor=theme-accent,
+  urlcolor=theme-accent,
+  citecolor=theme-accent,
+  filecolor=theme-accent,
+}}
+
+% Headings in the accent, as on the sites; the title stays text-primary.
+% titlesec's starred form keeps the class's spacing and changes only the font.
+\usepackage{titlesec}
+\titleformat*{\section}{\normalfont\Large\bfseries\color{theme-accent}}
+\titleformat*{\subsection}{\normalfont\large\bfseries\color{theme-accent}}
+\titleformat*{\subsubsection}{\normalfont\normalsize\bfseries\color{theme-accent}}
+
+% Table rules (booktabs, which pandoc's tables use, honors colortbl).
+\usepackage{colortbl}
+\arrayrulecolor{theme-border}

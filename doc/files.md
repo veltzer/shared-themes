@@ -110,6 +110,38 @@ does not apply themes yet; see the README.
 Adding a theme to `themes.yaml` means adding its file to the `marp`
 processor's `output_files` and to the sync check in `rsconstruct.toml`.
 
+### `latex/<code>.tex` — *generated from `themes.yaml`*
+One LaTeX preamble fragment per palette, for xelatex or lualatex (pandoc's
+PDF output takes it through `header-includes`). It defines every color
+token as an xcolor color named `theme-<role>`, sets the page and text
+colors, loads the token fonts by file from `fonts/` with fontspec, and
+recolors links (accent), section headings (accent) and table rules
+(border). LaTeX has no alpha channel, so translucent tokens are
+composited over the theme's `bg`. The font directory is
+`\sharedthemesfontdir`, by default `shared/shared-themes/fonts/` (the
+consumer mount point, relative to where the engine runs); a consumer
+elsewhere defines it before the include. Under pdflatex it stops with an
+error (`\RequireTUTeX`), since fontspec needs a Unicode engine.
+
+### `docx/<code>.docx` — *generated from `themes.yaml`*
+One Word reference document per *light* palette, for pandoc's
+`--reference-doc`. It is an empty document whose `styles.xml` defines
+every style pandoc's docx writer uses, laid out as in pandoc's own
+default reference document, with the colors and fonts from the tokens:
+text in text-primary, headings in the accent with a border-subtle rule
+under level 2, links in the accent, inline code and table headers on
+bg-surface, block quotes with an accent bar. Dark palettes get no file:
+pandoc keeps a reference document's styles but not its page background,
+so their light text would land on Word's white page. A .docx does not
+embed fonts; `fontTable.xml` names the families with their generic
+family, so Word substitutes a matching sans and monospace where they are
+not installed. The zip is stored with fixed timestamps, so its bytes are
+reproducible and the sync check can compare them.
+
+Adding a light theme means adding its file to the `docx` processor's
+`output_files` and to the sync check; any theme needs its `latex/` file
+in both places too.
+
 ### `diagram_theme.py` — *generated from `diagram-themes.yaml`*
 The diagram themes with `extends` resolved, and their palette variants:
 
@@ -198,6 +230,11 @@ description, every theme defines every token the default theme defines
 unless `base:` has a fallback. A generator
 never sees a broken palette.
 
+It also holds what the print generators share: `parse_color`,
+`opaque_colors` (every color token as opaque `RRGGBB`, translucent ones
+composited over the theme's `bg`), `is_light`, and `font_family` (the
+bare family from a CSS font stack, which `yaml_to_manim.py` uses too).
+
 ### `scripts/yaml_to_css.py`
 Writes `themes.css`. Each theme's block is headed by its label and
 description from `themes.yaml`; the default theme's banner says so.
@@ -217,6 +254,18 @@ Writes `manim_themes.py`. Hex and `rgb()`/`rgba()` values become
 Writes `marp/<code>.css` for every theme, replacing the directory's
 previous contents. The marp variable mapping and the extra rules are the
 `MARP_VARS` and `RULES` constants at the top of the script.
+
+### `scripts/yaml_to_latex.py`
+Writes `latex/<code>.tex` for every theme, replacing the directory's
+previous contents. The font files a role uses are the `FONT_FACES`
+constant; the generator fails if one is missing from `fonts/`. The
+heading, link and table rules are the `RULES` constant.
+
+### `scripts/yaml_to_docx.py`
+Writes `docx/<code>.docx` for every light theme (`is_light` in
+`themes_common.py`: the background's relative luminance is at least 0.5),
+replacing the directory's previous contents, and fails if the default
+theme is not among them.
 
 ### `scripts/fetch_fonts.py`
 Fetches the fonts from their upstream releases (Outfit from its repo tree,
@@ -272,8 +321,8 @@ forbidden. `biome-tokens.jsonc` loads the plugin with every built-in rule
 off. The consuming repos lint their stylesheets with the same file through
 their `shared/shared-themes` submodule
 (`biome lint --config-path shared/shared-themes/biome-tokens.jsonc`).
-`themes.css` and `marp/*.css` hold the raw values by design and are not
-linted with it.
+`themes.css`, `marp/*.css` and `latex/*.tex` hold the raw values by design
+and are not linted with it.
 
 ### `test_tokens_allowlist.css`
 Fixture, not a real stylesheet. References every role token allowed by
