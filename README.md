@@ -57,9 +57,10 @@ For a full breakdown of every file's role, see
 - `theme-switcher.js` — vanilla-JS helper that wires a
   `<select id="theme-select">` to the `data-theme` attribute on `<html>`
   and persists the choice in `localStorage`.
-- `theme-onload.js` — for a page with no switcher (a pandoc-rendered
-  syllabus): applies the stored choice on load, so the theme follows the
-  reader from the sites that have one.
+- `theme-onload.js` — applies the reader's theme before the page paints:
+  the stored choice, or the dark default when the system asks for dark and
+  nothing is stored. Inline it at the top of every page, with or without a
+  switcher.
 - `diagram-themes.yaml`, `diagram_theme.py`, `diagram-themes.json` —
   source and generated Python and JSON for how SVG diagrams look (colors,
   gradients, drop shadows, typography, markers). Separate from the page
@@ -80,7 +81,9 @@ site follows the reader to the next.
    A consumer never writes a raw color; the biome plugin enforces this
    (`biome lint --config-path shared/shared-themes/biome-tokens.jsonc`).
 2. The active theme is the `data-theme` attribute on `<html>`. No
-   attribute means the default theme.
+   attribute means the default theme. A reader who has not chosen one gets
+   `default` from `themes.yaml` (azure), or `default-dark` (midnight) when
+   their system prefers dark; the two scripts set the attribute.
 3. The chosen theme is stored in `localStorage` under the single key
    `veltzer-site-theme`. Sibling sites on the same origin
    (veltzer.github.io) share it.
@@ -119,8 +122,11 @@ Link the tokens and the switcher, and build the `<select>` from
 <script>initThemeSwitcher();</script>
 ```
 
-Azure applies with no JS running. Override the starting theme per app
-with `initThemeSwitcher({ defaultTheme: "midnight" })`.
+Azure applies with no JS running. With it, a reader who has not chosen a
+theme starts in azure or, when their system prefers dark, in midnight, and
+only a choice made in the select is stored. Override the starting theme per
+app, whatever the system says, with
+`initThemeSwitcher({ defaultTheme: "midnight" })`.
 
 ### Self-contained pages
 

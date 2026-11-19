@@ -7,6 +7,7 @@ Lua filters. Themes are a list so the switcher order is the file order:
 
     {
       "default": "azure",
+      "default-dark": "midnight",
       "base": {"radius": "10px", ...},
       "themes": [
         {"code": "azure", "label": "Azure", "description": "cool light, indigo",
@@ -30,6 +31,7 @@ def main() -> int:
     data = load_themes()
     doc = {
         "default": data.default,
+        "default-dark": data.default_dark,
         "base": data.base,
         "themes": [
             {

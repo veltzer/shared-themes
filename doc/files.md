@@ -10,6 +10,8 @@ Hand-written. Single source of truth for the design tokens.
 
 Contents:
 - `default:` — code of the theme that also applies to `:root`.
+- `default-dark:` — code of the theme a reader whose system prefers dark
+  gets until they choose one. The loader refuses a light theme here.
 - `base:` — tokens shared across all themes (`radius-*`, `font-*`,
   `transition*`, default dark-theme `shadow`).
 - `themes:` — one entry per theme: a `label` (the display name a switcher
@@ -51,7 +53,9 @@ hand; changes are overwritten on the next build.
 CSS custom properties for all themes. The default theme is emitted as a
 combined selector (`:root, [data-theme="azure"] { … }`) so it applies
 even when no `data-theme` attribute is set. Each block is headed by the
-theme's label and description; otherwise the CSS carries tokens only.
+theme's label and description and sets `color-scheme` (`light` or `dark`,
+from the luminance of its `bg`), so the form controls and scrollbars the
+browser draws match the theme; otherwise the CSS carries tokens only.
 
 Consumers link this from their pages.
 
@@ -192,10 +196,16 @@ download icon, item lists. Site-specific components (e.g. a video
 player) belong in the consuming site's own CSS, not here.
 
 ### `theme-onload.js`
-Vanilla JS for a page without a switcher. Reads the switcher's
-`localStorage` key and sets `data-theme` on `<html>`; meant to be inlined
-at the start of the body so the theme applies before paint. The teaching
-syllabi's pandoc filter injects it into every HTML syllabus.
+Vanilla JS that applies the reader's theme before the page paints, so a
+dark-theme reader never sees the light default flash first. It reads the
+switcher's `localStorage` key and sets `data-theme` on `<html>`; when
+nothing is stored and the system prefers dark (`prefers-color-scheme`), it
+sets the dark default (`default-dark` in `themes.yaml`). Storage that is
+blocked or empty, on a light system, leaves the default from `:root`. Meant
+to be inlined ahead of the stylesheets, on pages with a switcher and on
+pages without one (a syllabus rendered by pandoc: the teaching syllabi's
+filter injects it into every HTML syllabus). The file carries a one-line
+comment only, because it is inlined into every page.
 
 ## Consumer helper
 
@@ -215,7 +225,12 @@ Vanilla JS. Wires a `<select id="theme-select">` to the `data-theme`
 attribute on `<html>` and persists the choice in `localStorage` under a
 shared key (`veltzer-site-theme`) so sibling sites on the same origin
 share the preference. Call `initThemeSwitcher()` after the DOM is
-ready; pass `{ defaultTheme: "midnight" }` to override per app.
+ready. A reader who has not chosen starts in the light or the dark default
+according to their system, follows the system when it changes, and has
+nothing stored until they pick a theme in the select; pass
+`{ defaultTheme: "midnight" }` to start every such reader in one theme.
+The two default names are constants in the script that `yaml_to_css.py`
+checks against `themes.yaml`.
 
 ## Generators
 

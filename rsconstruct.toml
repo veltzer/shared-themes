@@ -25,7 +25,15 @@ reject_dot_src_dirs = true
 [processor.explicit.generic.css]
 command = "scripts/yaml_to_css.py"
 required_tools = ["python"]
-inputs = ["themes.yaml", "scripts/yaml_to_css.py", "scripts/themes_common.py"]
+# The two theme scripts are inputs because the generator checks that the
+# defaults they name are the ones themes.yaml sets.
+inputs = [
+    "themes.yaml",
+    "scripts/yaml_to_css.py",
+    "scripts/themes_common.py",
+    "theme-switcher.js",
+    "theme-onload.js",
+]
 output_files = ["themes.css"]
 
 # ─── Generate themes.json from themes.yaml ───

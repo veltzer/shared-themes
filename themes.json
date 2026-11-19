@@ -1,5 +1,6 @@
 {
   "default": "azure",
+  "default-dark": "midnight",
   "base": {
     "radius-xs": "4px",
     "radius-sm": "6px",

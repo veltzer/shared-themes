@@ -23,6 +23,8 @@ YAML_PATH = ROOT / "themes.yaml"
 @dataclass(frozen=True)
 class Themes:
     default: str
+    # the theme for a reader whose system prefers dark
+    default_dark: str
     base: dict[str, str]
     # code -> display name, in file order
     labels: dict[str, str]
@@ -40,6 +42,9 @@ def load_themes() -> Themes:
 
     if default not in raw:
         sys.exit(f"default theme {default!r} is not defined in themes")
+    default_dark = data["default-dark"]
+    if default_dark not in raw:
+        sys.exit(f"default-dark theme {default_dark!r} is not defined in themes")
 
     labels: dict[str, str] = {}
     descriptions: dict[str, str] = {}
@@ -62,8 +67,12 @@ def load_themes() -> Themes:
         if missing:
             sys.exit(f"theme {code!r} is missing tokens {missing}")
 
+    if is_light(themes[default_dark]):
+        sys.exit(f"default-dark theme {default_dark!r} has a light background")
+
     return Themes(
         default=default,
+        default_dark=default_dark,
         base=base,
         labels=labels,
         descriptions=descriptions,

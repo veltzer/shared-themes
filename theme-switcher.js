@@ -7,18 +7,29 @@
  * theme: pick a theme on one, navigate to another, and the choice
  * follows you.
  *
- * The default theme is "azure" (set in themes.css). Override at runtime
- * with defaultTheme if a specific app wants a different starting theme:
+ * A reader who has never chosen gets the theme their system asks for:
+ * DARK_THEME under prefers-color-scheme: dark, LIGHT_THEME otherwise, and it
+ * follows the system while they have not chosen. Only a choice made in the
+ * select is stored. The two names are `default` and `default-dark` in
+ * themes.yaml; scripts/yaml_to_css.py fails when they drift. An app that
+ * wants one starting theme whatever the system says passes defaultTheme:
  *   initThemeSwitcher({ defaultTheme: "midnight" });
  */
 const THEME_STORAGE_KEY = "veltzer-site-theme";
+const LIGHT_THEME = "azure";
+const DARK_THEME = "midnight";
 
 function initThemeSwitcher(options) {
     options = options || {};
-    const defaultTheme = options.defaultTheme || "azure";
     const sel = document.getElementById("theme-select");
     if (!sel) return;
-    const saved = localStorage.getItem(THEME_STORAGE_KEY) || defaultTheme;
+    const prefersDark = window.matchMedia("(prefers-color-scheme: dark)");
+
+    // The theme for a reader who has not chosen one.
+    function unchosenTheme() {
+        if (options.defaultTheme) return options.defaultTheme;
+        return prefersDark.matches ? DARK_THEME : LIGHT_THEME;
+    }
     const isMaterial = sel.tagName.toLowerCase() === "md-outlined-select"
         || sel.tagName.toLowerCase() === "md-filled-select";
 
@@ -43,14 +54,25 @@ function initThemeSwitcher(options) {
         }
     }
 
-    function applyTheme(name) {
+    function showTheme(name) {
         document.documentElement.setAttribute("data-theme", name);
         setSelValue(name);
+    }
+
+    function applyTheme(name) {
+        showTheme(name);
         localStorage.setItem(THEME_STORAGE_KEY, name);
     }
 
     sel.addEventListener("change", function() {
         applyTheme(sel.value);
+    });
+
+    // Follow the system between light and dark until the reader chooses.
+    prefersDark.addEventListener("change", function() {
+        if (!localStorage.getItem(THEME_STORAGE_KEY)) {
+            showTheme(unchosenTheme());
+        }
     });
 
     // Pick up changes made by sibling tabs/sites on the same origin.
@@ -60,7 +82,7 @@ function initThemeSwitcher(options) {
         }
     });
 
-    applyTheme(saved);
+    showTheme(localStorage.getItem(THEME_STORAGE_KEY) || unchosenTheme());
 }
 
 // Loaded via a classic <script src>, so consumers call this as a global

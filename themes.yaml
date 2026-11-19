@@ -18,6 +18,9 @@
 # generators refuse to run otherwise.
 
 default: azure
+# The theme a reader whose system asks for dark gets until they choose one
+# (theme-onload.js and theme-switcher.js). Must be a dark theme.
+default-dark: midnight
 
 # Tokens shared across all themes (emitted into the :root block of themes.css).
 base:
