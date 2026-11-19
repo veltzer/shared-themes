@@ -30,6 +30,27 @@ function initThemeSwitcher(options) {
         if (options.defaultTheme) return options.defaultTheme;
         return prefersDark.matches ? DARK_THEME : LIGHT_THEME;
     }
+
+    // Storage can be blocked (private modes, a browser set to refuse site
+    // data): reading or writing it then throws. The theme still switches
+    // for the page; it is only not remembered, and the script that called
+    // initThemeSwitcher goes on running.
+    function storedTheme() {
+        try {
+            return localStorage.getItem(THEME_STORAGE_KEY);
+        } catch (e) {
+            return null;
+        }
+    }
+
+    function storeTheme(name) {
+        try {
+            localStorage.setItem(THEME_STORAGE_KEY, name);
+        } catch (e) {
+            // not remembered
+        }
+    }
+
     const isMaterial = sel.tagName.toLowerCase() === "md-outlined-select"
         || sel.tagName.toLowerCase() === "md-filled-select";
 
@@ -61,7 +82,7 @@ function initThemeSwitcher(options) {
 
     function applyTheme(name) {
         showTheme(name);
-        localStorage.setItem(THEME_STORAGE_KEY, name);
+        storeTheme(name);
     }
 
     sel.addEventListener("change", function() {
@@ -70,7 +91,7 @@ function initThemeSwitcher(options) {
 
     // Follow the system between light and dark until the reader chooses.
     prefersDark.addEventListener("change", function() {
-        if (!localStorage.getItem(THEME_STORAGE_KEY)) {
+        if (!storedTheme()) {
             showTheme(unchosenTheme());
         }
     });
@@ -82,7 +103,7 @@ function initThemeSwitcher(options) {
         }
     });
 
-    showTheme(localStorage.getItem(THEME_STORAGE_KEY) || unchosenTheme());
+    showTheme(storedTheme() || unchosenTheme());
 }
 
 // Loaded via a classic <script src>, so consumers call this as a global
