@@ -166,7 +166,7 @@ read; until then its output is marp's default look.
 Pass `themes.css` as a stylesheet before the document's own:
 
 ```bash
-rspandoc --standalone --embed-resources \
+rspandoc convert --standalone --embed-resources \
     --css=shared/shared-themes/themes.css --css=print/syllabus.css doc.md
 ```
 
