@@ -83,10 +83,11 @@ site follows the reader to the next.
 2. The active theme is the `data-theme` attribute on `<html>`. No
    attribute means the default theme. A reader who has not chosen one gets
    `default` from `themes.yaml` (azure), or `default-dark` (midnight) when
-   their system prefers dark; the two scripts set the attribute.
+   their system prefers dark; the two scripts set the attribute. That is
+   the Auto entry the switcher adds to the select.
 3. The chosen theme is stored in `localStorage` under the single key
    `veltzer-site-theme`. Sibling sites on the same origin
-   (veltzer.github.io) share it.
+   (veltzer.github.io) share it. Auto is the key's absence.
 4. The list of themes, their order and their display names come from
    `themes.yaml` (or its generated twins), never from a hand-typed copy.
 
@@ -122,11 +123,15 @@ Link the tokens and the switcher, and build the `<select>` from
 <script>initThemeSwitcher();</script>
 ```
 
-Azure applies with no JS running. With it, a reader who has not chosen a
-theme starts in azure or, when their system prefers dark, in midnight, and
-only a choice made in the select is stored. Override the starting theme per
-app, whatever the system says, with
-`initThemeSwitcher({ defaultTheme: "midnight" })`.
+Azure applies with no JS running. With it, the switcher adds an **Auto**
+entry at the top of the select, and Auto is the default: azure, or midnight
+when the system prefers dark, following the system as it changes. Auto
+stores nothing, and choosing it clears a stored theme, so a reader can
+always go back to following their system; only a named theme is stored.
+`initThemeSwitcher({ autoLabel: "..." })` relabels the entry. Override the
+starting theme per app, whatever the system says, with
+`initThemeSwitcher({ defaultTheme: "midnight" })`; such an app gets no Auto
+entry.
 
 ### Self-contained pages
 

@@ -200,7 +200,8 @@ Vanilla JS that applies the reader's theme before the page paints, so a
 dark-theme reader never sees the light default flash first. It reads the
 switcher's `localStorage` key and sets `data-theme` on `<html>`; when
 nothing is stored and the system prefers dark (`prefers-color-scheme`), it
-sets the dark default (`default-dark` in `themes.yaml`). Storage that is
+sets the dark default (`default-dark` in `themes.yaml`); a stored `auto`
+counts as nothing stored. Storage that is
 blocked or empty, on a light system, leaves the default from `:root`. Meant
 to be inlined ahead of the stylesheets, on pages with a switcher and on
 pages without one (a syllabus rendered by pandoc: the teaching syllabi's
@@ -225,10 +226,12 @@ Vanilla JS. Wires a `<select id="theme-select">` to the `data-theme`
 attribute on `<html>` and persists the choice in `localStorage` under a
 shared key (`veltzer-site-theme`) so sibling sites on the same origin
 share the preference. Call `initThemeSwitcher()` after the DOM is
-ready. A reader who has not chosen starts in the light or the dark default
-according to their system, follows the system when it changes, and has
-nothing stored until they pick a theme in the select; pass
-`{ defaultTheme: "midnight" }` to start every such reader in one theme.
+ready. The script adds an Auto entry at the top of the select, the
+default: the light or the dark default according to the system, following
+it when it changes. Auto stores nothing, and choosing it removes a stored
+theme; only a named theme is stored. `{ autoLabel: "..." }` relabels the
+entry; `{ defaultTheme: "midnight" }` starts every reader who has not
+chosen in one theme, and then no Auto entry is added.
 The two default names are constants in the script that `yaml_to_css.py`
 checks against `themes.yaml`.
 

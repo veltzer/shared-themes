@@ -8,6 +8,9 @@
     } catch (e) {
         // storage unavailable: fall through to the system preference
     }
+    if (theme === "auto") {
+        theme = null;
+    }
     if (!theme && window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches) {
         theme = DARK_THEME;
     }
