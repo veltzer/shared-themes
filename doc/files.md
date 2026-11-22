@@ -10,6 +10,7 @@ it's hand-written or generated, and how the pieces fit together.
 Hand-written. Single source of truth for the design tokens.
 
 Contents:
+
 - `default:` — code of the theme that also applies to `:root`.
 - `default-dark:` — code of the theme a reader whose system prefers dark
   gets until they choose one. The loader refuses a light theme here.
