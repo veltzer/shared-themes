@@ -230,8 +230,10 @@ output and run the checks:
 rsconstruct build
 ```
 
-Commit the source together with the regenerated outputs. CI runs the same
-build and fails if a committed generated file is stale or untracked.
+Commit the source together with the regenerated outputs: consumers take
+the generated files from the repository. The build does not use git, so
+nothing checks that the committed copies are current; `git status` after
+the build shows what to commit.
 
 ## Adding a new theme
 
@@ -240,8 +242,8 @@ Add an entry under `themes:` in `themes.yaml` with a `label`, a
 refuse a theme that is missing one, since consumers would see undefined
 values when they switch. Then:
 
-1. Add its `marp/<code>.css` to the `marp` processor's `output_files` and
-   to the `generated_in_sync` list in `rsconstruct.toml`.
+1. Add its `marp/<code>.css` to the `marp` processor's `output_files` in
+   `rsconstruct.toml`.
 2. Do the same with its `latex/<code>.tex` (the `latex` processor) and,
    if its background is light, its `docx/<code>.docx` (the `docx`
    processor). The docx generator decides light from the background's

@@ -298,21 +298,14 @@ names a role the theme defines, derives the palette variants from
 `DEFAULT_DIAGRAM_THEME`, `DIAGRAM_THEME_NAMES`, `PALETTE_NEUTRALS`,
 `DIAGRAM_THEME_VARIANTS`) and `diagram-themes.json`.
 
-### `scripts/check_generated_in_sync.py`
-The drift guard. Runs after every generator and fails the build when a
-generated file is untracked (`git ls-files`) or differs from the index
-(`git diff`), so a stale or forgotten output never ships. rsconstruct
-appends `--inputs` and `--output-files` to its command line, so the file
-list it checks ends at the first flag.
-
 ## Build and CI
 
 ### `rsconstruct.toml`
 RSConstruct build config. One `explicit` processor per generator, each
 declaring its YAML source, the script and (for the `themes.yaml`
 generators) `scripts/themes_common.py` as inputs and the generated files
-as outputs; the `generated_in_sync` processor runs the drift guard over
-all of them. Checkers: ruff on `scripts/`, biome on the hand-written
+as outputs. The build does not use git, so it passes in a tree without
+one. Checkers: ruff on `scripts/`, biome on the hand-written
 stylesheets, oxlint on the switcher, yamllint, actionlint, rumdl. Build
 commands:
 
@@ -325,8 +318,7 @@ rsconstruct clean       # remove outputs
 ### `.github/workflows/build.yml`
 Runs `rsconstruct build`, which among other things lints `base.css`,
 `typography.css`, `components.css` and the allowlist fixture with biome
-and checks that the generated files match their YAML sources (the drift
-guard for the YAML-as-source-of-truth setup).
+and regenerates the outputs from their YAML sources.
 
 ### `design-tokens.grit` and `biome-tokens.jsonc`
 The design-token rules, as a biome GritQL plugin: colors, fonts, radii,

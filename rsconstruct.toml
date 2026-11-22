@@ -117,68 +117,6 @@ inputs = [
 ]
 output_files = ["diagram_theme.py", "diagram-themes.json"]
 
-# ─── Committed generated files must match their YAML sources ───
-# The generators above rewrite the artifacts; if a committed copy differs
-# from what was just generated, or a generated file is untracked, a source
-# and its outputs have drifted.
-[processor.explicit.generic.generated_in_sync]
-command = "scripts/check_generated_in_sync.py"
-# A Python script that runs git.
-required_tools = ["python", "git"]
-args = [
-    "out/generated_in_sync.stamp",
-    "themes.css",
-    "themes.json",
-    "theme.py",
-    "manim_themes.py",
-    "marp/azure.css",
-    "marp/paper.css",
-    "marp/midnight.css",
-    "marp/nord.css",
-    "marp/solarized.css",
-    "marp/rosepine.css",
-    "latex/azure.tex",
-    "latex/paper.tex",
-    "latex/midnight.tex",
-    "latex/nord.tex",
-    "latex/solarized.tex",
-    "latex/rosepine.tex",
-    "docx/azure.docx",
-    "docx/paper.docx",
-    "docx/solarized.docx",
-    "diagram_theme.py",
-    "diagram-themes.json",
-]
-# .git/index is an input because the check compares the working tree with the
-# index: a change to what is committed must re-run it even when the generated
-# content is unchanged, otherwise a cached pass would hide the drift.
-inputs = [
-    "themes.css",
-    "themes.json",
-    "theme.py",
-    "manim_themes.py",
-    "marp/azure.css",
-    "marp/paper.css",
-    "marp/midnight.css",
-    "marp/nord.css",
-    "marp/solarized.css",
-    "marp/rosepine.css",
-    "latex/azure.tex",
-    "latex/paper.tex",
-    "latex/midnight.tex",
-    "latex/nord.tex",
-    "latex/solarized.tex",
-    "latex/rosepine.tex",
-    "docx/azure.docx",
-    "docx/paper.docx",
-    "docx/solarized.docx",
-    "diagram_theme.py",
-    "diagram-themes.json",
-    "scripts/check_generated_in_sync.py",
-    ".git/index",
-]
-output_files = ["out/generated_in_sync.stamp"]
-
 [processor.checker.ruff]
 src_dirs = ["scripts"]
 src_files = ["shared_themes.py"]
