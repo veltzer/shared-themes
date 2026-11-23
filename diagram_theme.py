@@ -16,7 +16,6 @@ from __future__ import annotations
 
 from typing import Any
 
-
 DEFAULT_DIAGRAM_THEME: str = 'muted'
 
 DIAGRAM_THEMES: dict[str, dict[str, Any]] = {   'muted': {   'colors': {   'neutrals': {   'bg': '#ffffff',

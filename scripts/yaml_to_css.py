@@ -71,10 +71,7 @@ def main() -> int:
         if name == default:
             banner += " — default when no data-theme attribute is set"
         parts.append(f"/* ─── {banner} ─── */")
-        if name == default:
-            selector = f':root, [data-theme="{name}"]'
-        else:
-            selector = f'[data-theme="{name}"]'
+        selector = f':root, [data-theme="{name}"]' if name == default else f'[data-theme="{name}"]'
         parts.append(emit_block(selector, vars_, "light" if is_light(vars_) else "dark"))
 
     output = "\n\n".join(parts) + "\n"

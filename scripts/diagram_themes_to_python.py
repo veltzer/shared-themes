@@ -20,6 +20,7 @@ from pathlib import Path
 from typing import Any
 
 import yaml
+
 from themes_common import load_themes
 
 ROOT = Path(__file__).resolve().parent.parent
@@ -45,7 +46,6 @@ The diagram themes, with `extends` resolved, and their palette variants:
 from __future__ import annotations
 
 from typing import Any
-
 '''
 
 # Keys every resolved theme must have.

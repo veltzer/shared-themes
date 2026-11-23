@@ -52,8 +52,7 @@ from __future__ import annotations
 
 import os
 
-from manim import ManimColor
-
+from manim import ManimColor, MathTex, Tex, Text, config
 '''
 
 FOOTER = '''
@@ -89,8 +88,6 @@ def apply_defaults() -> None:
     to T.TEXT_PRIMARY. Text additionally gets the sans font role as its
     default family.
     """
-    from manim import MathTex, Tex, Text, config
-
     config.background_color = T.BG
     Text.set_default(color=T.TEXT_PRIMARY, font=BASE["font-sans"])
     MathTex.set_default(color=T.TEXT_PRIMARY)
@@ -107,7 +104,7 @@ def color_expr(value: str) -> str | None:
         r, g, b, a = m.group(1), m.group(2), m.group(3), m.group(4)
         if a is None:
             return f"ManimColor(({r}, {g}, {b}))"
-        return f"ManimColor(({r}, {g}, {b}, int(round({a} * 255))))"
+        return f"ManimColor(({r}, {g}, {b}, {round(float(a) * 255)}))"
     return None
 
 
