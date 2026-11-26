@@ -173,6 +173,10 @@ src_files = ["theme-switcher.js", "theme-onload.js"]
 args = ["-c", ".oxlintrc.repo.json"]
 dep_inputs = [".oxlintrc.repo.json"]
 
+# lint the JSON files with jsonlint
+[processor.checker.ijsonlint]
+src_files = ["diagram-themes.json", "themes.json"]
+
 # lint the TOML files of the repo with taplo
 [processor.checker.taplo]
 src_files = [".ruff.toml", ".rumdl.toml", "pyproject.toml", "rsconstruct.toml"]
