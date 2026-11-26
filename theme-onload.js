@@ -5,7 +5,7 @@
     var theme = null;
     try {
         theme = localStorage.getItem(THEME_STORAGE_KEY);
-    } catch (e) {
+    } catch {
         // storage unavailable: fall through to the system preference
     }
     if (theme === "auto") {

@@ -48,7 +48,7 @@ function initThemeSwitcher(options) {
         try {
             const name = localStorage.getItem(THEME_STORAGE_KEY);
             return name === AUTO_THEME ? null : name;
-        } catch (e) {
+        } catch {
             return null;
         }
     }
@@ -60,7 +60,7 @@ function initThemeSwitcher(options) {
             } else {
                 localStorage.setItem(THEME_STORAGE_KEY, name);
             }
-        } catch (e) {
+        } catch {
             // not remembered
         }
     }
