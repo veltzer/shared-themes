@@ -14,9 +14,10 @@
 #
 # Each theme has a `label` (the display name a theme switcher shows), a
 # `description` (a short hint a switcher may show after the label, and the
-# banner over the theme's block in themes.css) and then its tokens. Every theme must define every token the default theme
-# defines, except those `base:` already provides a fallback for; the
-# generators refuse to run otherwise.
+# banner over the theme's block in themes.css) and then its tokens. Every
+# theme must define every token the default theme defines, except those
+# `base:` already provides a fallback for; the generators refuse to run
+# otherwise.
 
 default: azure
 # The theme a reader whose system asks for dark gets until they choose one
