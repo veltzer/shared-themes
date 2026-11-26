@@ -27,7 +27,7 @@ from __future__ import annotations
 import shutil
 import sys
 import zipfile
-from pathlib import Path
+from typing import TYPE_CHECKING
 from xml.sax.saxutils import quoteattr
 
 from themes_common import (
@@ -38,6 +38,9 @@ from themes_common import (
     load_themes,
     opaque_colors,
 )
+
+if TYPE_CHECKING:
+    from pathlib import Path
 
 DOCX_DIR = ROOT / "docx"
 
