@@ -184,3 +184,8 @@ src_files = [".ruff.toml", ".rumdl.toml", "pyproject.toml", "rsconstruct.toml"]
 # lint the Lua configuration with luacheck (policy: .luacheckrc)
 [processor.checker.iluacheck]
 src_dirs = ["config"]
+
+# every lint suppression names a rule and says why (see the fleet's CLAUDE.md)
+[processor.checker.suppressions]
+src_dirs = [".github", "config", "doc", "scripts"]
+src_files = [".yamllint.yaml", "README.md", "base.css", "components.css", "diagram-themes.yaml", "shared_themes.py", "test_tokens_allowlist.css", "theme-onload.js", "theme-switcher.js", "themes.yaml", "typography.css"]
