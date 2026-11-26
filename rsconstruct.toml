@@ -167,3 +167,7 @@ src_dirs = [".github"]
 src_files = ["theme-switcher.js", "theme-onload.js"]
 args = ["-c", ".oxlintrc.repo.json"]
 dep_inputs = [".oxlintrc.repo.json"]
+
+# lint the Lua configuration with luacheck (policy: .luacheckrc)
+[processor.checker.iluacheck]
+src_dirs = ["config"]
