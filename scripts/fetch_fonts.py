@@ -68,7 +68,8 @@ def sha256(data: bytes) -> str:
 
 def fetch(url: str) -> bytes:
     with urllib.request.urlopen(url, timeout=60) as resp:
-        return resp.read()
+        data: bytes = resp.read()
+        return data
 
 
 def main() -> int:

@@ -66,7 +66,8 @@ class _T:
     for non-color roles (e.g. shadow).
     """
 
-    def __init__(self, palette: dict[str, object]) -> None:
+__ROLES__
+    def __init__(self, palette: dict[str, ManimColor | str]) -> None:
         for key, value in palette.items():
             setattr(self, key.replace("-", "_").upper(), value)
 
@@ -118,6 +119,29 @@ def emit_value(key: str, value: str) -> str:
     return repr(value)
 
 
+def value_type(values: list[str]) -> str:
+    """The type of a table's values: ManimColor, str, or both."""
+    colors = [color_expr(v) is not None for v in values]
+    if all(colors):
+        return "ManimColor"
+    if not any(colors):
+        return "str"
+    return "ManimColor | str"
+
+
+def role_annotations(themes: dict[str, dict[str, str]]) -> str:
+    """One annotated attribute of _T per role, typed by what the themes hold
+    for it, so a type checker knows T.ACCENT is a ManimColor."""
+    roles: dict[str, list[str]] = {}
+    for vars_ in themes.values():
+        for key, value in vars_.items():
+            roles.setdefault(key, []).append(value)
+    return "".join(
+        f"    {key.replace('-', '_').upper()}: {value_type(values)}\n"
+        for key, values in roles.items()
+    )
+
+
 def emit_dict(d: dict[str, str], indent: str) -> str:
     lines = ["{"]
     for k, v in d.items():
@@ -136,9 +160,9 @@ def main() -> int:
 
     out.append(f"DEFAULT_THEME: str = {default!r}\n")
 
-    out.append("BASE: dict[str, object] = " + emit_dict(base, "") + "\n")
+    out.append(f"BASE: dict[str, {value_type(list(base.values()))}] = " + emit_dict(base, "") + "\n")
 
-    out.append("THEMES: dict[str, dict[str, object]] = {")
+    out.append("THEMES: dict[str, dict[str, ManimColor | str]] = {")
     for name, vars_ in themes.items():
         out.append(f"    {name!r}: " + emit_dict(vars_, "    ") + ",")
     out.append("}\n")
@@ -155,7 +179,7 @@ def main() -> int:
         out.append(f"    {name!r}: {description!r},")
     out.append("}")
 
-    out.append(FOOTER)
+    out.append(FOOTER.replace("__ROLES__\n", role_annotations(themes) + "\n"))
 
     PY_PATH.write_text("\n".join(out))
     print(f"wrote {PY_PATH.relative_to(ROOT)} ({len(themes)} themes, default={default})")

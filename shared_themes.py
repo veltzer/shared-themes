@@ -46,7 +46,8 @@ def js() -> str:
 
 def palette() -> dict:
     """themes.json: default, base tokens, and the themes in file order."""
-    return json.loads((HERE / "themes.json").read_text(encoding="utf-8"))
+    data: dict = json.loads((HERE / "themes.json").read_text(encoding="utf-8"))
+    return data
 
 
 def theme_options(*, material_web: bool = False) -> str:

@@ -121,6 +121,11 @@ output_files = ["diagram_theme.py", "diagram-themes.json"]
 src_dirs = ["scripts"]
 src_files = ["shared_themes.py"]
 
+# type-check the Python files with pyrefly (policy: [tool.pyrefly] in pyproject.toml)
+[processor.checker.pyrefly]
+src_dirs = ["scripts"]
+src_files = ["shared_themes.py"]
+
 # Lint the hand-written stylesheets plus the allowlist fixture, which catches
 # drift between the generated themes.css and design-tokens.grit. themes.css
 # and marp/*.css are generated and hold the raw hex values, so they are not

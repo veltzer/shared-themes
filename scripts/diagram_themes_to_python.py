@@ -70,11 +70,12 @@ def resolve(name: str, themes: dict[str, Any], seen: tuple[str, ...] = ()) -> di
         sys.exit(f"diagram theme {name!r} extends itself: {' -> '.join((*seen, name))}")
     if name not in themes:
         sys.exit(f"diagram theme {seen[-1]!r} extends unknown theme {name!r}")
-    theme = dict(themes[name])
+    theme: dict[str, Any] = dict(themes[name])
     parent = theme.pop("extends", None)
     if parent is None:
         return theme
-    return merge(resolve(parent, themes, (*seen, name)), theme)
+    merged: dict[str, Any] = merge(resolve(parent, themes, (*seen, name)), theme)
+    return merged
 
 
 def roles_of(theme: dict[str, Any]) -> set[str]:
@@ -109,7 +110,7 @@ def check(name: str, theme: dict[str, Any]) -> None:
 
 def variant(theme: dict[str, Any], neutrals_map: dict[str, str], tokens: dict[str, str]) -> dict[str, Any]:
     """The theme with its neutrals taken from a page palette's tokens."""
-    out = json.loads(json.dumps(theme))  # a deep copy
+    out: dict[str, Any] = json.loads(json.dumps(theme))  # a deep copy
     neutrals = out["colors"]["neutrals"]
     for role, token in neutrals_map.items():
         if role not in neutrals:

@@ -26,7 +26,7 @@ from manim import ManimColor, MathTex, Tex, Text, config
 
 DEFAULT_THEME: str = 'azure'
 
-BASE: dict[str, object] = {
+BASE: dict[str, str] = {
     'radius-xs': '4px',
     'radius-sm': '6px',
     'radius': '10px',
@@ -38,7 +38,7 @@ BASE: dict[str, object] = {
     'shadow': '0 1px 3px rgba(0,0,0,0.4), 0 4px 12px rgba(0,0,0,0.25)',
 }
 
-THEMES: dict[str, dict[str, object]] = {
+THEMES: dict[str, dict[str, ManimColor | str]] = {
     'azure': {
         'bg': ManimColor("#ffffff"),
         'bg-surface': ManimColor("#f5f5f7"),
@@ -224,7 +224,32 @@ class _T:
     for non-color roles (e.g. shadow).
     """
 
-    def __init__(self, palette: dict[str, object]) -> None:
+    BG: ManimColor
+    BG_SURFACE: ManimColor
+    BG_ELEVATED: ManimColor
+    BG_HOVER: ManimColor
+    BORDER: ManimColor
+    BORDER_SUBTLE: ManimColor
+    TEXT_PRIMARY: ManimColor
+    TEXT_SECONDARY: ManimColor
+    TEXT_MUTED: ManimColor
+    ACCENT: ManimColor
+    ACCENT_DIM: ManimColor
+    SUCCESS: ManimColor
+    SUCCESS_DIM: ManimColor
+    WARNING: ManimColor
+    WARNING_DIM: ManimColor
+    DANGER: ManimColor
+    DANGER_DIM: ManimColor
+    ENTITY_1: ManimColor
+    ENTITY_2: ManimColor
+    ENTITY_3: ManimColor
+    ENTITY_4: ManimColor
+    GRADIENT_START: ManimColor
+    GRADIENT_END: ManimColor
+    SHADOW: str
+
+    def __init__(self, palette: dict[str, ManimColor | str]) -> None:
         for key, value in palette.items():
             setattr(self, key.replace("-", "_").upper(), value)
 
