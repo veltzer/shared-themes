@@ -27,6 +27,7 @@ from __future__ import annotations
 import json
 import shutil
 from pathlib import Path
+from typing import Any
 
 HERE = Path(__file__).resolve().parent
 
@@ -44,9 +45,9 @@ def js() -> str:
     return (HERE / "theme-switcher.js").read_text(encoding="utf-8") + "\n"
 
 
-def palette() -> dict:
+def palette() -> dict[str, Any]:
     """themes.json: default, base tokens, and the themes in file order."""
-    data: dict = json.loads((HERE / "themes.json").read_text(encoding="utf-8"))
+    data: dict[str, Any] = json.loads((HERE / "themes.json").read_text(encoding="utf-8"))
     return data
 
 
